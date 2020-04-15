@@ -1,0 +1,35 @@
+@startuml
+
+interface IKeyGen {
+ - generateKey() : string
+ - pop() : void
+}
+
+class RandomKeyGen {
+- Queue : queue<std::string>
+--
++ RandomKeyGen()
+--
++ getKey() : string
+- pop() : void
+- generateKey() : string
+}
+
+class Server {
+    - Server()
+    --
+    - read_() : string
+    - write_() : void
+}
+
+class KeyManager{
+ +KeyManager()
+ --
+ +CheckValidationKey() : string
+}
+
+IKeyGen ..|> RandomKeyGen
+Server --> KeyManager
+RandomKeyGen <-- KeyManager
+
+@enduml
