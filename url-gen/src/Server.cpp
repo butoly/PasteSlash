@@ -1,4 +1,4 @@
-#include "Server.h"
+#include "../inc/Server.h"
 
 Server::Server() {
 

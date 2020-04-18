@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
-#include "../KeyManager.h"
+#include "../inc/KeyManager.h"
 
 using ::testing::Return;
 using ::testing::AtLeast;

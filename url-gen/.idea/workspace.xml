@@ -12,7 +12,20 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd2cb285-aa9e-42d3-8e22-c90a213c0dd1" name="Default Changelist" comment="" />
+    <list default="true" id="bd2cb285-aa9e-42d3-8e22-c90a213c0dd1" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/KeyGen.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/KeyGenerator.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/KeyGen.h" beforeDir="false" afterPath="$PROJECT_DIR$/inc/KeyGenerator.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/KeyManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/KeyManager.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/KeyManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/inc/KeyManager.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server.h" beforeDir="false" afterPath="$PROJECT_DIR$/inc/Server.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UML.puml" beforeDir="false" afterPath="$PROJECT_DIR$/UML.puml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/google_tests/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/google_tests/tests.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/tests/tests.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,15 +58,21 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="ProjectId" id="1aS8WB7DnU2o8yngxXLaJ7JI2OS" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="DefaultPlantUmlFileTemplate" value="UML Class" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Рабочий стол" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/inc" />
+      <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
@@ -69,7 +88,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="CMake Application.tests_run">
+  <component name="RunManager" selected="CMake Application.url_gen">
     <configuration name="tests_run" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="url_gen" TARGET_NAME="tests_run" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="url_gen" RUN_TARGET_NAME="tests_run">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -103,10 +122,22 @@
       <workItem from="1586902695702" duration="2595000" />
       <workItem from="1586905678952" duration="1931000" />
       <workItem from="1586908021450" duration="15940000" />
+      <workItem from="1587226940395" duration="10819000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
