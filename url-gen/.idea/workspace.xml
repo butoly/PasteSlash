@@ -57,7 +57,7 @@
   <component name="PropertiesComponent">
     <property name="DefaultPlantUmlFileTemplate" value="UML Class" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/CMakeLists.txt" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
@@ -78,22 +78,6 @@
         </RuleState>
       </list>
     </option>
-  </component>
-  <component name="RunManager" selected="CMake Application.url_gen">
-    <configuration name="tests_run" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="url_gen" TARGET_NAME="tests_run" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="url_gen" RUN_TARGET_NAME="tests_run">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="url_gen" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="url_gen" TARGET_NAME="url_gen" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="url_gen" RUN_TARGET_NAME="url_gen">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <list>
-      <item itemvalue="CMake Application.url_gen" />
-      <item itemvalue="CMake Application.tests_run" />
-    </list>
   </component>
   <component name="SvnConfiguration">
     <configuration />
