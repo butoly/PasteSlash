@@ -14,17 +14,8 @@
   <component name="ChangeListManager">
     <list default="true" id="bd2cb285-aa9e-42d3-8e22-c90a213c0dd1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KeyGen.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/KeyGenerator.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KeyGen.h" beforeDir="false" afterPath="$PROJECT_DIR$/inc/KeyGenerator.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KeyManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/KeyManager.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KeyManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/inc/KeyManager.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server.h" beforeDir="false" afterPath="$PROJECT_DIR$/inc/Server.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UML.puml" beforeDir="false" afterPath="$PROJECT_DIR$/UML.puml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/google_tests/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/google_tests/tests.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/tests/tests.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inc/KeyGenerator.h" beforeDir="false" afterPath="$PROJECT_DIR$/inc/KeyGenerator.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/KeyGenerator.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/KeyGenerator.cpp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -122,7 +113,8 @@
       <workItem from="1586902695702" duration="2595000" />
       <workItem from="1586905678952" duration="1931000" />
       <workItem from="1586908021450" duration="15940000" />
-      <workItem from="1587226940395" duration="10819000" />
+      <workItem from="1587226940395" duration="10989000" />
+      <workItem from="1587291373263" duration="1195000" />
     </task>
     <servers />
   </component>
@@ -134,7 +126,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

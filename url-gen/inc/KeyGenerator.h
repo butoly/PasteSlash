@@ -6,6 +6,8 @@
 
 #include "Randomize.h"
 
+#define LENGTH_QUEUE 100 //количество элементов в очередях
+
 class KeyGeneratorClass {
 public:
     KeyGeneratorClass();
