@@ -1,4 +1,4 @@
-#include "../inc/StoreCodeHandler.h"
+#include "usecases/StoreCodeHandler.h"
 
 void StoreCodeHandler::execute() {
     std::string data;

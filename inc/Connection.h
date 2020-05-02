@@ -2,33 +2,60 @@
 #define PROJECT_CONNECTION_H
 
 #include <iostream>
-
-
-#include "Socket.h"
 #include "RequestManager.h"
+
+#include <boost/asio.hpp>
+#include <boost/bind.hpp>
+
+using namespace boost;
+using namespace boost::asio;
 
 class Connection : public std::enable_shared_from_this<Connection> {
 private:
-    struct Sender {
-        Sender(Connection& c) : conn(c) {
+    ip::tcp::socket socket;
+    RequestManager rm;
+    char buffer[1024];
+
+    void write() {
+        socket.async_write_some(asio::buffer(buffer), boost::bind(&Connection::onWrite, shared_from_this(),
+                                                                  boost::asio::placeholders::error));
+    }
+
+    void onWrite(const boost::system::error_code& e) {
+        std::cout << buffer << std::endl;
+        socket.close();
+    }
+
+    // Асинхронно читаем из сокета пришедшие данные
+    void read() {
+        socket.async_read_some(asio::buffer(buffer), boost::bind(&Connection::onRead, shared_from_this(),
+                                                                 boost::asio::placeholders::error,
+                                                                 boost::asio::placeholders::bytes_transferred));
+    }
+
+    // callback функция для чтения
+    void onRead(const boost::system::error_code& e, std::size_t bytesTransferred) {
+        if (e) {
+            return;
         }
 
-        Connection& conn;
-
-        void send() {
-            conn.write();
+        if (e == boost::asio::error::eof) {
+            std::cerr << "-connection: " << socket.remote_endpoint().address().to_string() << std::endl;
         }
-    };
 
-    Socket sct;
-    RequestManager<Sender> rm;
+        write();
+    }
 
 public:
-    Connection(Socket _sct) : sct(std::move(_sct)), rm(Sender(*this)) {}
-    ~Connection() {}
+    explicit Connection(boost::asio::io_service& io) : socket(io) {}
 
-    void read();
-    void write();
+    boost::asio::ip::tcp::socket& getSocket() {
+        return socket;
+    }
+
+    void process() {
+        read();
+    }
 };
 
 #endif //PROJECT_CONNECTION_H

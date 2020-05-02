@@ -2,16 +2,14 @@
 #define PROJECT_REQUESTMANAGER_H
 
 #include "Parser.h"
-#include "AbstractHandler.h"
+#include "usecases/AbstractHandler.h"
 
-template <typename Sender>
 class RequestManager {
     Parser parser;
     AbstractHanlder* handler;
-    Sender sender;
 
 public:
-    explicit RequestManager(Sender&& s) : sender(s) {}
+    explicit RequestManager() {}
 
     void handle(std::string data);
 };

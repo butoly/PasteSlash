@@ -2,7 +2,6 @@
 #include "gmock/gmock.h"
 
 #include "inc/Parser.h"
-#include "inc/Application.h"
 #include "inc/Socket.h"
 
 TEST(TestingParser, Parse) {
