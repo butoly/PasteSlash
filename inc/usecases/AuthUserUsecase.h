@@ -9,10 +9,10 @@
 
 class AuthUserUsecase : public AbstractUsecase {
 private:
-    std::vector<int> request;
-    int* response;
+    const User& user;
+
 public:
-    AuthUserUsecase(std::vector<int> req, int* res) : request(req), response(res) {};
+    explicit AuthUserUsecase(const User& u) : user(u) {};
     ~AuthUserUsecase() = default;
 
     void execute() override;

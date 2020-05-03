@@ -20,7 +20,7 @@ private:
     void write();
 
     void onWrite(const boost::system::error_code& e) {
-        memset(buffer, 0, sizeof(buffer));
+        //memset(buffer, 0, sizeof(buffer));
         socket.cancel();
         socket.shutdown(ip::tcp::socket::shutdown_both);
         socket.close();
@@ -41,7 +41,9 @@ private:
     }
 
 public:
-    explicit Connection(boost::asio::io_context& io) : socket(io) {}
+    explicit Connection(boost::asio::io_context& io) : socket(io) {
+        memset(buffer, 0, sizeof(buffer));
+    }
 
     boost::asio::ip::tcp::socket& getSocket() {
         return socket;

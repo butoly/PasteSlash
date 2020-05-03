@@ -4,14 +4,24 @@
 #include <iostream>
 #include <vector>
 #include <unordered_map>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
+#include <boost/foreach.hpp>
 
+#include "Models.h"
+
+namespace bpt = boost::property_tree;
 
 class Parser {
+    ReceivedData recievedData;
+
 public:
     Parser() = default;
     ~Parser() = default;
 
-    std::unordered_map<std::string, std::string> parse(std::string& data);
+    ReceivedData parse(std::string& data);
+    std::string prepare(std::string& command, std::string& data);
+
 };
 
 #endif //PROJECT_PARSER_H

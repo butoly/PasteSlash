@@ -11,15 +11,10 @@ void Connection::onRead(const boost::system::error_code& e, std::size_t bytesTra
 
     if (bytesTransferred > 0) {
         std::cout << buffer << std::endl;
-        try {
-            auto frame = lexical_cast<std::string>(buffer);
-            std::cout << frame << std::endl;
-            rm.handle(frame);
-        }
-        catch (const std::exception& exc)
-        {
-            std::cout << exc.what() << std::endl;
-        }
+
+        std::string request(buffer);
+        rm.handle(request);
+
         write();
     }
 }

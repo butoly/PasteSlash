@@ -5,14 +5,15 @@
 #include <vector>
 
 #include "AbstractUsecase.h"
+#include "Models.h"
 
 
 class RegUserUsecase : public AbstractUsecase {
 private:
-    std::vector<int> request;
-    int* response;
+    const User& user;
+
 public:
-    RegUserUsecase(std::vector<int> req, int* res) : request(req), response(res) {};
+    explicit RegUserUsecase(const User& u) : user(u) {};
     ~RegUserUsecase() = default;
 
     void execute() override;

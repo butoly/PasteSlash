@@ -10,19 +10,11 @@
 #include "usecases/AuthUserUsecase.h"
 
 class RequestHandler {
-    std::unique_ptr<Parser> parser;
-    AbstractUsecase* handler;
+    Parser parser;
+    std::unique_ptr<AbstractUsecase> ucase;
 
 public:
-    explicit RequestHandler() {
-        try{
-            parser = std::make_unique<Parser>();
-        } catch (std::bad_alloc& e) {
-            std::cout << "Allocation failed: " << e.what() << std::endl;
-        }
-
-    }
-
+    RequestHandler() : ucase(nullptr) {};
     void handle(std::string& data);
 };
 

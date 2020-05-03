@@ -15,7 +15,7 @@ include_directories(${Boost_INCLUDE_DIRS})
 # Генерирует список файлов, соответствуюших выражению *.cpp и помещает его в перменную sources
 file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cpp)
 
-add_executable(project main.cpp ${sources})
+add_executable(project main.cpp ${sources} inc/Models.h)
 target_link_libraries(project ${Boost_LIBRARIES})
 
 target_include_directories(project PRIVATE inc/)

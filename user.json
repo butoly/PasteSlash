@@ -1,0 +1,10 @@
+{
+  "command": "register",
+  "body": {
+    "nickname": "yletamitlu",
+    "email": "m@mail.ru",
+    "password": "123456"
+  }
+}
+
+{"command": "register", "body": {"nickname": "yletamitlu", "email": "m@mail.ru", "password": "123456"}}
