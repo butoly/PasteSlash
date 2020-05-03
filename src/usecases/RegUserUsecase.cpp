@@ -1,6 +1,6 @@
-#include "usecases/RegUserHandler.h"
+#include "usecases/RegUserUsecase.h"
 
-void RegUserHandler::execute() {
+void RegUserUsecase::execute() {
     try {
         Application::getInstance().regUser();
     } catch(std::exception& e) {

@@ -4,17 +4,16 @@
 #include <iostream>
 #include <vector>
 
-#include "Application.h"
-#include "AbstractHandler.h"
+#include "AbstractUsecase.h"
 
 
-class AuthUserHandler : public AbstractHanlder {
+class AuthUserUsecase : public AbstractUsecase {
 private:
     std::vector<int> request;
     int* response;
 public:
-    AuthUserHandler(std::vector<int> req, int* res) : request(req), response(res) {};
-    ~AuthUserHandler() = default;
+    AuthUserUsecase(std::vector<int> req, int* res) : request(req), response(res) {};
+    ~AuthUserUsecase() = default;
 
     void execute() override;
 };

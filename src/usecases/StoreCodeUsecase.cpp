@@ -1,6 +1,6 @@
-#include "usecases/StoreCodeHandler.h"
+#include "usecases/StoreCodeUsecase.h"
 
-void StoreCodeHandler::execute() {
+void StoreCodeUsecase::execute() {
     std::string data;
 
     try {
