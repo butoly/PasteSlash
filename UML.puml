@@ -75,6 +75,7 @@
  * interface abstract_command {
  *  +execute()
  * }
+ *
 ' * class parser {
 ' * + parser()
 ' * --

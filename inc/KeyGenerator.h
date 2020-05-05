@@ -13,8 +13,10 @@ public:
     KeyGeneratorClass();
     ~KeyGeneratorClass();
 
-    void AddKey();
-    std::string ReturnKey();
+    void AddKey(std::queue<std::string> *pointer, std::string element);
+    std::string ReturnKey(std::queue<std::string> *pointer);
+    std::queue<std::string>* ReturnActivePointer();
+    void SetPaste(std::string paste);
 
 private:
     std::queue<std::string> queue1;

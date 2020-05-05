@@ -1,15 +1,11 @@
 #include "inc/Randomize.h"
 #include "inc/KeyGenerator.h"
-
-//std::queue<std::string> db;
+#include "inc/Session.h"
+#include "inc/Server.h"
 
 int main() {
-
-    KeyGeneratorClass *key_generator = new KeyGeneratorClass();
-
-    for (int i = 0; i < 15; i++) {
-        std::cout << key_generator->ReturnKey() << std::endl;
-    }
-
+    auto const address = boost::asio::ip::address::from_string("127.0.0.1");
+    ServerClass *server = new ServerClass(address, 5555);
+    server->run();
     return 0;
 }
