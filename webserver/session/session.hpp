@@ -3,9 +3,7 @@
 
 #include <boost/beast/core.hpp>
 #include <boost/beast/http.hpp>
-#include <iostream>
 #include <memory>
-#include <string>
 
 #include "session_interface.hpp"
 #include "../request/handler_request.hpp"
@@ -18,33 +16,37 @@ namespace pasteslash {
 namespace webserver {
 namespace session {
 
-class Session : public ISession {
+// Handles an HTTP server connection
+class Session : public ISession, public std::enable_shared_from_this<Session> {
 public:
+    Session(tcp::socket&& socket);
+
     Session(const Session&) = delete;
     Session& operator=(const Session&) = delete;
     ~Session() = default;
 
-    Session(tcp::socket&& socket)
-        : stream_(std::move(socket)), lambda_(*this) {
-    }
-
+    // Start the asynchronous reading
     void run() override;
 
+    // Read request
     void do_read() override;
 
+    // Handle reading
     void on_read(beast::error_code ec, std::size_t bytes_transferred) override;
 
+    // Handle writing
     void on_write(bool close, beast::error_code ec,
         std::size_t bytes_transferred);
 
+    // Close connection
     void do_close();
 
 private:
+    // Write response
     struct send_lambda {
         Session& self_;
 
-        explicit send_lambda(Session& self)
-            : self_(self) {}
+        explicit send_lambda(Session& self);
 
         template<bool isRequest, class Body, class Fields>
         void operator()(http::message<isRequest, Body, Fields>&& msg) const;
