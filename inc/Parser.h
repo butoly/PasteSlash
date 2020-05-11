@@ -13,7 +13,7 @@
 namespace bpt = boost::property_tree;
 
 class Parser {
-    ReceivedData recievedData;
+    ReceivedData receivedData;
 
 public:
     Parser() = default;
@@ -21,7 +21,7 @@ public:
 
     ReceivedData parse(std::string& data);
     std::string prepare(std::string& command, std::string& data);
-
+    std::string parseHash(std::string& data);
 };
 
 #endif //PROJECT_PARSER_H

@@ -7,12 +7,21 @@ ReceivedData Parser::parse(std::string& data) {
     std::stringstream str(data);
     bpt::read_json(str, tree);
 
-    recievedData.command = tree.get<std::string>("command");
+    receivedData.command = tree.get<std::string>("command");
 
     BOOST_FOREACH(bpt::ptree::value_type& v, tree.get_child("body")) {
-        recievedData.data.insert({v.first, v.second.data()});
+                    receivedData.data.insert({v.first, v.second.data()});
     }
-    return recievedData;
+    return receivedData;
+}
+
+std::string Parser::parseHash(std::string& data) {
+    bpt::ptree tree;
+
+    std::stringstream str(data);
+    bpt::read_json(str, tree);
+
+    return tree.get<std::string>("hash");
 }
 
 std::string Parser::prepare(std::string& command, std::string& data) {

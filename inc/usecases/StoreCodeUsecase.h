@@ -9,10 +9,10 @@
 
 class StoreCodeUsecase : public AbstractUsecase {
 private:
-    std::vector<int> request;
-    int* response;
+    Code& code;
+
 public:
-    StoreCodeUsecase(std::vector<int> req, int* res) : request(req), response(res) {};
+    explicit StoreCodeUsecase(Code& c) : code(c) {};
     ~StoreCodeUsecase() = default;
 
     void execute() override;

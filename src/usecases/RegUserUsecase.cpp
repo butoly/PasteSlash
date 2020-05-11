@@ -2,7 +2,7 @@
 
 void RegUserUsecase::execute() {
     try {
-        Application::getInstance().regUser();
+
     } catch(std::exception& e) {
     }
 }

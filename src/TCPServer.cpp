@@ -39,8 +39,9 @@ void TCPServer::start(const char* addr, unsigned short port) {
 
     // eventloop с каким-то механизмом опроса сокетов на события
 
+    long number = sysconf(_SC_NPROCESSORS_ONLN);
     std::vector<std::thread> threads;
-    for (int i = 0; i < 4; ++i) {
+    for (int i = 0; i < number; ++i) {
         threads.push_back(std::thread(std::bind(&TCPServer::run, this)));
     }
 

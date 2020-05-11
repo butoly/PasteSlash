@@ -4,7 +4,6 @@ void RequestHandler::handle(std::string& data) {
     ReceivedData res;
 
     res = parser.parse(data);
-    std::cout << res.data.at("nickname") << std::endl;
 
     if (res.command == "register") {
         User user(res.data.at("nickname"), res.data.at("email"), res.data.at("password"));
@@ -18,5 +17,19 @@ void RequestHandler::handle(std::string& data) {
         ucase = std::make_unique<AuthUserUsecase>(user);
 
         ucase->execute();
-    }
+
+    } else if (res.command == "store") {
+        std::string defaultHash = "0";
+
+        Code code(defaultHash, res.data.at("name"), res.data.at("body"));
+
+        ucase = std::make_unique<StoreCodeUsecase>(code);
+
+        ucase->execute();
+
+    } else if (res.command == "get hash") {
+
+        std::cout << res.command << std::endl;
+
+    } else {std::cout << "ok" << std::endl;}
 }

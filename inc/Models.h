@@ -19,7 +19,9 @@ struct User {
 };
 
 struct Code {
-
+    //Code(std::string& h, std::string& n) : hash(h), name(n) {}
+    Code(std::string& h, std::string& n, std::string& b) : hash(h), name(n), body(b) {}
+    ~Code() = default;
     std::string hash;
     std::string name;
     std::string body;

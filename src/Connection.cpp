@@ -10,7 +10,7 @@ void Connection::onRead(const boost::system::error_code& e, std::size_t bytesTra
     }
 
     if (bytesTransferred > 0) {
-        std::cout << buffer << std::endl;
+        std::cout << buffer << " CONNECT" << std::endl;
 
         std::string request(buffer);
         rm.handle(request);

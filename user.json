@@ -7,4 +7,7 @@
   }
 }
 
-{"command": "register", "body": {"nickname": "yletamitlu", "email": "m@mail.ru", "password": "123456"}}
+{"command": "store", "body": {"nickname": "yletamitlu", "email": "m@mail.ru", "password": "123456"}}
+{"command":  "store", "body": {"name":"namecoda", "body": "bodycoda"}}
+
+{"command": "get hash", "body": {}}
