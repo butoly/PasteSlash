@@ -44,3 +44,12 @@ bool UserDBManager::isEmailExist(const std::string &email) {
         return true;
     return false;
 }
+
+std::string UserDBManager::getPassword(const std::string& nickname) {
+    dataFormat map = {{USER_NICKNAME_FIELD, nickname}};
+    std::shared_ptr<dataFormat> result = getByPK(map, USER_TABLE_NAME);
+    if (result)
+        return (*result)[USER_PASSWORD_FIELD];
+    else
+        return std::string();
+}

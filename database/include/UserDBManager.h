@@ -12,6 +12,8 @@ public:
 
     static bool isNicknameExist(const std::string& nickname);
     static bool isEmailExist(const std::string &email);
+
+    static std::string getPassword(const std::string &nickname);
 };
 
 #endif //TEST_USERDBMANAGER_H
