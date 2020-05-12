@@ -15,7 +15,7 @@ class RequestHandler {
 
 public:
     RequestHandler() : ucase(nullptr) {};
-    void handle(std::string& data);
+    void handle(std::string& data, std::string& response);
 };
 
 

@@ -1,24 +1,53 @@
 #include "RequestHandler.h"
 
-void RequestHandler::handle(std::string& data) {
+void RequestHandler::handle(std::string& data, std::string& response) {
     ReceivedData res;
 
     res = parser.parse(data);
 
     if (res.command == "register") {
-        User user(res.data.at("nickname"), res.data.at("email"), res.data.at("password"));
+
+        std::string nickname = res.data.at("nickname");
+        std::string email = res.data.at("email");
+        std::string password = res.data.at("password");
+
+        //заглушка для проверки, есть ли такой ник уже в бд
+        bool hasN;
+        if (hasN) {
+            response = "NICKNAME ALREADY EXIST";
+            return;
+        }
+        //заглушка для проверки, есть ли такой mail уже в бд
+        bool hasE;
+        if (hasE) {
+            response = "EMAIL ALREADY EXIST";
+            return;
+        }
+
+        User user(nickname, email, password);
 
         ucase = std::make_unique<RegUserUsecase>(user);
 
         ucase->execute();
+
     } else if (res.command == "auth") {
-        User user(res.data.at("nickname"), res.data.at("password"));
+        std::string nickname = res.data.at("nickname");
+
+        //заглушка для проверки, есть ли такой ник вообще в бд
+        bool hasN;
+        if (!hasN) {
+            response = "NICKNAME NOT FOUND";
+            return;
+        }
+
+        User user(nickname, res.data.at("password"));
 
         ucase = std::make_unique<AuthUserUsecase>(user);
 
         ucase->execute();
 
     } else if (res.command == "store") {
+
         std::string defaultHash = "0";
 
         Code code(defaultHash, res.data.at("name"), res.data.at("body"));
@@ -26,6 +55,9 @@ void RequestHandler::handle(std::string& data) {
         ucase = std::make_unique<StoreCodeUsecase>(code);
 
         ucase->execute();
+
+    } else if (res.command == "get code") {
+
 
     } else if (res.command == "get hash") {
 

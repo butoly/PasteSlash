@@ -1,18 +1,14 @@
 #include "TCPClient.h"
 
-std::string TCPClient::run(const char* addr, unsigned short port, std::string& msg) {
-    // Определяем endpoint
-    ip::tcp::endpoint ep(ip::make_address(addr), port);
+boost::system::errc::errc_t TCPClient::connect() {
     boost::system::error_code error;
 
     socket.connect(ep, error);
     if (error) {
         std::cout << "client terminated " << error.message() << std::endl;
+        return boost::system::errc::not_connected;
     }
-    std::string data = send(msg);
-
-    std::cout << data << "TCPClient" << std::endl;
-    return data;
+    return boost::system::errc::success;
 }
 
 std::string TCPClient::send(std::string& msg) {

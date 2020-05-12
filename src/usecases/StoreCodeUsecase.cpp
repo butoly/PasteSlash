@@ -6,18 +6,25 @@ void StoreCodeUsecase::execute() {
     std::string data;
 
     try {
-        TCPClient client;
+        TCPClient client("127.0.0.1", 3000);
 
         std::cout << "STORECODEUSECASE";
 
         std::string s = "{\"command\": \"get hash\"}";
 
-        std::string receivedData = client.run("127.0.0.1", 3000, s);
+        auto error = client.connect();
+        if (error != boost::system::errc::success) {
+            return;
+        }
+
+        auto receivedData = client.send(s);
 
         Parser p;
         std::string hash = p.parseHash(receivedData);
 
         code.hash = hash;
+
+        //сохранение в бд
 
     } catch(std::exception& e) {
 

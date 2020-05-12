@@ -13,7 +13,11 @@ void Connection::onRead(const boost::system::error_code& e, std::size_t bytesTra
         std::cout << buffer << " CONNECT" << std::endl;
 
         std::string request(buffer);
-        rm.handle(request);
+        std::string response;
+
+        rm.handle(request, response);
+
+        //записывать ответ
 
         write();
     }
@@ -31,6 +35,8 @@ void Connection::read() {
 }
 
 void Connection::write() {
+
+    //буфер с ответом
     async_write(socket, asio::buffer(buffer),
                 boost::bind(&Connection::onWrite, shared_from_this(), boost::asio::placeholders::error));
 }

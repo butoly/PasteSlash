@@ -30,10 +30,10 @@ std::string Parser::prepare(std::string& command, std::string& data) {
     try{
         bpt::ptree tree;
 
-        tree.put("responce.command", command);
+        tree.put("command", command);
 
         BOOST_FOREACH(responceFile, data){
-                        tree.add("responce.modules.module", data);
+                        tree.add("", data);
                     }
 
         bpt::write_json(responceFile, tree);
