@@ -11,6 +11,7 @@ public:
     static std::shared_ptr<dataFormat> getUser(const std::string& username);
 
     static bool isNicknameExist(const std::string& nickname);
+    static bool isEmailExist(const std::string &email);
 };
 
 #endif //TEST_USERDBMANAGER_H

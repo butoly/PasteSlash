@@ -36,3 +36,11 @@ bool UserDBManager::isNicknameExist(const std::string &nickname) {
         return true;
     return false;
 }
+
+bool UserDBManager::isEmailExist(const std::string &email) {
+    dataFormat map = {{USER_EMAIL_FIELD, email}};
+    std::shared_ptr<dataFormat> result = getByPK(map, USER_TABLE_NAME);
+    if (result)
+        return true;
+    return false;
+}
