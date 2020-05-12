@@ -5,8 +5,9 @@
 
 KeyGeneratorClass :: KeyGeneratorClass() {
     randomize = new RandomizeClass();
-    active_queue_pointer = &queue1;
-    unactive_queue_pointer = &queue2;
+    validator = new KeyValidationClass();
+    active_queue_pointer = new std::queue<std::string>;
+    unactive_queue_pointer = new std::queue<std::string>;
     generateOfQueues();
 }
 
@@ -19,7 +20,7 @@ std::string KeyGeneratorClass :: ReturnKey() {
     if(active_queue_pointer->size() <= MIN_COUNT_ELEMENTS_ARRAY)
     {
         swapQueue();
-        std::thread t(&KeyGeneratorClass::QueueFilling, this);
+        std::thread t(&KeyGeneratorClass::queueFilling, this);
         t.detach();
     }
     return tmp_string;
@@ -33,11 +34,16 @@ void KeyGeneratorClass ::swapQueue() {
 }
 
 void KeyGeneratorClass ::AddKey() {
-    std::string element = randomize->ReturnRandomString();
-    unactive_queue_pointer->push(element);
+    std::string tmp_key = randomize->ReturnRandomString();
+    bool validKey = validator->IsValidKey(tmp_key);
+    while(!validKey) {
+        tmp_key = randomize->ReturnRandomString();
+        validKey = validator->IsValidKey(tmp_key);
+    }
+    unactive_queue_pointer->push(tmp_key);
 }
 
-void KeyGeneratorClass ::QueueFilling() {
+void KeyGeneratorClass ::queueFilling() {
     std::this_thread::sleep_for(std::chrono::seconds(5));
     while(unactive_queue_pointer->size() != LENGTH_QUEUE)
         AddKey();

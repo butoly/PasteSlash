@@ -25,7 +25,6 @@ void SessionClass::onRead() {
     std::string data;
     tmp >> data;
     std::cout << data << std::endl;
-    //TODO: JSON parser
     std::ostream output(&writeBuffer);
     std::string key = keyGenerator->ReturnKey();
     output << key;
