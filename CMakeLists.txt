@@ -11,5 +11,5 @@ find_package (Threads)
 
 add_subdirectory(tests)
 
-add_executable(url_gen main.cpp src/KeyGenerator.cpp inc/KeyGenerator.h src/Server.cpp inc/Server.h inc/Randomize.h src/Randomize.cpp src/KeyValidation.cpp inc/KeyValidation.h src/DataBaseWorker.cpp inc/DataBaseWorker.h src/Session.cpp inc/Session.h)
+add_executable(url_gen main.cpp src/KeyGenerator.cpp inc/KeyGenerator.h src/Server.cpp inc/Server.h inc/Randomize.h src/Randomize.cpp src/KeyValidation.cpp inc/KeyValidation.h src/DataBaseWorker.cpp inc/DataBaseWorker.h src/Session.cpp inc/Session.h src/Parser.cpp inc/Parser.h)
 target_link_libraries(url_gen PUBLIC Boost::filesystem ${CMAKE_THREAD_LIBS_INIT})

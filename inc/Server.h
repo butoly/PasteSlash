@@ -17,7 +17,7 @@ using namespace boost::asio;
 class ServerClass
 {
 public:
-    ServerClass(boost::asio::ip::address address, unsigned short port);
+    ServerClass(const boost::asio::ip::address& address, unsigned short port);
     void run();
 private:
     void accept();

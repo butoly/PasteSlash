@@ -5,7 +5,7 @@
 
 int main() {
     auto const address = boost::asio::ip::address::from_string("127.0.0.1");
-    ServerClass *server = new ServerClass(address, 5555);
+    auto *server = new ServerClass(address, 5555);
     server->run();
     return 0;
 }

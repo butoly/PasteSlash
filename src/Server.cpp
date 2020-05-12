@@ -2,7 +2,7 @@
 
 using namespace boost::asio;
 
-ServerClass::ServerClass(ip::address address, unsigned short port)
+ServerClass::ServerClass(const ip::address& address, unsigned short port)
 : endpoint(address, port), service(), acceptor(service, endpoint), socket(service) {
     boost::system::error_code err;
     acceptor.set_option(socket_base::reuse_address(true), err);
@@ -31,7 +31,7 @@ void ServerClass::run() {
     accept();
 
     std::vector<std::thread> threads;
-    for(int i = 0; i < 4; i++); {
+    for(int i = 0; i < 2; i++) { // TODO количество потоков???
         threads.emplace_back([this](){
             service.run();
         });

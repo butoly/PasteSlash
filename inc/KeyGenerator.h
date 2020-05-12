@@ -6,23 +6,28 @@
 
 #include "Randomize.h"
 
-#define LENGTH_QUEUE 100 //количество элементов в очередях
+#define LENGTH_QUEUE 3 //количество элементов в очередях
+#define MIN_COUNT_ELEMENTS_ARRAY 1// Порого при котором необходимо поменять очереди
 
 class KeyGeneratorClass {
 public:
     KeyGeneratorClass();
     ~KeyGeneratorClass();
 
-    void AddKey(std::queue<std::string> *pointer, std::string element);
-    std::string ReturnKey(std::queue<std::string> *pointer);
-    std::queue<std::string>* ReturnActivePointer();
-    void SetPaste(std::string paste);
+    void AddKey();
+    std::string ReturnKey();
 
 private:
     std::queue<std::string> queue1;
     std::queue<std::string> queue2;
     std::queue<std::string> *active_queue_pointer;
     std::queue<std::string> *unactive_queue_pointer;
+
+    void swapQueue();
+    void generateOfQueues();
+    void QueueFilling();
+
+    RandomizeClass *randomize;
 };
 
 
