@@ -6,9 +6,11 @@
 class UserDBManager: public DatabaseObject {
 public:
     static void addUser(const dataFormat& user);
-    static void deleteUser(const std::string& username);
-    static void updateUser(const std::string& username, const dataFormat& newParamsMap);
+    static void deleteUser(const std::string& nickname);
+    static void updateUser(const std::string& nickname, const dataFormat& newParamsMap);
     static std::shared_ptr<dataFormat> getUser(const std::string& username);
+
+    static bool isNicknameExist(const std::string& nickname);
 };
 
 #endif //TEST_USERDBMANAGER_H
