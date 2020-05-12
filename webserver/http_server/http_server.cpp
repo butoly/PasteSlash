@@ -13,7 +13,7 @@ namespace server {
 HttpServer::HttpServer(std::string address, std::string port, int threads) :
 threads_(threads),
 ioc(net::io_context(threads)) {
-    auto const adrs = net::ip::make_address(address);
+    const auto adrs = net::ip::make_address(address);
     const unsigned short prt = static_cast<unsigned short>(std::atoi(port.c_str()));
 
     // Create and launch a listening port

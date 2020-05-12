@@ -20,11 +20,11 @@ namespace session {
 
 class ISession : boost::noncopyable {
 public:
+    ISession() = default;
+    
     ISession(const ISession&) = delete;
     ISession& operator=(const ISession&) = delete;
     virtual ~ISession() = default;
-
-    ISession() = default;
 
     virtual void run() = 0;
     virtual void do_read() = 0;

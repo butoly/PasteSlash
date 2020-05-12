@@ -39,14 +39,8 @@ void Session::on_read(beast::error_code ec, std::size_t bytes_transferred) {
     if(ec) {
         return utils::fail(ec, "read");
     }
-    // handle(std::move(req_), lambda_);
-    // request::func();
-    // request::handle(std::move(req_), lambda_);
-    // std::make_shared<request::HandlerRequest>()->handle(std::move(req_), lambda_);
-    // std::make_shared<session::Session>(std::move(socket))->run();
-    // std::make_shared<request::HandlerRequest>()->handle(std::move(req_), lambda_);
-    auto a = std::make_shared<request::HandlerRequest>();
-    a->handle(std::move(req_), lambda_);
+    std::make_shared<request::HandlerRequest<send_lambda>>(
+        lambda_)->handle(std::move(req_));
 }
 
 void Session::on_write(bool close, beast::error_code ec,
@@ -70,11 +64,10 @@ void Session::do_close() {
 
 Session::send_lambda::send_lambda(Session& self) :
 self_(self) {}
-#include <iostream>
+
 template<bool isRequest, class Body, class Fields>
 void Session::send_lambda::operator()(http::message<isRequest,
         Body, Fields>&& msg) const {
-    std::cout << "skflaksfalks\n";
     auto sp = std::make_shared<
         http::message<isRequest, Body, Fields>>(std::move(msg));
     self_.res_ = sp;

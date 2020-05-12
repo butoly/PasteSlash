@@ -14,7 +14,7 @@ namespace pasteslash {
 namespace webserver {
 namespace server {
 
-// HTTP server
+// HTTP server for receiving user requests
 class HttpServer : boost::noncopyable {
 public:
     HttpServer(std::string address, std::string port, int threads = 1);
