@@ -37,9 +37,9 @@ void Session::on_read(beast::error_code ec, std::size_t bytes_transferred) {
         return do_close();
     }
     if(ec) {
-        return utils::fail(ec, "read");
+        return utils::fail(ec, "http-server read");
     }
-    std::make_shared<request::HandlerRequest<send_lambda>>(
+    std::make_shared<request::HandlerRequest<SendLambda>>(
         lambda_)->handle(std::move(req_));
 }
 
@@ -48,7 +48,7 @@ void Session::on_write(bool close, beast::error_code ec,
     boost::ignore_unused(bytes_transferred);
     
     if(ec) {
-         return utils::fail(ec, "write");
+         return utils::fail(ec, "http-server write");
      }
      if(close) {
         return do_close();
@@ -62,11 +62,11 @@ void Session::do_close() {
     stream_.socket().shutdown(tcp::socket::shutdown_send, ec);
 }
 
-Session::send_lambda::send_lambda(Session& self) :
+Session::SendLambda::SendLambda(Session& self) :
 self_(self) {}
 
 template<bool isRequest, class Body, class Fields>
-void Session::send_lambda::operator()(http::message<isRequest,
+void Session::SendLambda::operator()(http::message<isRequest,
         Body, Fields>&& msg) const {
     auto sp = std::make_shared<
         http::message<isRequest, Body, Fields>>(std::move(msg));

@@ -23,28 +23,28 @@ acceptor_(net::make_strand(ioc)) {
     // Open the acceptor
     acceptor_.open(endpoint.protocol(), ec);
     if(ec) {
-        utils::fail(ec, "open");
+        utils::fail(ec, "http-server open");
         return;
     }
 
     // Allow address reuse
     acceptor_.set_option(net::socket_base::reuse_address(true), ec);
     if(ec) {
-        utils::fail(ec, "set_option");
+        utils::fail(ec, "http-server set_option");
         return;
     }
 
     // Bind to the server address
     acceptor_.bind(endpoint, ec);
     if(ec) {
-        utils::fail(ec, "bind");
+        utils::fail(ec, "http-server bind");
         return;
     }
 
     // Start listening for connections
     acceptor_.listen(net::socket_base::max_listen_connections, ec);
     if(ec) {
-        utils::fail(ec, "listen");
+        utils::fail(ec, "http-server listen");
         return;
     }
 }
@@ -61,7 +61,7 @@ void Listener::do_accept() {
 
 void Listener::on_accept(beast::error_code ec, tcp::socket socket) {
     if (ec) {
-        utils::fail(ec, "accept");
+        utils::fail(ec, "http-server accept");
     } else {
         std::make_shared<session::Session>(std::move(socket))->run();
     }

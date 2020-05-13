@@ -35,7 +35,7 @@ public:
     // Start connecting and set deadline
     void start() override;
 
-    // Close the connection
+    // Stop connecting
     void stop() override;
 
 private:
@@ -69,6 +69,7 @@ private:
     steady_timer deadline_;
     std::string msg_;
     Send send_;
+    const std::string error_msg_ = "Server error";
 };
 
 template<class Send>
@@ -79,6 +80,7 @@ deadline_(io_context),
 msg_(msg),
 send_(callback) {
     tcp::resolver resolver(io_context);
+    // TODO: make it via config file
     endpoints_ = resolver.resolve("127.0.0.1", "8080");
 }
 
@@ -117,9 +119,10 @@ void TcpClient<Send>::handle_connect(const boost::system::error_code& ec,
     if (!socket_.is_open()) {
         start_connect(++endpoint_iter);
     } else if (ec) {
-        utils::fail(ec, "connect");
+        utils::fail(ec, "tcp-client connect");
         socket_.close();
         start_connect(++endpoint_iter);
+        send_(error_msg_);
     } else {
         start_write();
         start_read();
@@ -141,8 +144,9 @@ void TcpClient<Send>::handle_write(const boost::system::error_code& ec) {
         return;
     }
     if (ec) {
-        utils::fail(ec, "write");
+        utils::fail(ec, "tcp-client write");
         stop();
+        send_(error_msg_);
     }
 }
 
@@ -161,8 +165,9 @@ void TcpClient<Send>::handle_read(const boost::system::error_code& ec,
         return;
     }
     if (ec) {
-        utils::fail(ec, "read");
+        utils::fail(ec, "tcp-client read");
         stop();
+        send_(error_msg_);
     } else {
         std::string line(input_buffer_.substr(0, n - 1));
         send_(line);

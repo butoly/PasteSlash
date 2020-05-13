@@ -43,10 +43,10 @@ public:
 
 private:
     // Write response
-    struct send_lambda {
+    struct SendLambda {
         Session& self_;
 
-        explicit send_lambda(Session& self);
+        explicit SendLambda(Session& self);
 
         template<bool isRequest, class Body, class Fields>
         void operator()(http::message<isRequest, Body, Fields>&& msg) const;
@@ -56,7 +56,7 @@ private:
     beast::flat_buffer buffer_;
     http::request<http::string_body> req_;
     std::shared_ptr<void> res_;
-    send_lambda lambda_;
+    SendLambda lambda_;
 };
 
 } // session
