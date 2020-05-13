@@ -2,7 +2,6 @@
 #define WEBSERVER_OUTPUT_HPP
 
 #include <boost/beast/core.hpp>
-#include <iostream>
 
 namespace beast = boost::beast;
 

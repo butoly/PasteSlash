@@ -3,13 +3,14 @@
 #include <boost/asio/dispatch.hpp>
 #include <memory>
 
+#include "session.hpp"
+#include "../request/handler_request.hpp"
+#include "../utils/output.hpp"
+
 namespace beast = boost::beast;
 namespace http = beast::http;
 namespace net = boost::asio;
 using tcp = boost::asio::ip::tcp;
-
-#include "session.hpp"
-#include "../utils/output.hpp"
 
 namespace pasteslash {
 namespace webserver {

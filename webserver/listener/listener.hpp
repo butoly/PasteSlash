@@ -16,7 +16,8 @@ namespace webserver {
 namespace listener {
 
 // Accepts incoming connections and launches the sessions
-class Listener : public std::enable_shared_from_this<Listener>, boost::noncopyable {
+class Listener : public std::enable_shared_from_this<Listener>,
+    boost::noncopyable {
 public:
     Listener(net::io_context& ioc, tcp::endpoint endpoint);
 

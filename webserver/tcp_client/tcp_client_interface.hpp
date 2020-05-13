@@ -2,9 +2,6 @@
 #define WEBSERVER_CLIENT_HPP
 
 #include <boost/noncopyable.hpp>
-#include <boost/asio/ip/tcp.hpp>
-
-using tcp = boost::asio::ip::tcp;
 
 namespace pasteslash {
 namespace webserver {

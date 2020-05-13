@@ -3,16 +3,8 @@
 
 #include <boost/noncopyable.hpp>
 #include <boost/beast/core.hpp>
-#include <boost/beast/http.hpp>
-#include <iostream>
-#include <memory>
-#include <string>
-
-#include "../request/handler_request.hpp"
 
 namespace beast = boost::beast;
-namespace http = beast::http;
-using tcp = boost::asio::ip::tcp;
 
 namespace pasteslash {
 namespace webserver {

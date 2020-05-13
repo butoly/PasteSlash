@@ -6,8 +6,6 @@
 #include <memory>
 #include <string>
 
-#include "../listener/listener.hpp"
-
 namespace net = boost::asio;
 
 namespace pasteslash {
@@ -24,7 +22,7 @@ public:
 
 private:
     unsigned short threads_;
-    net::io_context ioc;
+    net::io_context ioc_;
 };
 
 } // server

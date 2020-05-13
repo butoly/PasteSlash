@@ -6,7 +6,6 @@
 #include <memory>
 
 #include "session_interface.hpp"
-#include "../request/handler_request.hpp"
 
 namespace beast = boost::beast;
 namespace http = beast::http;
