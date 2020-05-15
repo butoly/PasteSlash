@@ -14,7 +14,7 @@ ServerClass::ServerClass(const ip::address& address, unsigned short port)
         std::cerr << "err3:" << err.message() << std::endl;
     }
 
-    keyGenerator = new KeyGeneratorClass();
+    keyGenerator = std::make_shared<KeyGeneratorClass>();
 }
 
 void ServerClass::accept() {
@@ -31,7 +31,7 @@ void ServerClass::run() {
     accept();
 
     std::vector<std::thread> threads;
-    for(int i = 0; i < 2; i++) { // TODO количество потоков???
+    for(int i = 0; i < 2; i++) {
         threads.emplace_back([this](){
             service.run();
         });

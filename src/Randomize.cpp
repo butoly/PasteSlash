@@ -12,6 +12,10 @@ std::string RandomizeClass :: ReturnRandomString() {
     std::string random_string;
     for (int i = 0; i < current_length; i++)
         random_string += pool[RandomInt(generator, 0, 61)];
+
+//    if(random_string.empty())
+//        throw std::exception();
+
     return random_string;
 }
 
@@ -21,11 +25,9 @@ void RandomizeClass::InitGenerator(RandomizeClass::PRNG &generator) {
 }
 
 unsigned RandomizeClass::RandomInt(RandomizeClass::PRNG &generator, unsigned min_value, unsigned max_value) {
-    assert(min_value < max_value);
-
     // Создаём распределение
     std::uniform_int_distribution<unsigned> distribution(min_value, max_value);
-    // Вычисляем псевдослучайное число: вызывем распределение как функцию,
+    // Вычисляем псевдослучайное число и вызывем распределение как функцию,
     // передав генератор произвольных целых чисел как аргумент.
     return distribution(generator.engine);
 }

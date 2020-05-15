@@ -15,7 +15,7 @@ class SessionClass
         : public std::enable_shared_from_this<SessionClass>
 {
 public:
-    SessionClass(ip::tcp::socket socket, KeyGeneratorClass *keyGenerator);
+    SessionClass(ip::tcp::socket socket, std::shared_ptr<KeyGeneratorClass> keyGenerator);
     ~SessionClass() = default;
     void start();
 
@@ -29,8 +29,7 @@ private:
     streambuf readBuffer;
     streambuf writeBuffer;
 
-    KeyGeneratorClass *keyGenerator;
-
+    std::shared_ptr<KeyGeneratorClass> keyGenerator;
 };
 
 #endif //URL_GEN_SESSION_H

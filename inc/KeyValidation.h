@@ -8,7 +8,8 @@ public:
     KeyValidationClass();
     ~KeyValidationClass();
 
-    bool IsValidKey(std::string);
+    //проверка валидности ключа в БД
+    bool isValidKey(const std::string &key);
 };
 
 #endif //URL_GEN_KEYVALIDATION_H

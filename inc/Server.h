@@ -26,7 +26,7 @@ private:
     ip::tcp::acceptor acceptor;
     ip::tcp::socket socket;
 
-    KeyGeneratorClass *keyGenerator;
+    std::shared_ptr<KeyGeneratorClass> keyGenerator;
 };
 
 #endif //URL_GEN_SERVER_H

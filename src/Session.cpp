@@ -1,7 +1,9 @@
 #include "../inc/Session.h"
 
-SessionClass::SessionClass(ip::tcp::socket socket, KeyGeneratorClass *keyGenerator)
-    : socket(std::move(socket)), keyGenerator(keyGenerator)
+#include <utility>
+
+SessionClass::SessionClass(ip::tcp::socket socket, std::shared_ptr<KeyGeneratorClass> keyGenerator)
+    : socket(std::move(socket)), keyGenerator(std::move(keyGenerator))
     {}
 
 void SessionClass::start() {
@@ -25,6 +27,16 @@ void SessionClass::onRead() {
     std::string data;
     tmp >> data;
     std::cout << data << std::endl;
+    ///////////////////////////////////////
+//    std::vector<std::string> test_vector;
+//    for (size_t i = 0; i < 100; i++) {
+//        test_vector.push_back(keyGenerator->ReturnKey());
+//    }
+//
+//    for (size_t i = 0; i < 100; i++) {
+//        std::cout << test_vector[i] << std::endl;
+//    }
+    ///////////////////////////////////////
     std::ostream output(&writeBuffer);
     std::string key = keyGenerator->ReturnKey();
     output << key;
@@ -41,6 +53,7 @@ void SessionClass::doWrite() {
                                      self->onWrite();
                                  }
                              });
+    std::cout << "Key: " << &writeBuffer << std::endl;
 }
 
 void SessionClass::onWrite() {

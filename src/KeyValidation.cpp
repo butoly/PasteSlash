@@ -8,7 +8,7 @@ KeyValidationClass::~KeyValidationClass() {
 
 }
 
-bool KeyValidationClass::IsValidKey(std::string) {
+bool KeyValidationClass::isValidKey(const std::string &key) {
     //TODO: Проверка на валидность ключа.
     return true;
 }

@@ -1,13 +1,12 @@
-#include <queue>
 #include <thread>
 #include <chrono>
 #include "../inc/KeyGenerator.h"
 
 KeyGeneratorClass :: KeyGeneratorClass() {
-    randomize = new RandomizeClass();
-    validator = new KeyValidationClass();
-    active_queue_pointer = new std::queue<std::string>;
-    unactive_queue_pointer = new std::queue<std::string>;
+    randomize = std::make_shared<RandomizeClass>();
+    validator = std::make_shared<KeyValidationClass>();
+    active_queue_pointer = std::make_shared<std::queue<std::string>>();
+    unactive_queue_pointer = std::make_shared<std::queue<std::string>>();
     generateOfQueues();
 }
 
@@ -15,7 +14,7 @@ KeyGeneratorClass :: ~KeyGeneratorClass(){
 }
 
 std::string KeyGeneratorClass :: ReturnKey() {
-    std::string tmp_string = active_queue_pointer->front();
+    std::string tmp_key = active_queue_pointer->front();
     active_queue_pointer->pop();
     if(active_queue_pointer->size() <= MIN_COUNT_ELEMENTS_ARRAY)
     {
@@ -23,11 +22,11 @@ std::string KeyGeneratorClass :: ReturnKey() {
         std::thread t(&KeyGeneratorClass::queueFilling, this);
         t.detach();
     }
-    return tmp_string;
+    return tmp_key;
 }
 
 void KeyGeneratorClass ::swapQueue() {
-    std::queue<std::string> *tmp;
+    std::shared_ptr<std::queue<std::string>> tmp;
     tmp = active_queue_pointer;
     active_queue_pointer = unactive_queue_pointer;
     unactive_queue_pointer = tmp;
@@ -35,16 +34,16 @@ void KeyGeneratorClass ::swapQueue() {
 
 void KeyGeneratorClass ::AddKey() {
     std::string tmp_key = randomize->ReturnRandomString();
-    bool validKey = validator->IsValidKey(tmp_key);
+    bool validKey = validator->isValidKey(tmp_key);
     while(!validKey) {
         tmp_key = randomize->ReturnRandomString();
-        validKey = validator->IsValidKey(tmp_key);
+        validKey = validator->isValidKey(tmp_key);
     }
     unactive_queue_pointer->push(tmp_key);
 }
 
 void KeyGeneratorClass ::queueFilling() {
-    std::this_thread::sleep_for(std::chrono::seconds(5));
+    //std::this_thread::sleep_for(std::chrono::seconds(5));
     while(unactive_queue_pointer->size() != LENGTH_QUEUE)
         AddKey();
 }

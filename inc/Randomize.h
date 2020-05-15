@@ -6,6 +6,7 @@
 #include <ctime>
 #include <random>
 #include <cassert>
+#include <exception>
 
 class RandomizeClass {
 public:
@@ -13,7 +14,6 @@ public:
     ~RandomizeClass();
 
     std::string ReturnRandomString();
-
 private:
     const char pool[62] = {'a','b','C','d','e','f','g','h','i','j','k','l','m','n','o','p','q',
                      'r','s','t','u','v','w','x','y','z',
