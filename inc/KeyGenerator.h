@@ -4,12 +4,15 @@
 #include <string>
 #include <queue>
 #include <memory>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
 
 #include "Randomize.h"
 #include "KeyValidation.h"
 
-#define LENGTH_QUEUE 10 //Количество элементов в очередях
-#define MIN_COUNT_ELEMENTS_ARRAY 4// Порог при котором необходимо поменять очереди и начать заполнять опустевшую
+#define LENGTH_QUEUE 100 //Количество элементов в очередях
+#define MIN_COUNT_ELEMENTS_ARRAY 20// Порог при котором необходимо поменять очереди и начать заполнять опустевшую
 
 class KeyGeneratorClass {
 public:
@@ -29,6 +32,12 @@ private:
     void swapQueue(); // Смена указателей на очереди
     void generateOfQueues(); // Заполнение очередей при вызове конструктора класса
     void queueFilling(); // Функция заполняющая неактивную очередь в второстепенном потоке
+    void startFilling();
+
+    std::mutex mtx;
+    std::condition_variable cv;
+    bool ready = false;
+
 };
 
 #endif //URL_GEN_KEYGENERATOR_H

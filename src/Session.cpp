@@ -28,14 +28,14 @@ void SessionClass::onRead() {
     tmp >> data;
     std::cout << data << std::endl;
     ///////////////////////////////////////
-//    std::vector<std::string> test_vector;
-//    for (size_t i = 0; i < 100; i++) {
-//        test_vector.push_back(keyGenerator->ReturnKey());
-//    }
-//
-//    for (size_t i = 0; i < 100; i++) {
-//        std::cout << test_vector[i] << std::endl;
-//    }
+    std::vector<std::string> test_vector;
+    for (size_t i = 0; i < 100; i++) {
+        test_vector.push_back(keyGenerator->ReturnKey());
+    }
+
+    for (size_t i = 0; i < 100; i++) {
+        std::cout << test_vector[i] << std::endl;
+    }
     ///////////////////////////////////////
     std::ostream output(&writeBuffer);
     std::string key = keyGenerator->ReturnKey();

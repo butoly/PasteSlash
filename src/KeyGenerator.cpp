@@ -1,5 +1,6 @@
 #include <thread>
 #include <chrono>
+#include <mutex>
 #include "../inc/KeyGenerator.h"
 
 KeyGeneratorClass :: KeyGeneratorClass() {
@@ -8,7 +9,24 @@ KeyGeneratorClass :: KeyGeneratorClass() {
     active_queue_pointer = std::make_shared<std::queue<std::string>>();
     unactive_queue_pointer = std::make_shared<std::queue<std::string>>();
     generateOfQueues();
+    std::thread worker(&KeyGeneratorClass::queueFilling, this);
+    worker.detach();
 }
+
+void KeyGeneratorClass::startFilling() {
+    std::unique_lock<std::mutex> lck(mtx);
+    ready = true;
+    cv.notify_all(); // notify_one???
+}
+
+
+void KeyGeneratorClass ::queueFilling() {
+    std::unique_lock<std::mutex> lck(mtx);
+    while (!ready) cv.wait(lck);
+    while(unactive_queue_pointer->size() != LENGTH_QUEUE)
+        AddKey();
+}
+
 
 KeyGeneratorClass :: ~KeyGeneratorClass(){
 }
@@ -19,8 +37,7 @@ std::string KeyGeneratorClass :: ReturnKey() {
     if(active_queue_pointer->size() <= MIN_COUNT_ELEMENTS_ARRAY)
     {
         swapQueue();
-        std::thread t(&KeyGeneratorClass::queueFilling, this);
-        t.detach();
+        startFilling();
     }
     return tmp_key;
 }
@@ -40,12 +57,6 @@ void KeyGeneratorClass ::AddKey() {
         validKey = validator->isValidKey(tmp_key);
     }
     unactive_queue_pointer->push(tmp_key);
-}
-
-void KeyGeneratorClass ::queueFilling() {
-    //std::this_thread::sleep_for(std::chrono::seconds(5));
-    while(unactive_queue_pointer->size() != LENGTH_QUEUE)
-        AddKey();
 }
 
 void KeyGeneratorClass::generateOfQueues() {
