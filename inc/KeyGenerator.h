@@ -11,8 +11,8 @@
 #include "Randomize.h"
 #include "KeyValidation.h"
 
-#define LENGTH_QUEUE 100 //Количество элементов в очередях
-#define MIN_COUNT_ELEMENTS_ARRAY 20// Порог при котором необходимо поменять очереди и начать заполнять опустевшую
+#define LENGTH_QUEUE 10 //Количество элементов в очередях
+#define MIN_COUNT_ELEMENTS_ARRAY 3// Порог при котором необходимо поменять очереди и начать заполнять опустевшую
 
 class KeyGeneratorClass {
 public:
@@ -37,7 +37,9 @@ private:
     std::mutex mtx;
     std::condition_variable cv;
     bool ready = false;
-
+    bool processed = false;
+    std::thread* worker;
+//    std::shared_ptr<std::thread> worker;
 };
 
 #endif //URL_GEN_KEYGENERATOR_H

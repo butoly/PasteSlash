@@ -9,26 +9,26 @@ KeyGeneratorClass :: KeyGeneratorClass() {
     active_queue_pointer = std::make_shared<std::queue<std::string>>();
     unactive_queue_pointer = std::make_shared<std::queue<std::string>>();
     generateOfQueues();
-    std::thread worker(&KeyGeneratorClass::queueFilling, this);
-    worker.detach();
+    worker = new std::thread(&KeyGeneratorClass::queueFilling, this);
 }
 
 void KeyGeneratorClass::startFilling() {
-    std::unique_lock<std::mutex> lck(mtx);
     ready = true;
     cv.notify_all(); // notify_one???
 }
 
-
 void KeyGeneratorClass ::queueFilling() {
     std::unique_lock<std::mutex> lck(mtx);
-    while (!ready) cv.wait(lck);
-    while(unactive_queue_pointer->size() != LENGTH_QUEUE)
-        AddKey();
+    while (!ready) {
+        cv.wait(lck);
+        while (unactive_queue_pointer->size() < LENGTH_QUEUE)
+            AddKey();
+        ready = false;
+    };
 }
 
-
 KeyGeneratorClass :: ~KeyGeneratorClass(){
+    worker->join();
 }
 
 std::string KeyGeneratorClass :: ReturnKey() {
