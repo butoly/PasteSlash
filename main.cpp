@@ -8,10 +8,20 @@
 
 int main(int argc, char* argv[]) {
 
-    std::cout << "server started " << std::endl;
+//    std::cout << "server started " << std::endl;
+//
+//    TCPServer serv;
+//
+//    serv.start("127.0.0.1", 3000);
+    TCPClient client("127.0.0.1", 3000);
 
-    TCPServer serv;
+    std::string s = "{\"command\": \"get hash\", \"body\": {}}";
 
-    serv.start("127.0.0.1", 3000);
+    auto error = client.connect();
+    if (error != boost::system::errc::success) {
+    }
+
+    auto receivedData = client.send(s);
+
     return 0;
 }

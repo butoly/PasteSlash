@@ -9,6 +9,8 @@ ReceivedData Parser::parse(std::string& data) {
 
     receivedData.command = tree.get<std::string>("command");
 
+    std::cout << receivedData.command << std::endl;
+
     BOOST_FOREACH(bpt::ptree::value_type& v, tree.get_child("body")) {
                     receivedData.data.insert({v.first, v.second.data()});
     }
