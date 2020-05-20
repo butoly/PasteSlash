@@ -22,12 +22,10 @@ message Error {
 
 message Token {
     string token = 1;
-    Error error = 2;
 }
 
 message Hash {
     string value = 1;
-    Error error = 2;
 }
 
 message Code {

@@ -1,7 +1,7 @@
 #include "RequestHandler.h"
 
 void RequestHandler::handle(std::string& data, std::string& response) {
-    ReceivedData res;
+    Models::ReceivedData res;
 
     res = parser.parse(data);
 
@@ -24,7 +24,7 @@ void RequestHandler::handle(std::string& data, std::string& response) {
             return;
         }
 
-        User user(nickname, email, password);
+        Models::User user(nickname, email, password);
 
         ucase = std::make_unique<RegUserUsecase>(user);
 
@@ -40,7 +40,7 @@ void RequestHandler::handle(std::string& data, std::string& response) {
             return;
         }
 
-        User user(nickname, res.data.at("password"));
+        Models::User user(nickname, res.data.at("password"));
 
         ucase = std::make_unique<AuthUserUsecase>(user);
 
@@ -50,7 +50,7 @@ void RequestHandler::handle(std::string& data, std::string& response) {
 
         std::string defaultHash = "0";
 
-        Code code(defaultHash, res.data.at("name"), res.data.at("body"));
+        Models::Code code(defaultHash, res.data.at("name"), res.data.at("body"));
 
         ucase = std::make_unique<StoreCodeUsecase>(code);
 
