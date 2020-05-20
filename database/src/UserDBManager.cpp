@@ -9,28 +9,28 @@ void UserDBManager::addUser(const dataFormat &user) {
     storeToDB(user, USER_TABLE_NAME);
 }
 
-dataFormat createPKValueMap(const std::string& nickname) {
-    return {{USER_NICKNAME_FIELD, nickname}};
+conditionMapFormat createPKValueMap(const std::string& nickname) {
+    return {{USER_NICKNAME_FIELD, SignValue("=", nickname)}};
 }
 
 void UserDBManager::deleteUser(const std::string &nickname) {
-    dataFormat pkValueMap = createPKValueMap(nickname);
+    conditionMapFormat pkValueMap = createPKValueMap(nickname);
     deleteByPK(pkValueMap, USER_TABLE_NAME);
 }
 
 void UserDBManager::updateUser(const std::string &nickname,
         const dataFormat &newParamsMap) {
-    dataFormat pkValueMap = createPKValueMap(nickname);
+    conditionMapFormat pkValueMap = createPKValueMap(nickname);
     updateByPK(pkValueMap, newParamsMap, USER_TABLE_NAME);
 }
 
 std::shared_ptr<dataFormat> UserDBManager::getUser(const std::string &username) {
-    dataFormat pkValueMap = createPKValueMap(username);
+    conditionMapFormat pkValueMap = createPKValueMap(username);
     return getByPK(pkValueMap, USER_TABLE_NAME);
 }
 
 bool UserDBManager::isNicknameExist(const std::string &nickname) {
-    dataFormat map = {{USER_NICKNAME_FIELD, nickname}};
+    conditionMapFormat map = createPKValueMap(nickname);
     std::shared_ptr<dataFormat> result = getByPK(map, USER_TABLE_NAME);
     if (result)
         return true;
@@ -38,7 +38,7 @@ bool UserDBManager::isNicknameExist(const std::string &nickname) {
 }
 
 bool UserDBManager::isEmailExist(const std::string &email) {
-    dataFormat map = {{USER_EMAIL_FIELD, email}};
+    conditionMapFormat map = {{USER_EMAIL_FIELD, SignValue("=", email)}};
     std::shared_ptr<dataFormat> result = getByPK(map, USER_TABLE_NAME);
     if (result)
         return true;
@@ -46,7 +46,7 @@ bool UserDBManager::isEmailExist(const std::string &email) {
 }
 
 std::string UserDBManager::getPassword(const std::string& nickname) {
-    dataFormat map = {{USER_NICKNAME_FIELD, nickname}};
+    conditionMapFormat map = createPKValueMap(nickname);
     std::shared_ptr<dataFormat> result = getByPK(map, USER_TABLE_NAME);
     if (result)
         return (*result)[USER_PASSWORD_FIELD];

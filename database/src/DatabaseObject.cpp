@@ -10,7 +10,7 @@ void DatabaseObject::storeToDB(const dataFormat &fieldValueMap, const std::strin
     }
 }
 
-void DatabaseObject::deleteByPK(const dataFormat& pkValueMap,
+void DatabaseObject::deleteByPK(const conditionMapFormat& pkValueMap,
         const std::string& table) {
     try {
         std::string sqlQuery = SqlGenerator::generateDeleteQuery(table, pkValueMap);
@@ -21,7 +21,7 @@ void DatabaseObject::deleteByPK(const dataFormat& pkValueMap,
     }
 }
 
-void DatabaseObject::updateByPK(const dataFormat &pkValueMap,
+void DatabaseObject::updateByPK(const conditionMapFormat &pkValueMap,
         const dataFormat &newParamsMap, const std::string& table) {
     try {
         std::string sqlQuery = SqlGenerator::generateUpdateQuery(table,
@@ -33,7 +33,7 @@ void DatabaseObject::updateByPK(const dataFormat &pkValueMap,
     }
 }
 
-std::shared_ptr<dataFormat> DatabaseObject::getByPK(const dataFormat& pkValueMap,
+std::shared_ptr<dataFormat> DatabaseObject::getByPK(const conditionMapFormat& pkValueMap,
         const std::string& table) {
     queryResultFormat result;
     try {

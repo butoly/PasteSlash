@@ -16,18 +16,17 @@ public:
     // UPDATE tableName SET field_1 = newValue1, field_2 = newValue2 ...
     // WHERE conditionField_n = conditionValue_n ...
     static std::string generateUpdateQuery(const std::string& tableName,
-            const dataFormat& conditionMap, const dataFormat& newValuesMap,
-            const std::string& sign="=");
+            const conditionMapFormat& conditionMap, const dataFormat& newValuesMap);
 
     // Generate query like
     // DELETE FROM tableName WHERE conditionField_1=conditionValue_1...
     static std::string generateDeleteQuery(const std::string& tableName,
-            const dataFormat& conditionMap, const std::string& sign="=");
+            const conditionMapFormat& conditionMap);
 
     // Generate query like
     // SELECT * FROM fromTableName WHERE conditionField_1=conditionValue_1...
     static std::string generateGetQuery(const std::string& from,
-           const dataFormat& conditionMap, const std::string& fields="*");
+           const conditionMapFormat& conditionMap, const std::string& fields="*");
 };
 
 #endif // DATABASE_SQLGENERATOR_H

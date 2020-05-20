@@ -13,11 +13,11 @@ class DatabaseObject {
 protected:
     static void storeToDB(const dataFormat& fieldValueMap,
             const std::string& table);
-    static void updateByPK(const dataFormat& pkValueMap,
+    static void updateByPK(const conditionMapFormat& pkValueMap,
             const dataFormat& newParamsMap, const std::string& table);
-    static void deleteByPK(const dataFormat& pkValueMap,
+    static void deleteByPK(const conditionMapFormat& pkValueMap,
             const std::string& table);
-    static std::shared_ptr<dataFormat> getByPK(const dataFormat& pkValueMap,
+    static std::shared_ptr<dataFormat> getByPK(const conditionMapFormat& pkValueMap,
             const std::string& table);
 };
 
