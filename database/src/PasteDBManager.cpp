@@ -12,15 +12,18 @@ void PasteDBManager::addPaste(const dataFormat &paste) {
     storeToDB(paste, PASTE_TABLE_NAME);
 }
 
-conditionMapFormat createGetConitionMap(const std::string& hash) {
+conditionMapFormat createGetConditionMap(const std::string& hash) {
     conditionMapFormat map = {{PASTE_HASH_FIELD_NAME, SignValue("=", hash)},
                               {PASTE_EXP_TIME_FIELD_NAME, SignValue(">", "now()")}};
     return map;
 }
 
 std::shared_ptr<dataFormat> PasteDBManager::getPaste(const std::string& hash) {
-    conditionMapFormat pkValueMap = createHashConditionMap(hash);
-    return getByPK(pkValueMap, PASTE_TABLE_NAME);
+    conditionMapFormat pkValueMap = createGetConditionMap(hash);
+    std::shared_ptr<dataFormat> paste = getByPK(pkValueMap, PASTE_TABLE_NAME);
+    if (!paste)
+        deletePaste(hash);
+    return paste;
 }
 
 void PasteDBManager::deletePaste(const std::string& hash) {
