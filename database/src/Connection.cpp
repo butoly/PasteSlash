@@ -10,7 +10,7 @@ std::string readFileInString(const std::string& fileName) {
 }
 
 Connection::Connection() :
-    connection(readFileInString("../pgConfig.txt")) {}
+    connection(readFileInString("pgConfig.txt")) {}
 
 Connection::Connection(const std::string& configFileName):
     connection(readFileInString(configFileName)) {}

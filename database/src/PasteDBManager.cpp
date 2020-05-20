@@ -37,29 +37,13 @@ void PasteDBManager::updatePaste(const std::string &hash, const dataFormat& newP
 }
 
 bool PasteDBManager::checkHash(const std::string& hash) {
-    queryResultFormat result;
-    try {
-        conditionMapFormat conditionMap = createHashConditionMap(hash);
-        std::string sqlQuery = SqlGenerator::generateGetQuery(PASTE_TABLE_NAME,
-                conditionMap, PASTE_HASH_FIELD_NAME);
-        result = Database::getInstance().execGetQuery(sqlQuery);
-    }
-    catch (const std::exception& exception) {
-        std::cout << exception.what() << std::endl;
-    }
-
-    return !result.empty();
+    conditionMapFormat conditionMap = createHashConditionMap(hash);
+    std::shared_ptr<dataFormat> result = getPaste(hash);
+    return !(result == nullptr);
 }
 
 void PasteDBManager::deleteOverduePastes(const std::string &time) {
-    try {
-        conditionMapFormat map = {{PASTE_EXP_TIME_FIELD_NAME, SignValue(">", time)}};
-        std::string sqlQuery = SqlGenerator::generateDeleteQuery(PASTE_TABLE_NAME,
-                map);
-        Database::getInstance().execPostQuery(sqlQuery);
-    }
-    catch (const std::exception& exception) {
-        std::cout << exception.what() << std::endl;
-    }
+    conditionMapFormat map = {{PASTE_EXP_TIME_FIELD_NAME, SignValue("<", time)}};
+    deleteByPK(map, PASTE_TABLE_NAME);
 }
 
