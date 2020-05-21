@@ -5,6 +5,7 @@
 #include "TCPServer.h"
 #include "Connection.h"
 #include "TCPClient.h"
+#include "grpc_server/ALServer.h"
 
 int main(int argc, char* argv[]) {
 
@@ -13,15 +14,20 @@ int main(int argc, char* argv[]) {
 //    TCPServer serv;
 //
 //    serv.start("127.0.0.1", 3000);
-    TCPClient client("127.0.0.1", 3000);
+//    TCPClient client("127.0.0.1", 3000);
+//
+//    std::string s = "{\"command\": \"get hash\", \"body\": {}}";
+//
+//    auto error = client.connect();
+//    if (error != boost::system::errc::success) {
+//    }
+//
+//    auto receivedData = client.send(s);
 
-    std::string s = "{\"command\": \"get hash\", \"body\": {}}";
 
-    auto error = client.connect();
-    if (error != boost::system::errc::success) {
-    }
+    ALServer alServer("127.0.0.1", "3000");
 
-    auto receivedData = client.send(s);
+    alServer.run();
 
     return 0;
 }

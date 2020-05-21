@@ -23,8 +23,8 @@ void RegUserCD::proceed(bool) {
             return;
         }
 
-        //ucase = std::make_unique<RegUserUsecase>(user);
-        //ucase->execute();
+//        ucase = std::make_unique<RegUserUsecase>(user);
+//        ucase->execute();
 
         //генерируем access токен
         std::string tokenValue = "token";

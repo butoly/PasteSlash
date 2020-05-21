@@ -47,6 +47,7 @@ public:
         bool ok;
 
         new RegUserCD(&service, cq.get());
+        //остльные
         while (true) {
             GPR_ASSERT(cq->Next(&tag, &ok));
             BaseCallData* callData = static_cast<BaseCallData*>(tag);

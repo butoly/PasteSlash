@@ -9,10 +9,10 @@
 
 class AuthUserUsecase : public AbstractUsecase {
 private:
-    const User& user;
+    const ::Models::User& user;
 
 public:
-    explicit AuthUserUsecase(const User& u) : user(u) {};
+    explicit AuthUserUsecase(const ::Models::User& u) : user(u) {};
     ~AuthUserUsecase() = default;
 
     void execute() override;

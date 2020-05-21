@@ -18,7 +18,9 @@ private:
     }
 
 public:
-    RegUserCD(::AppLayer::AsyncService* s, ::grpc::ServerCompletionQueue* q) : BaseCallData(s, q), responder(&ctx) {}
+    RegUserCD(::AppLayer::AsyncService* s, ::grpc::ServerCompletionQueue* q) : BaseCallData(s, q), responder(&ctx) {
+        proceed();
+    }
 
     void proceed(bool = true) override;
 };

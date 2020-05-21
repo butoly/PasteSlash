@@ -9,10 +9,10 @@
 
 class StoreCodeUsecase : public AbstractUsecase {
 private:
-    Code& code;
+    ::Models::Code& code;
 
 public:
-    explicit StoreCodeUsecase(Code& c) : code(c) {};
+    explicit StoreCodeUsecase(::Models::Code& c) : code(c) {};
     ~StoreCodeUsecase() = default;
 
     void execute() override;

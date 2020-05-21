@@ -1,6 +1,6 @@
 #include "Parser.h"
 
-ReceivedData Parser::parse(std::string& data) {
+::Models::ReceivedData Parser::parse(std::string& data) {
 
     bpt::ptree tree;
 
