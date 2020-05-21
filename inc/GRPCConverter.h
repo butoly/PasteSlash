@@ -10,7 +10,9 @@ public:
 
     ~GRPCConverter() = default;
 
-    Models::User* UserFromGRPC(const ::User* gUser);
+    Models::User UserFromGRPC(const ::User& gUser);
+
+    Token TokenFromModel(const Models::Token& token);
 };
 
 

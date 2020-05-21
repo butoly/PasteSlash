@@ -32,6 +32,13 @@ namespace Models {
         std::string name;
         std::string body;
     };
+
+    struct Token {
+        Token(const std::string& v) : value(v) {}
+        ~Token() = default;
+
+        std::string value;
+    };
 }
 
 #endif //PROJECT_MODELS_H
