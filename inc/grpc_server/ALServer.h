@@ -6,6 +6,7 @@
 #include "Models.h"
 #include "GRPCConverter.h"
 #include "calldata/RegUserCD.h"
+#include "calldata/AuthUserCD.h"
 
 #include <memory>
 #include <grpc++/server_builder.h>
@@ -47,6 +48,7 @@ public:
         bool ok;
 
         new RegUserCD(&service, cq.get());
+        new AuthUserCD(&service, cq.get());
         //остльные
         while (true) {
             GPR_ASSERT(cq->Next(&tag, &ok));
