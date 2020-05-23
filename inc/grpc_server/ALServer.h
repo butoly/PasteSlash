@@ -11,6 +11,7 @@
 #include "calldata/CheckTokenCD.h"
 #include "calldata/GetCodeCD.h"
 #include "calldata/DeleteCodeCD.h"
+#include "calldata/GetAllHashesCD.h"
 
 #include <memory>
 #include <grpc++/server_builder.h>
@@ -57,6 +58,7 @@ public:
         new StoreCodeCD(&service, cq.get());
         new GetCodeCD(&service, cq.get());
         new DeleteCodeCD(&service, cq.get());
+        new GetAllHashesCD(&service, cq.get());
         //остльные
         while (true) {
             GPR_ASSERT(cq->Next(&tag, &ok));

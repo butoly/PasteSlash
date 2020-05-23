@@ -6,7 +6,7 @@ service AppLayer {
     rpc StoreCode(Code) returns (Hash) {}
     rpc GetCode(Hash) returns (Code) {}
     rpc DeleteCode(Hash) returns (Error) {}
-    rpc GetAllHashes(User) returns (stream Hash) {}
+    rpc GetAllHashes(User) returns (Hashes) {}
     rpc CheckToken(Token) returns (AccessToken) {}
 }
 
@@ -32,6 +32,10 @@ message Token {
 
 message Hash {
     string value = 1;
+}
+
+message Hashes {
+    repeated Hash hashes = 1;
 }
 
 message Code {

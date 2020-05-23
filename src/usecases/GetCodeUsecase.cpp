@@ -3,7 +3,7 @@
 
 int GetCodeUsecase::execute() {
 
-    bool isFound;
+    bool isFound = true;
     if (!isFound) {
         return -1;
     }
