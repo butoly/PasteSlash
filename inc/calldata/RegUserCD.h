@@ -3,6 +3,7 @@
 
 #include "BaseCallData.h"
 #include "Models.h"
+#include "usecases/RegUserUsecase.h"
 
 
 class RegUserCD : public BaseCallData {

@@ -10,12 +10,13 @@
 class AuthUserUsecase : public AbstractUsecase {
 private:
     const ::Models::User& user;
+    Models::Token token;
 
 public:
-    explicit AuthUserUsecase(const ::Models::User& u) : user(u) {};
+    explicit AuthUserUsecase(const ::Models::User& u, Models::Token& t) : user(u), token(t) {};
     ~AuthUserUsecase() = default;
 
-    void execute() override;
+    int execute() override;
 };
 
 #endif //PROJECT_AUTHUSERHANDLER_H

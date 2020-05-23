@@ -11,12 +11,13 @@
 class RegUserUsecase : public AbstractUsecase {
 private:
     const ::Models::User& user;
+    Models::Token token;
 
 public:
-    explicit RegUserUsecase(const ::Models::User& u) : user(u) {};
+    explicit RegUserUsecase(const ::Models::User& u, Models::Token& t) : user(u), token(t) {};
     ~RegUserUsecase() = default;
 
-    void execute() override;
+    int execute() override;
 };
 
 #endif //PROJECT_REGUSERUSECASE_H

@@ -7,6 +7,9 @@
 #include "GRPCConverter.h"
 #include "calldata/RegUserCD.h"
 #include "calldata/AuthUserCD.h"
+#include "calldata/StoreCodeCD.h"
+#include "calldata/CheckTokenCD.h"
+#include "calldata/GetCodeCD.h"
 
 #include <memory>
 #include <grpc++/server_builder.h>
@@ -49,6 +52,9 @@ public:
 
         new RegUserCD(&service, cq.get());
         new AuthUserCD(&service, cq.get());
+        new CheckTokenCD(&service, cq.get());
+        new StoreCodeCD(&service, cq.get());
+        new GetCodeCD(&service, cq.get());
         //остльные
         while (true) {
             GPR_ASSERT(cq->Next(&tag, &ok));

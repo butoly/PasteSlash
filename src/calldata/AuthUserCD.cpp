@@ -17,14 +17,27 @@ void AuthUserCD::proceed(bool) {
             return;
         }
 
-//        ucase = std::make_unique<AuthUserUsecase>(user);
-//
-//        ucase->execute();
+        Models::Token mToken;
 
-        //достаем/генерируем из бд токен
-        std::string tokenValue = "token";
-        Models::Token token(tokenValue);
-        gToken = converter.TokenFromModel(token);
+        ucase = std::make_unique<AuthUserUsecase>(mUser, mToken);
+
+        int error = ucase->execute();
+        ::grpc::Status status;
+
+        switch (error){
+            case 0:
+                break;
+            case -1:
+                finish(::grpc::Status(::grpc::NOT_FOUND, "user not found"));
+                return;
+            case - 2:
+                finish(::grpc::Status(::grpc::INVALID_ARGUMENT, "wrong login or password"));
+                return;
+            default:
+                break;
+        }
+
+        gToken = converter.TokenFromModel(mToken);
 
         finish(::grpc::Status::OK);
     } else {

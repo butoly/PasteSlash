@@ -23,8 +23,8 @@ namespace Models {
     };
 
     struct Code {
-        //Code(std::string& h, std::string& n) : hash(h), name(n) {}
-        Code(std::string& h, std::string& n, std::string& b) : hash(h), name(n), body(b) {}
+        Code() = default;
+        Code(const std::string& n, const std::string& b) : name(n), body(b) {}
 
         ~Code() = default;
 
@@ -34,6 +34,7 @@ namespace Models {
     };
 
     struct Token {
+        Token() = default;
         Token(const std::string& v) : value(v) {}
         ~Token() = default;
 

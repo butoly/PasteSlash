@@ -1,10 +1,13 @@
 #include "usecases/GetCodeUsecase.h"
 
 
-void GetCodeUsecase::execute() {
-    try {
-    } catch(std::exception& e) {
-// e.what();
-// delete pointers if necessary
+int GetCodeUsecase::execute() {
+
+    bool isFound;
+    if (!isFound) {
+        return -1;
     }
+    //достаем из бд код
+
+    return 0;
 }

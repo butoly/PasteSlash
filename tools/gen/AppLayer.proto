@@ -7,7 +7,7 @@ service AppLayer {
     rpc GetCode(Hash) returns (Code) {}
     rpc DeleteCode(Hash) returns (Error) {}
     rpc GetAllHashes(User) returns (stream Hash) {}
-    rpc CheckToken(Token) returns (Error) {}
+    rpc CheckToken(Token) returns (AccessToken) {}
 }
 
 message User {
@@ -18,6 +18,12 @@ message User {
 
 message Error {
     string message = 1;
+}
+
+message AccessToken {
+    string token = 1;
+    int32 user_id = 2;
+    Error error = 3;
 }
 
 message Token {
@@ -31,5 +37,5 @@ message Hash {
 message Code {
     string name = 1;
     string text = 2;
-    Hash hash = 3;
+    int32 user_id = 3;
 }

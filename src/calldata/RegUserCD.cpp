@@ -10,26 +10,27 @@ void RegUserCD::proceed(bool) {
 
         Models::User mUser = converter.UserFromGRPC(gUser);
 
-        //заглушка для проверки, есть ли такой ник уже в бд
-        bool hasN;
-        if (hasN) {
-            finish(::grpc::Status(::grpc::ALREADY_EXISTS, "nickname already exists"));
-            return;
-        }
-        //заглушка для проверки, есть ли такой mail уже в бд
-        bool hasE;
-        if (hasE) {
-            finish(::grpc::Status(::grpc::ALREADY_EXISTS, "email already exists"));
-            return;
+        Models::Token mToken;
+
+        ucase = std::make_unique<RegUserUsecase>(mUser, mToken);
+
+        int error = ucase->execute();
+        ::grpc::Status status;
+
+        switch (error){
+            case 0:
+                break;
+            case -1:
+                finish(::grpc::Status(::grpc::ALREADY_EXISTS, "nickname already exists"));
+                return;
+            case - 2:
+                finish(::grpc::Status(::grpc::ALREADY_EXISTS, "email already exists"));
+                return;
+            default:
+                break;
         }
 
-//        ucase = std::make_unique<RegUserUsecase>(user);
-//        ucase->execute();
-
-        //генерируем access токен
-        std::string tokenValue = "token";
-        Models::Token token(tokenValue);
-        gToken = converter.TokenFromModel(token);
+        gToken = converter.TokenFromModel(mToken);
 
         finish(::grpc::Status::OK);
     } else {

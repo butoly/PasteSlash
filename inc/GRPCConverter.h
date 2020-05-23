@@ -12,7 +12,14 @@ public:
 
     Models::User UserFromGRPC(const ::User& gUser);
 
+    Models::Code CodeFromGRPC(const ::Code& gCode);
+
+    std::string HashFromGRPC(const ::Hash& gHash);
+
     Token TokenFromModel(const Models::Token& token);
+
+    Code CodeFromModels(const Models::Code& code);
+
 };
 
 

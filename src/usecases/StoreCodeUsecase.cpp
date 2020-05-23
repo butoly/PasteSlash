@@ -1,32 +1,25 @@
 #include "usecases/StoreCodeUsecase.h"
 #include "TCPClient.h"
-#include "Parser.h"
 
-void StoreCodeUsecase::execute() {
+int StoreCodeUsecase::execute() {
     std::string data;
+    TCPClient client("127.0.0.1", 3000);
 
-    try {
-        TCPClient client("127.0.0.1", 3000);
+    std::string s = "Sanya, give me hash";
 
-        std::cout << "STORECODEUSECASE";
-
-        std::string s = "{\"command\": \"get hash\"}";
-
-        auto error = client.connect();
-        if (error != boost::system::errc::success) {
-            return;
-        }
-
-        auto receivedData = client.send(s);
-
-        Parser p;
-        std::string hash = p.parseHash(receivedData);
-
-        code.hash = hash;
-
-        //сохранение в бд
-
-    } catch(std::exception& e) {
-
+    auto error = client.connect();
+    if (error != boost::system::errc::success) {
+        return -1;
     }
+    std::string receivedData = client.send(s);
+
+    if (receivedData.empty()) {
+        return -2;
+    }
+
+    code.hash = receivedData;
+
+    //сохранение в бд к нужному user_id
+
+    return 0;
 }

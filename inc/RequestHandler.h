@@ -10,12 +10,12 @@
 #include "usecases/AuthUserUsecase.h"
 
 class RequestHandler {
-    Parser parser;
-    std::unique_ptr<AbstractUsecase> ucase;
+//    Parser parser;
+//    std::unique_ptr<AbstractUsecase> ucase;
 
 public:
-    RequestHandler() : ucase(nullptr) {};
-    void handle(std::string& data, std::string& response);
+//    RequestHandler() : ucase(nullptr) {};
+//    void handle(std::string& data, std::string& response);
 };
 
 

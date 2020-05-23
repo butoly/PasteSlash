@@ -5,7 +5,7 @@
 
 class AbstractUsecase {
 public:
-    virtual void execute() = 0;
+    virtual int execute() = 0;
     virtual ~AbstractUsecase(){};
 };
 

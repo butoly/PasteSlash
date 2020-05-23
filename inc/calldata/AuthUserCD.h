@@ -2,6 +2,7 @@
 #define PROJECT_AUTHUSERCD_H
 
 #include "BaseCallData.h"
+#include "usecases/AuthUserUsecase.h"
 #include "Models.h"
 
 class AuthUserCD : public BaseCallData {

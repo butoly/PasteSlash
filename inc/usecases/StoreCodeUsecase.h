@@ -10,12 +10,13 @@
 class StoreCodeUsecase : public AbstractUsecase {
 private:
     ::Models::Code& code;
+    int user_id;
 
 public:
-    explicit StoreCodeUsecase(::Models::Code& c) : code(c) {};
+    explicit StoreCodeUsecase(::Models::Code& c, int id) : code(c), user_id(id) {};
     ~StoreCodeUsecase() = default;
 
-    void execute() override;
+    int execute() override;
 };
 
 #endif //PROJECT_STORECODEUSECASE_H

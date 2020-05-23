@@ -9,13 +9,14 @@
 
 class GetCodeUsecase : public AbstractUsecase {
 private:
-    std::vector<int> request;
-    int* response;
+    std::string hash;
+    Models::Code code;
+
 public:
-    GetCodeUsecase(std::vector<int> req, int* res) : request(req), response(res) {};
+    GetCodeUsecase(std::string& h, Models::Code& c) : hash(h), code(c) {};
     ~GetCodeUsecase() = default;
 
-    void execute() override;
+    int execute() override;
 };
 
 #endif //PROJECT_GETCODEUSECASE_H
