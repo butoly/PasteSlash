@@ -17,7 +17,7 @@ int StoreCodeUsecase::execute() {
         return -2;
     }
 
-    code.hash = receivedData;
+    code->hash = receivedData;
 
     //сохранение в бд к нужному user_id
 

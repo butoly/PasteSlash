@@ -3,21 +3,26 @@
 
 int AuthUserUsecase::execute() {
     //заглушка для проверки, есть ли такой ник вообще в бд
-    bool hasN;
+    bool hasN = true;
     if (!hasN) {
         return -1;
     }
 
     //заглушка для проверки, правильные ли данные
-    bool isValidate;
+    bool isValidate = true;
     if (!isValidate) {
         return -2;
     }
 
     //достаем из бд токен/ генерируем и сохраняем в бд
-    std::string tokenValue = "token";
 
-    token.value = tokenValue;
+
+    boost::uuids::uuid uuid = boost::uuids::random_generator()();
+    std::cout << uuid << std::endl;
+
+    auto tokenValue = boost::lexical_cast<std::string>(uuid);
+
+    token->value = tokenValue;
 
     return 0;
 }

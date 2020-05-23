@@ -10,10 +10,10 @@
 class GetCodeUsecase : public AbstractUsecase {
 private:
     std::string hash;
-    Models::Code code;
+    Models::Code* code;
 
 public:
-    GetCodeUsecase(std::string& h, Models::Code& c) : hash(h), code(c) {};
+    GetCodeUsecase(std::string& h, Models::Code* c) : hash(h), code(c) {};
     ~GetCodeUsecase() = default;
 
     int execute() override;

@@ -9,11 +9,11 @@
 
 class StoreCodeUsecase : public AbstractUsecase {
 private:
-    ::Models::Code& code;
+    ::Models::Code* code;
     int user_id;
 
 public:
-    explicit StoreCodeUsecase(::Models::Code& c, int id) : code(c), user_id(id) {};
+    explicit StoreCodeUsecase(::Models::Code* c, int id) : code(c), user_id(id) {};
     ~StoreCodeUsecase() = default;
 
     int execute() override;

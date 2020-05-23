@@ -10,16 +10,9 @@ void AuthUserCD::proceed(bool) {
 
         Models::User mUser = converter.UserFromGRPC(gUser);
 
-        //заглушка для проверки, есть ли такой ник вообще в бд
-        bool hasN;
-        if (!hasN) {
-            finish(::grpc::Status(::grpc::NOT_FOUND, "user not found"));
-            return;
-        }
-
         Models::Token mToken;
 
-        ucase = std::make_unique<AuthUserUsecase>(mUser, mToken);
+        ucase = std::make_unique<AuthUserUsecase>(mUser, &mToken);
 
         int error = ucase->execute();
         ::grpc::Status status;
@@ -36,6 +29,8 @@ void AuthUserCD::proceed(bool) {
             default:
                 break;
         }
+
+        std::cout << mToken.value << std::endl;
 
         gToken = converter.TokenFromModel(mToken);
 

@@ -2,19 +2,22 @@
 
 int RegUserUsecase::execute() {
     //заглушка для проверки, есть ли такой ник уже в бд
-    bool hasN;
+    bool hasN = false;
     if (hasN) {
         return -1;
     }
     //заглушка для проверки, есть ли такой mail уже в бд
-    bool hasE;
+    bool hasE = false;
     if (hasE) {
         return -2;
     }
     //генерируем из бд токен
-    std::string tokenValue = "token";
+    boost::uuids::uuid uuid = boost::uuids::random_generator()();
+    std::cout << uuid << std::endl;
 
-    token.value = tokenValue;
+    auto tokenValue = boost::lexical_cast<std::string>(uuid);
+
+    token->value = tokenValue;
 
     return 0;
 }

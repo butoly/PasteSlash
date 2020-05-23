@@ -10,7 +10,7 @@ void GetCodeCD::proceed(bool) {
 
         std::string mHash = converter.HashFromGRPC(gHash);
 
-        ucase = std::make_unique<GetCodeUsecase>(mHash, mCode);
+        ucase = std::make_unique<GetCodeUsecase>(mHash, &mCode);
         int error = ucase->execute();
 
         switch (error){

@@ -10,7 +10,7 @@ void StoreCodeCD::proceed(bool) {
 
         Models::Code mCode = converter.CodeFromGRPC(gCode);
 
-        ucase = std::make_unique<StoreCodeUsecase>(mCode, gCode.user_id());
+        ucase = std::make_unique<StoreCodeUsecase>(&mCode, gCode.user_id());
         int error = ucase->execute();
 
         switch (error) {

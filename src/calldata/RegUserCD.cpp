@@ -12,7 +12,7 @@ void RegUserCD::proceed(bool) {
 
         Models::Token mToken;
 
-        ucase = std::make_unique<RegUserUsecase>(mUser, mToken);
+        ucase = std::make_unique<RegUserUsecase>(mUser,&mToken);
 
         int error = ucase->execute();
         ::grpc::Status status;
