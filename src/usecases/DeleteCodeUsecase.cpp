@@ -1,10 +1,16 @@
 #include "usecases/DeleteCodeUsecase.h"
 
-void DeleteCodeUsecase::execute() {
-    try {
+int DeleteCodeUsecase::execute() {
 
-    } catch(std::exception& e) {
-// e.what();
-// delete pointers if necessary
+    bool isFound;
+    if (!isFound) {
+        return -1;
     }
+
+    bool Delete;
+    if (!Delete) {
+        return -2;
+    }
+
+    return 0;
 }

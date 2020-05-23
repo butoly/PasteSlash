@@ -10,6 +10,7 @@
 #include "calldata/StoreCodeCD.h"
 #include "calldata/CheckTokenCD.h"
 #include "calldata/GetCodeCD.h"
+#include "calldata/DeleteCodeCD.h"
 
 #include <memory>
 #include <grpc++/server_builder.h>
@@ -55,6 +56,7 @@ public:
         new CheckTokenCD(&service, cq.get());
         new StoreCodeCD(&service, cq.get());
         new GetCodeCD(&service, cq.get());
+        new DeleteCodeCD(&service, cq.get());
         //остльные
         while (true) {
             GPR_ASSERT(cq->Next(&tag, &ok));

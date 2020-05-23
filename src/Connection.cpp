@@ -15,10 +15,6 @@ void Connection::onRead(const boost::system::error_code& e, std::size_t bytesTra
         std::string request(buffer);
         std::string response;
 
-//        rm.handle(request, response);
-
-        //записывать ответ
-
         write();
     }
 }

@@ -2,7 +2,6 @@
 #define PROJECT_CONNECTION_H
 
 #include <iostream>
-#include "RequestHandler.h"
 
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
@@ -14,7 +13,6 @@ using namespace boost::asio;
 class Connection : public std::enable_shared_from_this<Connection> {
 private:
     ip::tcp::socket socket;
-    RequestHandler rm;
     char buffer[1024];
 
     void write();

@@ -18,7 +18,7 @@ include_directories(${Boost_INCLUDE_DIRS})
 # Генерирует список файлов, соответствуюших выражению *.cpp и помещает его в перменную sources
 file(GLOB_RECURSE sources ${PROJECT_SOURCE_DIR}/src/*.cpp)
 
-add_executable(project main.cpp ${sources} tools/gen/AppLayer.grpc.pb.cc tools/gen/AppLayer.pb.cc src/calldata/RegUserCD.cpp inc/calldata/RegUserCD.h src/calldata/AuthUserCD.cpp inc/calldata/AuthUserCD.h src/calldata/StoreCodeCD.cpp inc/calldata/StoreCodeCD.h src/calldata/CheckTokenCD.cpp inc/calldata/CheckTokenCD.h src/calldata/GetCodeCD.cpp inc/calldata/GetCodeCD.h)
+add_executable(project main.cpp ${sources} tools/gen/AppLayer.grpc.pb.cc tools/gen/AppLayer.pb.cc src/calldata/RegUserCD.cpp inc/calldata/RegUserCD.h src/calldata/AuthUserCD.cpp inc/calldata/AuthUserCD.h src/calldata/StoreCodeCD.cpp inc/calldata/StoreCodeCD.h src/calldata/CheckTokenCD.cpp inc/calldata/CheckTokenCD.h src/calldata/GetCodeCD.cpp inc/calldata/GetCodeCD.h src/calldata/DeleteCodeCD.cpp inc/calldata/DeleteCodeCD.h)
 target_link_libraries(project ${Boost_LIBRARIES} gRPC::gpr gRPC::grpc gRPC::grpc++ gRPC::grpc++_alts)
 
 target_include_directories(project PRIVATE inc/)

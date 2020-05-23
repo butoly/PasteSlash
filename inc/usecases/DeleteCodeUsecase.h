@@ -9,13 +9,12 @@
 
 class DeleteCodeUsecase : public AbstractUsecase {
 private:
-    std::vector<int> request;
-    int* response;
+    std::string hash;
 public:
-    DeleteCodeUsecase(std::vector<int> req, int* res) : request(req), response(res) {};
+    DeleteCodeUsecase(std::string& h) : hash(h) {};
     ~DeleteCodeUsecase() = default;
 
-    void execute() override;
+    int execute() override;
 };
 
 #endif //PROJECT_DELETECODEUSECASE_H
