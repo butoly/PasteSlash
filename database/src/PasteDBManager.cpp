@@ -1,11 +1,17 @@
 #include "../include/PasteDBManager.h"
 #include "../include/UserDBManager.h"
-#define PASTE_HASH_FIELD_NAME "hash"
-#define PASTE_EXP_TIME_FIELD_NAME "exp_time"
-#define PASTE_USER_FIELD_NAME "user_acc"
+#include "chrono"
+#include "iomanip"
+
+#define PASTE_HASH_FIELD "hash"
+#define PASTE_TEXT_FIELD "text"
+#define PASTE_CREATETIME_FIELD "create_time"
+#define PASTE_SYNTAX_FIELD "syntax"
+#define PASTE_EXPTIME_FIELD "exp_time"
+#define PASTE_USER_FIELD "user_acc"
 
 conditionMapFormat createHashConditionMap(const std::string& hash) {
-    conditionMapFormat map = {{PASTE_HASH_FIELD_NAME, SignValue("=", hash)}};
+    conditionMapFormat map = {{PASTE_HASH_FIELD, SignValue("=", hash)}};
     return map;
 }
 
@@ -14,8 +20,8 @@ void PasteDBManager::addPaste(const dataFormat &paste) {
 }
 
 conditionMapFormat createGetConditionMap(const std::string& hash) {
-    conditionMapFormat map = {{PASTE_HASH_FIELD_NAME, SignValue("=", hash)},
-                              {PASTE_EXP_TIME_FIELD_NAME, SignValue(">", "now()")}};
+    conditionMapFormat map = {{PASTE_HASH_FIELD, SignValue("=", hash)},
+                              {PASTE_EXPTIME_FIELD, SignValue(">", "now()")}};
     return map;
 }
 
@@ -48,20 +54,21 @@ bool PasteDBManager::checkHash(const std::string& hash) {
 }
 
 void PasteDBManager::deleteOverduePastes(const std::string &time) {
-    conditionMapFormat map = {{PASTE_EXP_TIME_FIELD_NAME, SignValue("<", time)}};
+    conditionMapFormat map = {{PASTE_EXPTIME_FIELD, SignValue("<", time)}};
     deleteByPK(map, PASTE_TABLE_NAME);
 }
 
-std::vector<std::string> PasteDBManager::getHashList(const std::string &nickname) {
-    std::string id = std::to_string(UserDBManager::getID(nickname));
-    conditionMapFormat map = {{PASTE_USER_FIELD_NAME, SignValue("=", id)}};
-    std::shared_ptr<queryResultFormat> paste = getMany(map, PASTE_TABLE_NAME, PASTE_HASH_FIELD_NAME);
+void PasteDBManager::addPaste(const std::string &text, const std::string &hash,
+        const std::string &nickname, const std::string& syntax, const std::string &exposure,
+        const std::string &expTime, const std::string& title, const std::string &folder) {
+    //TODO: expand for all fields
+    dataFormat paste;
+    paste[PASTE_TEXT_FIELD] = text;
+    paste[PASTE_HASH_FIELD] = hash;
+    if (!nickname.empty())
+        paste[PASTE_USER_FIELD] = std::to_string(UserDBManager::getID(nickname));
 
-    std::vector<std::string> result;
-    for (auto element: *paste) {
-        result.push_back(element.at(PASTE_HASH_FIELD_NAME));
-    }
-
-    return result;
+    paste[PASTE_CREATETIME_FIELD] = "now";
+    storeToDB(paste, PASTE_TABLE_NAME);
 }
 
