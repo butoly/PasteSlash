@@ -12,6 +12,7 @@ public:
 
     static bool isNicknameExist(const std::string& nickname);
     static bool isEmailExist(const std::string &email);
+    static int getID(const std::string& nickname);
     static std::string getPassword(const std::string &nickname);
 };
 

@@ -4,6 +4,7 @@
 #define USER_NICKNAME_FIELD "nickname"
 #define USER_PASSWORD_FIELD "password"
 #define USER_EMAIL_FIELD "email"
+#define USER_ID_FIELD "user_acc_id"
 
 void UserDBManager::addUser(const dataFormat &user) {
     storeToDB(user, USER_TABLE_NAME);
@@ -52,4 +53,13 @@ std::string UserDBManager::getPassword(const std::string& nickname) {
         return (*result)[USER_PASSWORD_FIELD];
     else
         return std::string();
+}
+
+int UserDBManager::getID(const std::string &nickname) {
+    conditionMapFormat map = createPKValueMap(nickname);
+    std::shared_ptr<dataFormat> result = getByPK(map, USER_TABLE_NAME, USER_ID_FIELD);
+    if (result)
+        return std::stoi((*result)[USER_ID_FIELD]);
+    else
+        return -1;
 }
