@@ -2,6 +2,7 @@
 #define TEST_PASTEDBMANAGER_H
 
 #include "DatabaseObject.h"
+#include <vector>
 #define PASTE_TABLE_NAME "paste"
 
 class PasteDBManager : public DatabaseObject {
@@ -12,6 +13,7 @@ public:
     static void updatePaste(const std::string& hash, const dataFormat& newParamsMap);
 
     static bool checkHash(const std::string& hash);
+    static std::vector<std::string> getHashList(const std::string& nickname);
     static void deleteOverduePastes(const std::string& time="now()");
 };
 

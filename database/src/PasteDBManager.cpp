@@ -1,7 +1,8 @@
 #include "../include/PasteDBManager.h"
-
+#include "../include/UserDBManager.h"
 #define PASTE_HASH_FIELD_NAME "hash"
 #define PASTE_EXP_TIME_FIELD_NAME "exp_time"
+#define PASTE_USER_FIELD_NAME "user_acc"
 
 conditionMapFormat createHashConditionMap(const std::string& hash) {
     conditionMapFormat map = {{PASTE_HASH_FIELD_NAME, SignValue("=", hash)}};
@@ -21,6 +22,10 @@ conditionMapFormat createGetConditionMap(const std::string& hash) {
 std::shared_ptr<dataFormat> PasteDBManager::getPaste(const std::string& hash) {
     conditionMapFormat pkValueMap = createGetConditionMap(hash);
     std::shared_ptr<dataFormat> paste = getByPK(pkValueMap, PASTE_TABLE_NAME);
+
+    //std::shared_ptr<queryResultFormat> pastes = getMany(pkValueMap, PASTE_TABLE_NAME);
+    //return std::make_shared<dataFormat>(pastes->front());
+
     if (!paste)
         deletePaste(hash);
     return paste;
@@ -45,5 +50,18 @@ bool PasteDBManager::checkHash(const std::string& hash) {
 void PasteDBManager::deleteOverduePastes(const std::string &time) {
     conditionMapFormat map = {{PASTE_EXP_TIME_FIELD_NAME, SignValue("<", time)}};
     deleteByPK(map, PASTE_TABLE_NAME);
+}
+
+std::vector<std::string> PasteDBManager::getHashList(const std::string &nickname) {
+    std::string id = std::to_string(UserDBManager::getID(nickname));
+    conditionMapFormat map = {{PASTE_USER_FIELD_NAME, SignValue("=", id)}};
+    std::shared_ptr<queryResultFormat> paste = getMany(map, PASTE_TABLE_NAME, PASTE_HASH_FIELD_NAME);
+
+    std::vector<std::string> result;
+    for (auto element: *paste) {
+        result.push_back(element.at(PASTE_HASH_FIELD_NAME));
+    }
+
+    return result;
 }
 
