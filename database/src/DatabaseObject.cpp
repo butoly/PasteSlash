@@ -34,10 +34,10 @@ void DatabaseObject::updateByPK(const conditionMapFormat &pkValueMap,
 }
 
 std::shared_ptr<dataFormat> DatabaseObject::getByPK(const conditionMapFormat& pkValueMap,
-        const std::string& table) {
+        const std::string& table, const std::string& fields) {
     queryResultFormat result;
     try {
-        std::string sqlQuery = SqlGenerator::generateGetQuery(table, pkValueMap);
+        std::string sqlQuery = SqlGenerator::generateGetQuery(table, pkValueMap, fields);
         result = Database::getInstance().execGetQuery(sqlQuery);
     }
     catch (const std::exception& exception) {

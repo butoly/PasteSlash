@@ -18,7 +18,7 @@ protected:
     static void deleteByPK(const conditionMapFormat& pkValueMap,
             const std::string& table);
     static std::shared_ptr<dataFormat> getByPK(const conditionMapFormat& pkValueMap,
-            const std::string& table);
+            const std::string& table, const std::string& fields="*");
 };
 
 #endif //TEST_DATABASEOBJECT_H
