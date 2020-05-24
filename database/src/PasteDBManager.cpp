@@ -58,6 +58,16 @@ void PasteDBManager::deleteOverduePastes(const std::string &time) {
     deleteByPK(map, PASTE_TABLE_NAME);
 }
 
+std::vector<std::string> PasteDBManager::getHashList(const std::string &nickname) {
+    std::string id = std::to_string(UserDBManager::getID(nickname));
+    conditionMapFormat map = {{PASTE_USER_FIELD, SignValue("=", id)}};
+    std::shared_ptr<queryResultFormat> paste = getMany(map, PASTE_TABLE_NAME, PASTE_HASH_FIELD);
+
+    std::vector<std::string> result;
+    for (auto element: *paste) {
+        result.push_back(element.at(PASTE_HASH_FIELD));
+    }
+
 void PasteDBManager::addPaste(const std::string &text, const std::string &hash,
         const std::string &nickname, const std::string& syntax, const std::string &exposure,
         const std::string &expTime, const std::string& title, const std::string &folder) {
