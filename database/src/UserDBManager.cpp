@@ -5,6 +5,7 @@
 #define USER_PASSWORD_FIELD "password"
 #define USER_EMAIL_FIELD "email"
 #define USER_ID_FIELD "user_acc_id"
+#define USER_TOKEN_FIELD "token"
 
 void UserDBManager::addUser(const dataFormat &user) {
     storeToDB(user, USER_TABLE_NAME);
@@ -62,4 +63,12 @@ int UserDBManager::getID(const std::string &nickname) {
         return std::stoi((*result)[USER_ID_FIELD]);
     else
         return -1;
+}
+
+bool UserDBManager::isTokenExist(const std::string &token) {
+    conditionMapFormat map = {{USER_TOKEN_FIELD, SignValue("=", token)}};
+    std::shared_ptr<dataFormat> result = getByPK(map, USER_TABLE_NAME);
+    if (result)
+        return true;
+    return false;
 }
