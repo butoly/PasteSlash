@@ -6,6 +6,8 @@
 class UserDBManager: public DatabaseObject {
 public:
     static void addUser(const dataFormat& user);
+    static void addUser(const std::string& nickname, const std::string& email,
+            const std::string& password, const std::string& token);
     static void deleteUser(const std::string& nickname);
     static void updateUser(const std::string& nickname, const dataFormat& newParamsMap);
     static std::shared_ptr<dataFormat> getUser(const std::string& username);

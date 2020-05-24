@@ -14,6 +14,48 @@ void UserDBManager::addUser(const dataFormat &user) {
     storeToDB(user, USER_TABLE_NAME);
 }
 
+#define DEBUG 1
+// 2005-12-19 12:23:32+03
+std::string createTokenDatePostgresStyle(int daysOfLiving) {
+    std::time_t tt = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+    std::cout << tt << std::endl;
+    std::tm tm{0};
+    gmtime_r(&tt, &tm);
+
+    //TODO: now token time of living is 2 days, maybe it will be changed
+#ifdef DEBUG
+    tm.tm_mday += daysOfLiving;
+#endif
+
+    std::cout << "year: " << std::to_string(tm.tm_year) << std::endl;
+    std::cout << "mon: " << std::to_string(tm.tm_mon) << std::endl;
+
+    std::string result = std::to_string(tm.tm_year + 1900) + "-" + std::to_string(tm.tm_mon + 1) +
+                         "-" + std::to_string(tm.tm_mday) + " ";
+    std::cout << result << std::endl;
+    result += std::to_string(tm.tm_hour) + ":" + std::to_string(tm.tm_min)
+              + ":" + std::to_string(tm.tm_sec);
+    std::cout << result;
+
+#ifdef DEBUG
+    result += "+03";
+#endif
+
+    return result;
+}
+
+#define DEFAULT_DAYS_OF_LIVING 2
+void UserDBManager::addUser(const std::string &nickname, const std::string &email,
+        const std::string &password, const std::string &token) {
+    dataFormat user;
+    user[USER_NICKNAME_FIELD]= nickname;
+    user[(USER_EMAIL_FIELD)] = email;
+    user[USER_PASSWORD_FIELD] = password;
+    user[USER_TOKEN_FIELD] = token;
+    user[USER_TOKEN_EXP_TIME_FIELD] = createTokenDatePostgresStyle(DEFAULT_DAYS_OF_LIVING);
+    storeToDB(user, USER_TABLE_NAME);
+}
+
 conditionMapFormat createPKValueMap(const std::string& nickname) {
     return {{USER_NICKNAME_FIELD, SignValue("=", nickname)}};
 }
@@ -76,40 +118,10 @@ bool UserDBManager::isTokenExist(const std::string &token) {
     return false;
 }
 
-#define DEBUG 1
-// 2005-12-19 12:23:32+03
-std::string createDatePostgresStyle(int daysOfLiving) {
-    std::time_t tt = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-    std::cout << tt << std::endl;
-    std::tm tm{0};
-    gmtime_r(&tt, &tm);
-
-    //TODO: now token time of living is 2 days, maybe it will be changed
-#ifdef DEBUG
-    tm.tm_mday += daysOfLiving;
-#endif
-
-    std::cout << "year: " << std::to_string(tm.tm_year) << std::endl;
-    std::cout << "mon: " << std::to_string(tm.tm_mon) << std::endl;
-
-    std::string result = std::to_string(tm.tm_year + 1900) + "-" + std::to_string(tm.tm_mon + 1) +
-            "-" + std::to_string(tm.tm_mday) + " ";
-    std::cout << result << std::endl;
-    result += std::to_string(tm.tm_hour) + ":" + std::to_string(tm.tm_min)
-            + ":" + std::to_string(tm.tm_sec);
-    std::cout << result;
-
-#ifdef DEBUG
-    result += "+03";
-#endif
-
-    return result;
-}
-
 void UserDBManager::updateToken(const std::string& nickname, const std::string& newToken,
         int daysOfLiving) {
     conditionMapFormat pkValueMap = createPKValueMap(nickname);
     dataFormat newParamsMap = {{USER_TOKEN_FIELD, newToken},
-                               {USER_TOKEN_EXP_TIME_FIELD, createDatePostgresStyle(daysOfLiving)}};
+                               {USER_TOKEN_EXP_TIME_FIELD, createTokenDatePostgresStyle(daysOfLiving)}};
     updateByPK(pkValueMap, newParamsMap, USER_TABLE_NAME);
 }
