@@ -18,7 +18,6 @@ void UserDBManager::addUser(const dataFormat &user) {
 // 2005-12-19 12:23:32+03
 std::string createTokenDatePostgresStyle(int daysOfLiving) {
     std::time_t tt = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-    std::cout << tt << std::endl;
     std::tm tm{0};
     gmtime_r(&tt, &tm);
 
@@ -27,15 +26,10 @@ std::string createTokenDatePostgresStyle(int daysOfLiving) {
     tm.tm_mday += daysOfLiving;
 #endif
 
-    std::cout << "year: " << std::to_string(tm.tm_year) << std::endl;
-    std::cout << "mon: " << std::to_string(tm.tm_mon) << std::endl;
-
     std::string result = std::to_string(tm.tm_year + 1900) + "-" + std::to_string(tm.tm_mon + 1) +
                          "-" + std::to_string(tm.tm_mday) + " ";
-    std::cout << result << std::endl;
     result += std::to_string(tm.tm_hour) + ":" + std::to_string(tm.tm_min)
               + ":" + std::to_string(tm.tm_sec);
-    std::cout << result;
 
 #ifdef DEBUG
     result += "+03";
@@ -49,7 +43,7 @@ void UserDBManager::addUser(const std::string &nickname, const std::string &emai
         const std::string &password, const std::string &token) {
     dataFormat user;
     user[USER_NICKNAME_FIELD]= nickname;
-    user[(USER_EMAIL_FIELD)] = email;
+    user[USER_EMAIL_FIELD] = email;
     user[USER_PASSWORD_FIELD] = password;
     user[USER_TOKEN_FIELD] = token;
     user[USER_TOKEN_EXP_TIME_FIELD] = createTokenDatePostgresStyle(DEFAULT_DAYS_OF_LIVING);
