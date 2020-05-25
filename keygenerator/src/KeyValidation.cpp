@@ -1,4 +1,5 @@
 #include "../inc/KeyValidation.h"
+#include "../../database/include/PasteDBManager.h"
 
 KeyValidationClass::KeyValidationClass() {
 
@@ -9,7 +10,5 @@ KeyValidationClass::~KeyValidationClass() {
 }
 
 bool KeyValidationClass::isValidKey(const std::string &key) {
-    //TODO: Проверка на валидность ключа.
-    return true;
+    return PasteDBManager::checkHash(key);
 }
-

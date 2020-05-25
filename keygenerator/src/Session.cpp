@@ -1,5 +1,4 @@
 #include "../inc/Session.h"
-
 #include <utility>
 
 SessionClass::SessionClass(ip::tcp::socket socket, std::shared_ptr<KeyGeneratorClass> keyGenerator)
