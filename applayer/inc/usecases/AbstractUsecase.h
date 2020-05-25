@@ -2,6 +2,7 @@
 #define PROJECT_ABSTRACTUSECASE_H
 
 #include "Models.h"
+#include "PasteDBManager.h"
 
 class AbstractUsecase {
 public:

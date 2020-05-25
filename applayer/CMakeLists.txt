@@ -26,10 +26,13 @@ set(TOOLS-SRC tools/converter/GRPCConverter.cpp
 
 add_executable(project main.cpp ${sources} ${TOOLS-SRC})
 
-target_link_libraries(project ${Boost_LIBRARIES} gRPC::gpr gRPC::grpc gRPC::grpc++ gRPC::grpc++_alts)
+target_link_libraries(project PUBLIC ${Boost_LIBRARIES} gRPC::gpr gRPC::grpc gRPC::grpc++ gRPC::grpc++_alts)
+target_link_libraries(project PUBLIC dbAPI)
 
+target_include_directories(project PUBLIC ${CMAKE_SOURCE_DIR}/database/include)
 target_include_directories(project PRIVATE inc/)
 target_include_directories(project PRIVATE tools/)
+
 
 if (BUILD_TESTS)
     # gtest settings
