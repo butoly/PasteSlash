@@ -1,2 +1,0 @@
-# PasteSlash
-Аналог PasteBin
