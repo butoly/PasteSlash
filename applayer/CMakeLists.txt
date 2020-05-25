@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.14)
 project(project C CXX)
 
 set(CMAKE_CXX_STANDARD 17)
+
+install(SCRIPT ${CMAKE_SOURCE_DIR}/cmake/vcpkg.cmake)
+
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
 
 option(BUILD_TESTS "build tests" OFF)

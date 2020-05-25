@@ -9,8 +9,8 @@
 #include <thread>
 #include <boost/asio.hpp>
 
-#include "../inc/Session.h"
-#include "../inc/KeyGenerator.h"
+#include "Session.h"
+#include "KeyGenerator.h"
 
 using namespace boost::asio;
 
