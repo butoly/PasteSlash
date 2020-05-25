@@ -7,7 +7,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lpqxx -lpq")
 set(PQXX /usr/local/include/pqxx)
 set(SOURCE_FILES src/Connection.cpp src/Database.cpp src/SqlGenerator.cpp
         src/DatabaseObject.cpp src/PasteDBManager.cpp
-        src/FolderDBManager.cpp src/UserDBManager.cpp)
+        src/UserDBManager.cpp)
 
 find_library(PQXX_LIB pqxx)
 find_library(PQ_LIB pq)
