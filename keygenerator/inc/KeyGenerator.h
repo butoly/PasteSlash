@@ -19,7 +19,6 @@ public:
     KeyGeneratorClass();
     ~KeyGeneratorClass();
 
-    void AddKey(); // Добавления ключа в очередь
     std::string ReturnKey(); // Возвращение ключа из активной очередь
 
 private:
@@ -33,13 +32,12 @@ private:
     void generateOfQueues(); // Заполнение очередей при вызове конструктора класса
     void queueFilling(); // Функция заполняющая неактивную очередь в второстепенном потоке
     void startFilling();
+    void AddKey(); // Добавления ключа в очередь
 
     std::mutex mtx;
     std::condition_variable cv;
     bool ready = false;
-    bool processed = false;
     std::thread* worker;
-//    std::shared_ptr<std::thread> worker;
 };
 
 #endif //URL_GEN_KEYGENERATOR_H

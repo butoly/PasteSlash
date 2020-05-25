@@ -27,14 +27,6 @@ void SessionClass::onRead() {
     std::string data;
     tmp >> data;
     std::cout << data << std::endl;
-    ///////////////////////////////////////
-    std::vector<std::string> test_vector;
-    for (size_t i = 0; i < 1000; i++) {
-        std::this_thread::sleep_for (std::chrono::milliseconds(1));
-        test_vector.push_back(keyGenerator->ReturnKey());
-        std::cout << i << " " << test_vector[i] << std::endl;
-    }
-    ///////////////////////////////////////
     std::ostream output(&writeBuffer);
     std::string key = keyGenerator->ReturnKey();
     output << key;

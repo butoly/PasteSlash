@@ -13,9 +13,6 @@ std::string RandomizeClass :: ReturnRandomString() {
     for (int i = 0; i < current_length; i++)
         random_string += pool[RandomInt(generator, 0, 61)];
 
-//    if(random_string.empty())
-//        throw std::exception();
-
     return random_string;
 }
 

@@ -14,7 +14,7 @@ KeyGeneratorClass :: KeyGeneratorClass() {
 
 void KeyGeneratorClass::startFilling() {
     ready = true;
-    cv.notify_all(); // notify_one???
+    cv.notify_one();
 }
 
 void KeyGeneratorClass ::queueFilling() {
@@ -69,6 +69,4 @@ void KeyGeneratorClass::generateOfQueues() {
         std::string tmp_key = randomize->ReturnRandomString();
         unactive_queue_pointer->push(tmp_key);
     }
-
-    //TODO запись на постоянную память
 }
