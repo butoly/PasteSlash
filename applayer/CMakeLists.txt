@@ -17,8 +17,12 @@ include_directories(${Boost_INCLUDE_DIRS})
 
 # Генерирует список файлов, соответствуюших выражению *.cpp и помещает его в перменную sources
 file(GLOB_RECURSE sources ${PROJECT_SOURCE_DIR}/src/*.cpp)
+set(TOOLS-SRC tools/converter/GRPCConverter.cpp
+              tools/gen/AppLayer.pb.cc tools/gen/AppLayer.grpc.pb.cc
+              tools/tcpclient/TCPClient.cpp)
 
-add_executable(project main.cpp ${sources} tools/gen/AppLayer.grpc.pb.cc tools/gen/AppLayer.pb.cc)
+add_executable(project main.cpp ${sources} ${TOOLS-SRC})
+
 target_link_libraries(project ${Boost_LIBRARIES} gRPC::gpr gRPC::grpc gRPC::grpc++ gRPC::grpc++_alts)
 
 target_include_directories(project PRIVATE inc/)
