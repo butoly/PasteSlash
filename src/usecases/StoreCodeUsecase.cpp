@@ -1,5 +1,4 @@
 #include "usecases/StoreCodeUsecase.h"
-#include "TCPClient.h"
 
 int StoreCodeUsecase::execute() {
     std::string data;

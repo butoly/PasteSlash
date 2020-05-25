@@ -1,21 +1,20 @@
-#include "calldata/DeleteCodeCD.h"
+#include "server/calldata/GetCodeCD.h"
 
-void DeleteCodeCD::proceed(bool) {
+void GetCodeCD::proceed(bool) {
     if (status == CREATE) {
         status = PROCESS;
 
-        service->RequestDeleteCode(&ctx, &gHash, &responder, cq, cq, this);
+        service->RequestGetCode(&ctx, &gHash, &responder, cq, cq, this);
     } else if (status == PROCESS) {
-        new DeleteCodeCD(service, cq);
+        new GetCodeCD(service, cq);
 
         std::string mHash = converter.HashFromGRPC(gHash);
 
-        ucase = std::make_unique<DeleteCodeUsecase>(mHash);
+        ucase = std::make_unique<GetCodeUsecase>(mHash, &mCode);
         int error = ucase->execute();
 
         switch (error){
             case 0:
-                msg.set_message("code deleted");
                 break;
             case -1:
                 finish(::grpc::Status(::grpc::NOT_FOUND, "code not found"));
@@ -26,6 +25,8 @@ void DeleteCodeCD::proceed(bool) {
             default:
                 break;
         }
+
+        gCode = converter.CodeFromModels(mCode);
 
         finish(::grpc::Status::OK);
     } else {

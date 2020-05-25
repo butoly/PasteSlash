@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "AbstractUsecase.h"
+#include "tcpclient/TCPClient.h"
 
 
 class StoreCodeUsecase : public AbstractUsecase {

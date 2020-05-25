@@ -1,4 +1,4 @@
-#include "calldata/GetAllHashesCD.h"
+#include "server/calldata/GetAllHashesCD.h"
 
 void GetAllHashesCD::proceed(bool) {
     if (status == CREATE) {

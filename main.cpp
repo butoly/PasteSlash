@@ -2,10 +2,8 @@
 
 #include <boost/asio.hpp>
 
-#include "TCPServer.h"
-#include "Connection.h"
-#include "TCPClient.h"
-#include "grpc_server/ALServer.h"
+#include "tcpclient/TCPClient.h"
+#include "server/ALServer.h"
 
 int main(int argc, char* argv[]) {
 
