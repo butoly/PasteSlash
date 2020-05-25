@@ -1,0 +1,97 @@
+/*
+ * @startuml
+ *
+ * class  tcp_connection {
+ * + pointer : shared_ptr<tcp_connection>
+ * - socket_ : Socket
+ * --
+ * - tcp_connection(io_service)
+ * --
+ * + start()
+ * + socket()
+ * + create(io_service)
+ * - handle_write()
+ * }
+ *
+ * class tcp_server {
+ * + tcp_server(io_service)
+ * --
+ * - start_accept()
+ * - handle_accept(new_connection)
+ * }
+ *
+ *
+ * class key_generator{
+ * - queue1 : string[]
+ * - queue2 : string[]
+ * - activeQueuePointer : *string
+ * - unactiveQueuePointer : *string
+ * --
+ * + key_generator()
+ * + ~key_generator()
+ * --
+ * - return_key(activeQueuePointer)
+ * - add_key(unactiveQueuePointer)
+ * }
+ *
+ *
+ * class key_validation {
+ * + key_validation()
+ * + ~key_validation()
+ * --
+ * + Is_valid_key(string key)
+ * }
+ *
+ * class randomize {
+ * - pool : []char
+ * --
+ * + Randomize()
+ * --
+ * + return_random_string()
+ * }
+ *
+ * class key_storage_file{
+ * - file : *FILE
+ * --
+ * key_storage()
+ * --
+ * + is_empty_storage(file)
+ * + write_to_file(file, key)
+ * + delete_from_file(file, key)
+ * + return_keys_from_file(file)
+ * }
+ *
+ * class db_worker {
+ * - key : string
+ * - paste : string
+ * --
+ * + db_worker()
+ * --
+ * + add_paste(key, paste)
+ * + check_key(key)
+ * }
+ *
+ *
+ * interface abstract_command {
+ *  +execute()
+ * }
+ *
+' * class parser {
+' * + parser()
+' * --
+' * parse(string)
+' * }
+ *
+ *
+ * abstract_command "1" *-- "1" randomize
+ * key_generator o-- abstract_command
+ * key_storage_file "1" o-- "1" abstract_command
+ * tcp_server *-- tcp_connection
+ * tcp_connection "many" o-- "1" key_generator
+ * db_worker o-- key_generator
+ * key_validation o-- abstract_command
+ *
+ *
+ *
+ * @enduml
+ */
