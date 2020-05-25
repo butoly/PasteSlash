@@ -1,0 +1,10 @@
+# crontab -e, add to end:
+10 4 * * * ~/cleaner.sh
+
+cleaner.sh:
+#!/bin/bash
+
+cd projects/PasteSlash/database
+echo "cleaning db pasteslash started"
+./cleaner
+echo "cleaning db pasteslash finished"
