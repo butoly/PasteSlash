@@ -68,6 +68,9 @@ std::vector<std::string> PasteDBManager::getHashList(const std::string &nickname
         result.push_back(element.at(PASTE_HASH_FIELD));
     }
 
+    return result;
+}
+
 void PasteDBManager::addPaste(const std::string &text, const std::string &hash,
         const std::string &nickname, const std::string& syntax, const std::string &exposure,
         const std::string &expTime, const std::string& title, const std::string &folder) {
@@ -81,4 +84,3 @@ void PasteDBManager::addPaste(const std::string &text, const std::string &hash,
     paste[PASTE_CREATETIME_FIELD] = "now";
     storeToDB(paste, PASTE_TABLE_NAME);
 }
-
