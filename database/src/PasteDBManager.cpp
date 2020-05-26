@@ -9,6 +9,7 @@
 #define PASTE_SYNTAX_FIELD "syntax"
 #define PASTE_EXPTIME_FIELD "exp_time"
 #define PASTE_USER_FIELD "user_acc"
+#define PASTE_TITLE_FIELD "title"
 
 conditionMapFormat createHashConditionMap(const std::string& hash) {
     conditionMapFormat map = {{PASTE_HASH_FIELD, SignValue("=", hash)}};
@@ -73,8 +74,7 @@ std::vector<std::string> PasteDBManager::getHashList(const std::string &nickname
 }
 
 bool PasteDBManager::addPaste(const std::string &text, const std::string &hash,
-        const std::string &nickname, const std::string& syntax, const std::string &exposure,
-        const std::string &expTime, const std::string& title, const std::string &folder) {
+        const std::string &nickname, const std::string& title) {
     //TODO: expand for all fields
     dataFormat paste;
     paste[PASTE_TEXT_FIELD] = text;
@@ -82,6 +82,7 @@ bool PasteDBManager::addPaste(const std::string &text, const std::string &hash,
     if (!nickname.empty())
         paste[PASTE_USER_FIELD] = std::to_string(UserDBManager::getID(nickname));
     paste[PASTE_CREATETIME_FIELD] = "now";
+    paste[PASTE_TITLE_FIELD] = title;
 
     return storeToDB(paste, PASTE_TABLE_NAME);
 }
