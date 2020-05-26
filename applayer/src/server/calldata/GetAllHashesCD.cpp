@@ -19,7 +19,7 @@ void GetAllHashesCD::proceed(bool) {
             case 0:
                 break;
             case -1:
-                finish(::grpc::Status(::grpc::NOT_FOUND, "hashes not found"));
+                finish(::grpc::Status(::grpc::OK, "hashes not found"));
                 return;
             default:
                 break;
