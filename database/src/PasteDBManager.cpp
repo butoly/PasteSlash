@@ -71,7 +71,7 @@ std::vector<std::string> PasteDBManager::getHashList(const std::string &nickname
     return result;
 }
 
-void PasteDBManager::addPaste(const std::string &text, const std::string &hash,
+bool PasteDBManager::addPaste(const std::string &text, const std::string &hash,
         const std::string &nickname, const std::string& syntax, const std::string &exposure,
         const std::string &expTime, const std::string& title, const std::string &folder) {
     //TODO: expand for all fields
@@ -80,7 +80,7 @@ void PasteDBManager::addPaste(const std::string &text, const std::string &hash,
     paste[PASTE_HASH_FIELD] = hash;
     if (!nickname.empty())
         paste[PASTE_USER_FIELD] = std::to_string(UserDBManager::getID(nickname));
-
     paste[PASTE_CREATETIME_FIELD] = "now";
-    storeToDB(paste, PASTE_TABLE_NAME);
+
+    return storeToDB(paste, PASTE_TABLE_NAME);
 }
