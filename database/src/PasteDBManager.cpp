@@ -87,5 +87,7 @@ int PasteDBManager::getPasteAuthor(const std::string &hash) {
     std::shared_ptr<dataFormat> paste = getPaste(hash);
     if (paste == nullptr)
         return 0;
+    if ((*paste).at(PASTE_USER_FIELD).empty())
+        return 0;
     return std::stoi((*paste).at(PASTE_USER_FIELD));
 }
