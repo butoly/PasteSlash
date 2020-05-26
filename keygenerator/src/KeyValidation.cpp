@@ -1,5 +1,4 @@
 #include "../inc/KeyValidation.h"
-#include "../../database/include/PasteDBManager.h"
 
 KeyValidationClass::KeyValidationClass() {
 

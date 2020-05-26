@@ -7,7 +7,7 @@
 #include <utility>
 #include <boost/asio.hpp>
 
-#include "../inc/KeyGenerator.h"
+#include "KeyGenerator.h"
 
 using namespace boost::asio;
 

@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.14)
 project(project C CXX)
 
 set(CMAKE_CXX_STANDARD 17)
+
+install(SCRIPT ${CMAKE_SOURCE_DIR}/cmake/vcpkg.cmake)
+
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
 
 option(BUILD_TESTS "build tests" OFF)
@@ -9,7 +12,8 @@ option(BUILD_TESTS "build tests" OFF)
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_MULTITHREADED TRUE)
 
-find_package(Boost 1.68.0 COMPONENTS system filesystem REQUIRED)
+
+find_package(Boost 1.60.0 COMPONENTS system filesystem REQUIRED)
 find_package(Protobuf REQUIRED)
 find_package(gRPC CONFIG REQUIRED)
 

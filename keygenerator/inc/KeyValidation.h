@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "PasteDBManager.h"
+
 class KeyValidationClass {
 public:
     KeyValidationClass();

@@ -19,7 +19,10 @@ struct SignValue {
     std::string value;
 
     [[nodiscard]] std::string getString() const {
-        return sign + "'" + value + "'";
+        if (!value.empty())
+            return sign + "'" + value + "'";
+        else
+            return sign;
     }
 };
 
