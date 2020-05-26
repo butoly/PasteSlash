@@ -22,3 +22,4 @@ public:
 };
 
 #endif //TEST_USERDBMANAGER_H
+.
