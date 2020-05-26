@@ -1,13 +1,8 @@
 #include "../include/DatabaseObject.h"
 
-void DatabaseObject::storeToDB(const dataFormat &fieldValueMap, const std::string& table) {
-    try {
-        std::string sqlQuery = SqlGenerator::generateAddQuery(table, fieldValueMap);
-        Database::getInstance().execPostQuery(sqlQuery);
-    }
-    catch (const std::exception& exception) {
-        std::cout << exception.what() << std::endl;
-    }
+bool DatabaseObject::storeToDB(const dataFormat &fieldValueMap, const std::string& table) {
+    std::string sqlQuery = SqlGenerator::generateAddQuery(table, fieldValueMap);
+    return Database::getInstance().execPostQuery(sqlQuery);
 }
 
 void DatabaseObject::deleteByPK(const conditionMapFormat& pkValueMap,

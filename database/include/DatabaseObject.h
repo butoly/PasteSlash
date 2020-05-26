@@ -11,7 +11,7 @@
 
 class DatabaseObject {
 protected:
-    static void storeToDB(const dataFormat& fieldValueMap,
+    static bool storeToDB(const dataFormat& fieldValueMap,
             const std::string &table);
     static void updateByPK(const conditionMapFormat& pkValueMap,
             const dataFormat& newParamsMap, const std::string &table);
