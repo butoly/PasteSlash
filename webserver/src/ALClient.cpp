@@ -28,9 +28,10 @@ Token MakeToken(const string& token) {
     return t;
 }
 
-Hash MakeHash(const string& value) {
+Hash MakeHash(const string& value, long user_id) {
     Hash h;
     h.set_value(value);
+    h.set_user_id(user_id);
     return h;
 }
 
@@ -170,7 +171,7 @@ string AppLayerClient::StoreCode(const string& name, const string& text,
 }
 
 string AppLayerClient::GetCode(const string& hash, string& name, string& text) {
-    Hash hs = MakeHash(hash);
+    Hash hs = MakeHash(hash, 0);
     Code code;
 
     ClientContext context;
@@ -205,7 +206,7 @@ string AppLayerClient::DeleteCode(const string& hash, string& token, string& err
         return error;
     }
 
-    Hash hs = MakeHash(hash);
+    Hash hs = MakeHash(hash, user_id);
     Error err;
 
     ClientContext context;
