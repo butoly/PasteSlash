@@ -82,3 +82,10 @@ bool PasteDBManager::addPaste(const std::string &text, const std::string &hash,
 
     return storeToDB(paste, PASTE_TABLE_NAME);
 }
+
+int PasteDBManager::getPasteAuthor(const std::string &hash) {
+    std::shared_ptr<dataFormat> paste = getPaste(hash);
+    if (paste == nullptr)
+        return 0;
+    return std::stoi((*paste).at(PASTE_USER_FIELD));
+}
