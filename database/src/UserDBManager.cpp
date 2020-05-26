@@ -104,12 +104,12 @@ int UserDBManager::getID(const std::string &nickname) {
         return -1;
 }
 
-bool UserDBManager::isTokenExist(const std::string &token) {
+int UserDBManager::isTokenExist(const std::string &token) {
     conditionMapFormat map = {{USER_TOKEN_FIELD, SignValue("=", token)}};
     std::shared_ptr<dataFormat> result = getByPK(map, USER_TABLE_NAME);
     if (result)
-        return true;
-    return false;
+        return std::stoi((*result).at(USER_ID_FIELD));
+    return 0;
 }
 
 void UserDBManager::updateToken(const std::string& nickname, const std::string& newToken,

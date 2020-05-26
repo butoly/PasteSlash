@@ -18,7 +18,7 @@ public:
     static std::string getPassword(const std::string &nickname);
 
     static void updateToken(const std::string& nickname, const std::string &newToken, int dayOfLiving=2);
-    static bool isTokenExist(const std::string &token);
+    static int isTokenExist(const std::string &token);
 };
 
 #endif //TEST_USERDBMANAGER_H

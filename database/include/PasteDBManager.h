@@ -10,10 +10,12 @@
 #define TITLE_DEF_VALUE "Untitled"
 #define EXPTIME_DEV_VALUE "Never"
 
+#define NO_ID -1
+
 class PasteDBManager : public DatabaseObject {
 public:
     static void addPaste(const dataFormat& paste);
-    static bool addPaste(const std::string& text, const std::string& hash, const std::string& username="",
+    static bool addPaste(const std::string& text, const std::string& hash, const int id=NO_ID,
             const std::string& title="Untitled");
     static std::shared_ptr<dataFormat> getPaste(const std::string& hash);
     static void deletePaste(const std::string& hash);

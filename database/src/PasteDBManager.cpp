@@ -68,15 +68,15 @@ std::vector<std::string> PasteDBManager::getHashList(const std::string &nickname
     return result;
 }
 
-#define DEFAULT_EXPTIME_FOR_NEVER "2100:"
 bool PasteDBManager::addPaste(const std::string &text, const std::string &hash,
-        const std::string &nickname, const std::string& title) {
+        const int id, const std::string& title) {
     //TODO: expand for all fields
+    //TODO: validation
     dataFormat paste;
     paste[PASTE_TEXT_FIELD] = text;
     paste[PASTE_HASH_FIELD] = hash;
-    if (!nickname.empty())
-        paste[PASTE_USER_FIELD] = std::to_string(UserDBManager::getID(nickname));
+    if (id != NO_ID)
+        paste[PASTE_USER_FIELD] = std::to_string(id);
     paste[PASTE_CREATETIME_FIELD] = "now";
     paste[PASTE_TITLE_FIELD] = title;
 
