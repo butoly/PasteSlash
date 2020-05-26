@@ -13,7 +13,7 @@
 class PasteDBManager : public DatabaseObject {
 public:
     static void addPaste(const dataFormat& paste);
-    static void addPaste(const std::string& text, const std::string& hash, const std::string& username="",
+    static bool addPaste(const std::string& text, const std::string& hash, const std::string& username="",
             const std::string& syntax="None", const std::string& exposure="Public",
             const std::string& expTime="Never", const std::string& title="Untitled",
             const std::string& folder="");

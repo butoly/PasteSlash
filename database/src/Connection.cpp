@@ -1,6 +1,7 @@
 #include "../include/Connection.h"
 #include <fstream>
 #define DEBUG 1
+#define DEF_PGCONF_FILE "pgConfig.txt"
 
 std::string readFileInString(const std::string& fileName) {
     std::ifstream ifs(fileName);
@@ -10,7 +11,7 @@ std::string readFileInString(const std::string& fileName) {
 }
 
 Connection::Connection() :
-    connection(readFileInString("pgConfig.txt")) {}
+    connection(readFileInString(DEF_PGCONF_FILE)) {}
 
 Connection::Connection(const std::string& configFileName):
     connection(readFileInString(configFileName)) {}
@@ -51,7 +52,7 @@ queryResultFormat parsePGResult(const pqxx::result& result) {
     return parsedResult;
 }
 
-void Connection::execPostQuery(const std::string& sqlQuery) {
+bool Connection::execPostQuery(const std::string& sqlQuery) {
     try {
         pqxx::work worker{connection};
         worker.exec0(sqlQuery);
@@ -59,7 +60,9 @@ void Connection::execPostQuery(const std::string& sqlQuery) {
     }
     catch (const std::exception& exception) {
         std::cout << exception.what() << std::endl;
+        return false;
     }
+    return true;
 }
 
 queryResultFormat Connection::execGetQuery(const std::string& sqlQuery) {
