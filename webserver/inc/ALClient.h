@@ -1,7 +1,6 @@
 #ifndef WEBSERVER_ALCLIENT_HPP
 #define WEBSERVER_ALCLIENT_HPP
 
-#include <iostream>
 #include <memory>
 #include <string>
 #include <vector>
