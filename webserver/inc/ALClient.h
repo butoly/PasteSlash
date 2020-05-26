@@ -9,7 +9,7 @@
 #include <grpcpp/grpcpp.h>
 #include <grpc/support/log.h>
 
-#include "AppLayer.grpc.pb.h"
+#include "gen/AppLayer.grpc.pb.h"
 
 using grpc::Channel;
 using grpc::ClientAsyncResponseReader;
