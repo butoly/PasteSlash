@@ -19,9 +19,6 @@ void GetAllHashesCD::proceed(bool) {
             case 0:
                 break;
             case -1:
-                finish(::grpc::Status(::grpc::NOT_FOUND, "user not found"));
-                return;
-            case -2:
                 finish(::grpc::Status(::grpc::NOT_FOUND, "hashes not found"));
                 return;
             default:
@@ -37,6 +34,4 @@ void GetAllHashesCD::proceed(bool) {
         GPR_ASSERT(status == FINISH);
         delete this;
     }
-
-
 }

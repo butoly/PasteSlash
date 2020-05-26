@@ -1,10 +1,11 @@
 #include "usecases/StoreCodeUsecase.h"
+#include <unordered_map>
 
 int StoreCodeUsecase::execute() {
     std::string data;
-    TCPClient client("127.0.0.1", 3000);
+    TCPClient client("127.0.0.1", 3002);
 
-    std::string s = "Sanya, give me hash";
+    std::string s = "helloSanya";
 
     auto error = client.connect();
     if (error != boost::system::errc::success) {
@@ -18,7 +19,11 @@ int StoreCodeUsecase::execute() {
 
     code->hash = receivedData;
 
-    //сохранение в бд к нужному user_id
+    bool isSuccess = PasteDBManager::addPaste(code->body, code->hash, "yletamitlu", code->name);
+
+    if (!isSuccess) {
+        return -2;
+    }
 
     return 0;
 }

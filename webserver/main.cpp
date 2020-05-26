@@ -23,7 +23,7 @@ using tcp = boost::asio::ip::tcp;       // from <boost/asio/ip/tcp.hpp>
 int main(int argc, char* argv[])
 {
     std::string adress("127.0.0.1");
-    std::string port("8000");
+    std::string port("3000");
     int threads = 1;
     HTTPServer server(adress, port, threads);
     server.run();

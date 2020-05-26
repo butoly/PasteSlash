@@ -126,7 +126,7 @@ void HandlerRequest<Send>::handle(http::request<Body,
     std::string reply;
     std::string status;
     static AppLayerClient al_client(grpc::CreateChannel(
-        "localhost:50051", grpc::InsecureChannelCredentials()));
+        "localhost:3001", grpc::InsecureChannelCredentials()));
 
     // Respond to GET request
     if(req.method() == http::verb::get) {

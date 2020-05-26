@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(project C CXX)
+project(applayer C CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -25,12 +25,14 @@ set(TOOLS-SRC tools/converter/GRPCConverter.cpp
               tools/gen/AppLayer.pb.cc tools/gen/AppLayer.grpc.pb.cc
               tools/tcpclient/TCPClient.cpp)
 
-add_executable(project main.cpp ${sources} ${TOOLS-SRC})
+add_executable(applayer main.cpp ${sources} ${TOOLS-SRC})
 
-target_link_libraries(project ${Boost_LIBRARIES} gRPC::gpr gRPC::grpc gRPC::grpc++ gRPC::grpc++_alts)
+target_link_libraries(applayer PUBLIC ${Boost_LIBRARIES} gRPC::gpr gRPC::grpc gRPC::grpc++ gRPC::grpc++_alts)
+target_link_libraries(applayer PUBLIC dbAPI)
 
-target_include_directories(project PRIVATE inc/)
-target_include_directories(project PRIVATE tools/)
+target_include_directories(applayer PUBLIC ${CMAKE_SOURCE_DIR}/database/include)
+target_include_directories(applayer PRIVATE inc/)
+target_include_directories(applayer PRIVATE tools/)
 
 if (BUILD_TESTS)
     # gtest settings

@@ -2,13 +2,13 @@
 
 int DeleteCodeUsecase::execute() {
 
-    bool isFound;
-    if (!isFound) {
+    if (!PasteDBManager::checkHash(hash)) {
         return -1;
     }
 
-    bool Delete;
-    if (!Delete) {
+    PasteDBManager::deletePaste(hash);
+
+    if (PasteDBManager::checkHash(hash)) {
         return -2;
     }
 

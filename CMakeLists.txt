@@ -3,6 +3,7 @@ project(paste_slash)
 
 set(CMAKE_CXX_STANDARD 14)
 
+add_subdirectory(webserver)
 add_subdirectory(database)
 add_subdirectory(keygenerator)
 add_subdirectory(applayer)
