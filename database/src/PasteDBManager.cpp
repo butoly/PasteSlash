@@ -62,12 +62,13 @@ std::vector<std::string> PasteDBManager::getHashList(const std::string &nickname
     std::string id = std::to_string(UserDBManager::getID(nickname));
     conditionMapFormat map = {{PASTE_USER_FIELD, SignValue("=", id)}};
     std::shared_ptr<queryResultFormat> paste = getMany(map, PASTE_TABLE_NAME, PASTE_HASH_FIELD);
-
     std::vector<std::string> result;
+    if (paste == nullptr)
+        return result;
+
     for (auto element: *paste) {
         result.push_back(element.at(PASTE_HASH_FIELD));
     }
-
     return result;
 }
 
