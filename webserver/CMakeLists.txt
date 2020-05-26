@@ -12,7 +12,7 @@ option(BUILD_TESTS "build tests" OFF)
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_MULTITHREADED TRUE)
 
-find_package(Boost 1.68.0 COMPONENTS system filesystem REQUIRED)
+find_package(Boost 1.60.0 COMPONENTS system filesystem REQUIRED)
 find_package(Protobuf REQUIRED)
 find_package(gRPC CONFIG REQUIRED)
 
