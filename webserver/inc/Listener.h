@@ -4,16 +4,12 @@
 #include <boost/noncopyable.hpp>
 #include <memory>
 
-#include "../session/session.hpp"
-#include "../utils/output.hpp"
+#include "Session.h"
+#include "Output.h"
 
 namespace beast = boost::beast;
 namespace net = boost::asio;
 using tcp = boost::asio::ip::tcp;
-
-namespace pasteslash {
-namespace webserver {
-namespace listener {
 
 // Accepts incoming connections and launches the sessions
 class Listener : public std::enable_shared_from_this<Listener>,
@@ -34,9 +30,5 @@ private:
     net::io_context& ioc_;
     tcp::acceptor acceptor_;
 };
-
-} // listener
-} // webserver
-} // pasteslash
 
 #endif // WEBSERVER_LISTENER_HPP

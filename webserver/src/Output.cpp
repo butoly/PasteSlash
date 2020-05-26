@@ -1,15 +1,7 @@
 #include <iostream>
 
-#include "output.hpp"
-
-namespace pasteslash {
-namespace webserver {
-namespace utils {
+#include "Output.h"
 
 void fail(beast::error_code ec, char const* what) {
     std::cerr << what << ": " << ec.message() << "\n";
 }
-
-} // utils
-} // webserver
-} // pasteslash

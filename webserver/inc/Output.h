@@ -5,14 +5,6 @@
 
 namespace beast = boost::beast;
 
-namespace pasteslash {
-namespace webserver {
-namespace utils {
-
 void fail(beast::error_code ec, char const* what);
-
-} // utils
-} // webserver
-} // pasteslash
 
 #endif // WEBSERVER_OUTPUT_HPP

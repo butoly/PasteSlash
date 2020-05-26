@@ -5,18 +5,12 @@
 #include <boost/beast/http.hpp>
 #include <memory>
 
-#include "session_interface.hpp"
-
 namespace beast = boost::beast;
 namespace http = beast::http;
 using tcp = boost::asio::ip::tcp;
 
-namespace pasteslash {
-namespace webserver {
-namespace session {
-
 // Handles an HTTP server connection
-class Session : public ISession, public std::enable_shared_from_this<Session> {
+class Session : public std::enable_shared_from_this<Session> {
 public:
     Session(tcp::socket&& socket);
 
@@ -25,13 +19,13 @@ public:
     ~Session() = default;
 
     // Start the asynchronous reading
-    void run() override;
+    void run();
 
     // Read request
-    void do_read() override;
+    void do_read();
 
     // Handle reading
-    void on_read(beast::error_code ec, std::size_t bytes_transferred) override;
+    void on_read(beast::error_code ec, std::size_t bytes_transferred);
 
     // Handle writing
     void on_write(bool close, beast::error_code ec,
@@ -57,9 +51,5 @@ private:
     std::shared_ptr<void> res_;
     SendLambda lambda_;
 };
-
-} // session
-} // webserver
-} // pasteslash
 
 #endif // WEBSERVER_SESSION_HPP

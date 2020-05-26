@@ -3,18 +3,14 @@
 #include <boost/asio/dispatch.hpp>
 #include <memory>
 
-#include "session.hpp"
-#include "../request/handler_request.hpp"
-#include "../utils/output.hpp"
+#include "Session.h"
+#include "HandlerRequest.h"
+#include "Output.h"
 
 namespace beast = boost::beast;
 namespace http = beast::http;
 namespace net = boost::asio;
 using tcp = boost::asio::ip::tcp;
-
-namespace pasteslash {
-namespace webserver {
-namespace session {
 
 Session::Session(tcp::socket&& socket) :
 stream_(std::move(socket)),
@@ -38,9 +34,9 @@ void Session::on_read(beast::error_code ec, std::size_t bytes_transferred) {
         return do_close();
     }
     if(ec) {
-        return utils::fail(ec, "http-server read");
+        return fail(ec, "http-server read");
     }
-    std::make_shared<request::HandlerRequest<SendLambda>>(
+    std::make_shared<HandlerRequest<SendLambda>>(
         lambda_)->handle(std::move(req_));
 }
 
@@ -49,7 +45,7 @@ void Session::on_write(bool close, beast::error_code ec,
     boost::ignore_unused(bytes_transferred);
     
     if(ec) {
-         return utils::fail(ec, "http-server write");
+         return fail(ec, "http-server write");
      }
      if(close) {
         return do_close();
@@ -75,7 +71,3 @@ void Session::SendLambda::operator()(http::message<isRequest,
     http::async_write(self_.stream_, *sp, beast::bind_front_handler(
         &Session::on_write, self_.shared_from_this(), sp->need_eof()));
 }
-
-} // session
-} // webserver
-} // pasteslash
