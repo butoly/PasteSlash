@@ -1,6 +1,6 @@
 #include "../include/Connection.h"
 #include <fstream>
-#define DEBUG 1
+//#define DEBUG 1
 #define DEF_PGCONF_FILE "pgConfig.txt"
 
 std::string readFileInString(const std::string& fileName) {
