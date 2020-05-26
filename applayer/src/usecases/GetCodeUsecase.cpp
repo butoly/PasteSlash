@@ -1,9 +1,16 @@
 #include "usecases/GetCodeUsecase.h"
 
-
 int GetCodeUsecase::execute() {
 
     bool isFound = true;
+
+    auto recCode = PasteDBManager::getPaste(hash);
+
+    std::cout << recCode << std::endl;
+
+
+//    Models::Code c(recCode["name"], recCode["body"]);
+
     if (!isFound) {
         return -1;
     }

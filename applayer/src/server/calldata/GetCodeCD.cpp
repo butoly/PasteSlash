@@ -19,9 +19,6 @@ void GetCodeCD::proceed(bool) {
             case -1:
                 finish(::grpc::Status(::grpc::NOT_FOUND, "code not found"));
                 return;
-            case -2:
-                finish(::grpc::Status(::grpc::UNKNOWN, "unknown error"));
-                return;
             default:
                 break;
         }

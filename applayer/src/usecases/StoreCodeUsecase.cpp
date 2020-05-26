@@ -1,8 +1,9 @@
 #include "usecases/StoreCodeUsecase.h"
+#include <unordered_map>
 
 int StoreCodeUsecase::execute() {
     std::string data;
-    TCPClient client("127.0.0.1", 3000);
+    TCPClient client("127.0.0.1", 5555);
 
     std::string s = "Sanya, give me hash";
 
@@ -18,7 +19,13 @@ int StoreCodeUsecase::execute() {
 
     code->hash = receivedData;
 
-    //сохранение в бд к нужному user_id
+    dataFormat dc;
+
+    dc.emplace("title" ,code->name);
+    dc.emplace("text", code->body);
+    dc.emplace("hash", code->hash);
+
+    PasteDBManager::addPaste(dc);
 
     return 0;
 }

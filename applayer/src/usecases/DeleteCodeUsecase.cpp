@@ -7,6 +7,8 @@ int DeleteCodeUsecase::execute() {
         return -1;
     }
 
+    PasteDBManager::deleteOverduePastes();
+
     bool Delete;
     if (!Delete) {
         return -2;
