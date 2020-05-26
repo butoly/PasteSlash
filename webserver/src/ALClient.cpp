@@ -72,7 +72,7 @@ string AppLayerClient::AuthUser(const string& nickname, const string& email,
     if (status.ok()) {
         return positive_reply;
     } else {
-        return "RPC failed";
+        return status.error_message();
     }
 }
 
@@ -101,7 +101,7 @@ string AppLayerClient::RegUser(const string& nickname, const string& email,
     if (status.ok()) {
         return positive_reply;
     } else {
-        return "RPC failed";
+        return status.error_message();
     }
 }
 
@@ -163,7 +163,7 @@ string AppLayerClient::StoreCode(const string& name, const string& text,
     if (status.ok()) {
         return positive_reply;
     } else {
-        return "RPC failed";
+        return status.error_message();
     }
 }
 
@@ -192,7 +192,7 @@ string AppLayerClient::GetCode(const string& hash, string& name, string& text) {
     if (status.ok()) {
         return positive_reply;
     } else {
-        return "RPC failed";
+        return status.error_message();
     }
 }
 
@@ -226,7 +226,7 @@ string AppLayerClient::DeleteCode(const string& hash, string& token, string& err
     if (status.ok()) {
         return positive_reply;
     } else {
-        return "RPC failed";
+        return status.error_message();
     }
 }
 
@@ -266,6 +266,6 @@ string AppLayerClient::GetAllHashes(const string& nickname,
     if (status.ok()) {
         return positive_reply;
     } else {
-        return "RPC failed";
+        return status.error_message();
     }
 }
