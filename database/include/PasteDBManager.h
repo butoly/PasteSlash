@@ -22,6 +22,7 @@ public:
     static void updatePaste(const std::string& hash, const dataFormat& newParamsMap);
 
     static bool checkHash(const std::string& hash);
+    static int getPasteAuthor(const std::string& hash);
     static std::vector<std::string> getHashList(const std::string& nickname);
     static void deleteOverduePastes(const std::string& time="now()");
 };
