@@ -39,7 +39,7 @@ std::string createTokenDatePostgresStyle(int daysOfLiving) {
 }
 
 #define DEFAULT_DAYS_OF_LIVING 2
-void UserDBManager::addUser(const std::string &nickname, const std::string &email,
+bool UserDBManager::addUser(const std::string &nickname, const std::string &email,
         const std::string &password, const std::string &token) {
     dataFormat user;
     user[USER_NICKNAME_FIELD]= nickname;
@@ -47,7 +47,7 @@ void UserDBManager::addUser(const std::string &nickname, const std::string &emai
     user[USER_PASSWORD_FIELD] = password;
     user[USER_TOKEN_FIELD] = token;
     user[USER_TOKEN_EXP_TIME_FIELD] = createTokenDatePostgresStyle(DEFAULT_DAYS_OF_LIVING);
-    storeToDB(user, USER_TABLE_NAME);
+    return storeToDB(user, USER_TABLE_NAME);
 }
 
 conditionMapFormat createPKValueMap(const std::string& nickname) {
@@ -104,12 +104,12 @@ int UserDBManager::getID(const std::string &nickname) {
         return -1;
 }
 
-bool UserDBManager::isTokenExist(const std::string &token) {
+int UserDBManager::isTokenExist(const std::string &token) {
     conditionMapFormat map = {{USER_TOKEN_FIELD, SignValue("=", token)}};
     std::shared_ptr<dataFormat> result = getByPK(map, USER_TABLE_NAME);
     if (result)
-        return true;
-    return false;
+        return std::stoi((*result).at(USER_ID_FIELD));
+    return 0;
 }
 
 void UserDBManager::updateToken(const std::string& nickname, const std::string& newToken,

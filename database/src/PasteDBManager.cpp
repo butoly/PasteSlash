@@ -9,6 +9,7 @@
 #define PASTE_SYNTAX_FIELD "syntax"
 #define PASTE_EXPTIME_FIELD "exp_time"
 #define PASTE_USER_FIELD "user_acc"
+#define PASTE_TITLE_FIELD "title"
 
 conditionMapFormat createHashConditionMap(const std::string& hash) {
     conditionMapFormat map = {{PASTE_HASH_FIELD, SignValue("=", hash)}};
@@ -21,19 +22,14 @@ void PasteDBManager::addPaste(const dataFormat &paste) {
 
 conditionMapFormat createGetConditionMap(const std::string& hash) {
     conditionMapFormat map = {{PASTE_HASH_FIELD, SignValue("=", hash)},
+                              {PASTE_EXPTIME_FIELD, SignValue("IS NOT NULL", "")},
                               {PASTE_EXPTIME_FIELD, SignValue(">", "now()")}};
     return map;
 }
 
 std::shared_ptr<dataFormat> PasteDBManager::getPaste(const std::string& hash) {
-    conditionMapFormat pkValueMap = createGetConditionMap(hash);
+    conditionMapFormat pkValueMap = createHashConditionMap(hash);
     std::shared_ptr<dataFormat> paste = getByPK(pkValueMap, PASTE_TABLE_NAME);
-
-    //std::shared_ptr<queryResultFormat> pastes = getMany(pkValueMap, PASTE_TABLE_NAME);
-    //return std::make_shared<dataFormat>(pastes->front());
-
-    if (!paste)
-        deletePaste(hash);
     return paste;
 }
 
@@ -62,25 +58,27 @@ std::vector<std::string> PasteDBManager::getHashList(const std::string &nickname
     std::string id = std::to_string(UserDBManager::getID(nickname));
     conditionMapFormat map = {{PASTE_USER_FIELD, SignValue("=", id)}};
     std::shared_ptr<queryResultFormat> paste = getMany(map, PASTE_TABLE_NAME, PASTE_HASH_FIELD);
-
     std::vector<std::string> result;
+    if (paste == nullptr)
+        return result;
+
     for (auto element: *paste) {
         result.push_back(element.at(PASTE_HASH_FIELD));
     }
-
     return result;
 }
 
-void PasteDBManager::addPaste(const std::string &text, const std::string &hash,
-        const std::string &nickname, const std::string& syntax, const std::string &exposure,
-        const std::string &expTime, const std::string& title, const std::string &folder) {
+bool PasteDBManager::addPaste(const std::string &text, const std::string &hash,
+        const int id, const std::string& title) {
     //TODO: expand for all fields
+    //TODO: validation
     dataFormat paste;
     paste[PASTE_TEXT_FIELD] = text;
     paste[PASTE_HASH_FIELD] = hash;
-    if (!nickname.empty())
-        paste[PASTE_USER_FIELD] = std::to_string(UserDBManager::getID(nickname));
-
+    if (id != NO_ID)
+        paste[PASTE_USER_FIELD] = std::to_string(id);
     paste[PASTE_CREATETIME_FIELD] = "now";
-    storeToDB(paste, PASTE_TABLE_NAME);
+    paste[PASTE_TITLE_FIELD] = title;
+
+    return storeToDB(paste, PASTE_TABLE_NAME);
 }

@@ -6,7 +6,7 @@
 class UserDBManager: public DatabaseObject {
 public:
     static void addUser(const dataFormat& user);
-    static void addUser(const std::string& nickname, const std::string& email,
+    static bool addUser(const std::string& nickname, const std::string& email,
             const std::string& password, const std::string& token);
     static void deleteUser(const std::string& nickname);
     static void updateUser(const std::string& nickname, const dataFormat& newParamsMap);
@@ -18,7 +18,7 @@ public:
     static std::string getPassword(const std::string &nickname);
 
     static void updateToken(const std::string& nickname, const std::string &newToken, int dayOfLiving=2);
-    static bool isTokenExist(const std::string &token);
+    static int isTokenExist(const std::string &token);
 };
 
 #endif //TEST_USERDBMANAGER_H

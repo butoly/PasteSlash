@@ -13,7 +13,7 @@ public:
 
     bool isActive();
 
-    void execPostQuery(const std::string& sqlQuery);
+    bool execPostQuery(const std::string& sqlQuery);
     void execPostQueryFromFile(const std::string &fileName);
     queryResultFormat execGetQuery(const std::string& sqlQuery);
     queryResultFormat execGetQueryFromFile(const std::string& fileName);

@@ -10,8 +10,8 @@ Database& Database::getInstance(){
     return instance;
 }
 
-void Database::execPostQuery(const std::string& sqlQuery) {
-    connection.execPostQuery(sqlQuery);
+bool Database::execPostQuery(const std::string& sqlQuery) {
+    return connection.execPostQuery(sqlQuery);
 }
 
 queryResultFormat Database::execGetQuery(const std::string& sqlQuery) {
