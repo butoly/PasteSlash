@@ -8,8 +8,7 @@
 #include <string>
 #include <vector>
 #include <map>
-
-#include <iostream>
+#include <fstream>
 
 #include "HandlerRequest.h"
 
@@ -163,6 +162,16 @@ string HandlerRequest<Send>::handle_post_paste(AppLayerClient& al_client,
     string name = args.find("name")->second;
     string text = args.find("text")->second;
     string token = args.find("token")->second;
+    
+    // Check given parametr for file
+    std::ifstream pos_file(text);
+    if (pos_file.is_open()) {
+        string str;
+        text = "";
+        while (std::getline(pos_file, str)) {
+            text += str + "\n";
+        }
+    }
 
     return al_client.StoreCode(name, text, token, hash);
 }
