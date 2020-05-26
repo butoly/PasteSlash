@@ -12,5 +12,11 @@ int DeleteCodeUsecase::execute() {
         return -2;
     }
 
+    int id_cUser = PasteDBManager::getPasteAuthor(hash);
+
+    if (user_id != id_cUser) {
+        return -3;
+    }
+
     return 0;
 }

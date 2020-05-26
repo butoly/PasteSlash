@@ -10,8 +10,9 @@
 class DeleteCodeUsecase : public AbstractUsecase {
 private:
     std::string hash;
+    int user_id;
 public:
-    DeleteCodeUsecase(std::string& h) : hash(h) {};
+    DeleteCodeUsecase(std::string& h, int uid) : hash(h), user_id(uid) {};
     ~DeleteCodeUsecase() = default;
 
     int execute() override;

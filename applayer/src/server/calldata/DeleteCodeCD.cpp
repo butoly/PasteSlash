@@ -9,8 +9,9 @@ void DeleteCodeCD::proceed(bool) {
         new DeleteCodeCD(service, cq);
 
         std::string mHash = converter.HashFromGRPC(gHash);
+        int user_id = gHash.user_id();
 
-        ucase = std::make_unique<DeleteCodeUsecase>(mHash);
+        ucase = std::make_unique<DeleteCodeUsecase>(mHash, user_id);
         int error = ucase->execute();
 
         switch (error){
@@ -22,6 +23,9 @@ void DeleteCodeCD::proceed(bool) {
                 return;
             case -2:
                 finish(::grpc::Status(::grpc::UNKNOWN, "unknown error"));
+                return;
+            case -3:
+                finish(::grpc::Status(::grpc::UNAVAILABLE, "no access"));
                 return;
             default:
                 break;
