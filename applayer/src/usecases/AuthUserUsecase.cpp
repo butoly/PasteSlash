@@ -2,20 +2,16 @@
 
 
 int AuthUserUsecase::execute() {
-    //заглушка для проверки, есть ли такой ник вообще в бд
-    bool hasN = true;
-    if (!hasN) {
+
+    bool isFound = UserDBManager::isNicknameExist(user.nickname);
+    if (!isFound) {
         return -1;
     }
 
-    //заглушка для проверки, правильные ли данные
-    bool isValidate = true;
-    if (!isValidate) {
+    std::string password = UserDBManager::getPassword(user.nickname);
+    if (user.password != password) {
         return -2;
     }
-
-    //достаем из бд токен/ генерируем и сохраняем в бд
-
 
     boost::uuids::uuid uuid = boost::uuids::random_generator()();
     std::cout << uuid << std::endl;
@@ -23,6 +19,8 @@ int AuthUserUsecase::execute() {
     auto tokenValue = boost::lexical_cast<std::string>(uuid);
 
     token->value = tokenValue;
+
+    UserDBManager::updateToken(user.nickname, tokenValue);
 
     return 0;
 }

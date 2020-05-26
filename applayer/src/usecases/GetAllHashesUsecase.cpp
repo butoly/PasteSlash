@@ -2,21 +2,15 @@
 
 int GetAllHashesUsecase::execute() {
 
-    bool userIsFound = true;
-    if (!userIsFound) {
+    std::vector<std::string> hs = PasteDBManager::getHashList(user.nickname);
+
+    for (const auto & h : hs){
+        hashes->push_back(h);
+    }
+
+    if (hs.empty()) {
         return -1;
     }
-
-    bool hashesIsFound = true;
-    if (!hashesIsFound){
-        return -2;
-    }
-    //достаем из бд код
-    std::string h1 = "hash1";
-    hashes->push_back(h1);
-
-    std::string h2 = "hash2";
-    hashes->push_back(h2);
 
     return 0;
 }

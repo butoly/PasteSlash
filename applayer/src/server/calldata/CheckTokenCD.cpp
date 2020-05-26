@@ -11,8 +11,8 @@ void CheckTokenCD::proceed(bool) {
         std::string token = gToken.token();
 
         //проверка есть ли такой в бд и не истек ли срок
-        bool isValid = true;
-        if (!isValid) {
+        bool isExist = UserDBManager::isTokenExist(token);
+        if (!isExist) {
             finish(::grpc::Status(::grpc::NOT_FOUND, "token not found or expired"));
             return;
         }
