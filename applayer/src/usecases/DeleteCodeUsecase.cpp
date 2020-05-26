@@ -2,15 +2,13 @@
 
 int DeleteCodeUsecase::execute() {
 
-    bool isFound;
-    if (!isFound) {
+    if (!PasteDBManager::checkHash(hash)) {
         return -1;
     }
 
-    PasteDBManager::deleteOverduePastes();
+    PasteDBManager::deletePaste(hash);
 
-    bool Delete;
-    if (!Delete) {
+    if (PasteDBManager::checkHash(hash)) {
         return -2;
     }
 

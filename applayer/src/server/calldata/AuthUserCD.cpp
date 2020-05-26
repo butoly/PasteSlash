@@ -8,6 +8,8 @@ void AuthUserCD::proceed(bool) {
     } else if (status == PROCESS) {
         new AuthUserCD(service, cq);
 
+        std::cout << "LOGIN" << std::endl;
+
         Models::User mUser = converter.UserFromGRPC(gUser);
 
         Models::Token mToken;

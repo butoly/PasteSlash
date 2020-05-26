@@ -3,9 +3,9 @@
 
 int StoreCodeUsecase::execute() {
     std::string data;
-    TCPClient client("127.0.0.1", 5555);
+    TCPClient client("127.0.0.1", 3002);
 
-    std::string s = "Sanya, give me hash";
+    std::string s = "helloSanya";
 
     auto error = client.connect();
     if (error != boost::system::errc::success) {
@@ -19,13 +19,11 @@ int StoreCodeUsecase::execute() {
 
     code->hash = receivedData;
 
-    dataFormat dc;
+    bool isSuccess = PasteDBManager::addPaste(code->body, code->hash, "yletamitlu", code->name);
 
-    dc.emplace("title" ,code->name);
-    dc.emplace("text", code->body);
-    dc.emplace("hash", code->hash);
-
-    PasteDBManager::addPaste(dc);
+    if (!isSuccess) {
+        return -2;
+    }
 
     return 0;
 }

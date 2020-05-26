@@ -8,7 +8,7 @@
 
 int main(int argc, char* argv[]) {
     Database::getInstance();
-    ALServer alServer("127.0.0.1", "3000");
+    ALServer alServer("127.0.0.1", "3001");
 
     alServer.run();
 

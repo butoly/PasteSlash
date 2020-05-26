@@ -8,6 +8,8 @@ void RegUserCD::proceed(bool) {
     } else if (status == PROCESS) {
         new RegUserCD(service, cq);
 
+        std::cout << "REGISTER" << std::endl;
+
         Models::User mUser = converter.UserFromGRPC(gUser);
 
         Models::Token mToken;
@@ -25,6 +27,7 @@ void RegUserCD::proceed(bool) {
                 return;
             case - 2:
                 finish(::grpc::Status(::grpc::ALREADY_EXISTS, "email already exists"));
+                std::cout << "email already exists" << std::endl;
                 return;
             default:
                 break;
