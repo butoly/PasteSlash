@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+service AppLayer {
+    rpc AuthUser(User) returns (Token) {}
+    rpc RegUser(User) returns (Token) {}
+    rpc StoreCode(Code) returns (Hash) {}
+    rpc GetCode(Hash) returns (Code) {}
+    rpc DeleteCode(Hash) returns (Error) {}
+    rpc GetAllHashes(User) returns (Hashes) {}
+    rpc CheckToken(Token) returns (AccessToken) {}
+}
+
+message User {
+    string nickname = 1;
+    string email = 2;
+    string password = 3;
+}
+
+message Error {
+    string message = 1;
+}
+
+message AccessToken {
+    string token = 1;
+    int32 user_id = 2;
+    Error error = 3;
+}
+
+message Token {
+    string token = 1;
+}
+
+message Hash {
+    string value = 1;
+}
+
+message Hashes {
+    repeated Hash hashes = 1;
+}
+
+message Code {
+    string name = 1;
+    string text = 2;
+    int32 user_id = 3;
+}
