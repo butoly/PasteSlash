@@ -14,7 +14,7 @@
 
 class PasteDBManager : public DatabaseObject {
 public:
-    static void addPaste(const dataFormat& paste);
+    static bool addPaste(const dataFormat& paste);
     static bool addPaste(const std::string& text, const std::string& hash, const int id=NO_ID,
             const std::string& title="Untitled");
     static std::shared_ptr<dataFormat> getPaste(const std::string& hash);

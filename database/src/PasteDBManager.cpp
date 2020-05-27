@@ -16,8 +16,8 @@ conditionMapFormat createHashConditionMap(const std::string& hash) {
     return map;
 }
 
-void PasteDBManager::addPaste(const dataFormat &paste) {
-    storeToDB(paste, PASTE_TABLE_NAME);
+bool PasteDBManager::addPaste(const dataFormat &paste) {
+    return storeToDB(paste, PASTE_TABLE_NAME);
 }
 
 conditionMapFormat createGetConditionMap(const std::string& hash) {
@@ -55,7 +55,13 @@ void PasteDBManager::deleteOverduePastes(const std::string &time) {
 }
 
 std::vector<std::string> PasteDBManager::getHashList(const std::string &nickname) {
+    if (nickname.empty())
+        return std::vector<std::string>();
+
     std::string id = std::to_string(UserDBManager::getID(nickname));
+    if (std::stoi(id) == NO_ID)
+        return std::vector<std::string>();
+
     conditionMapFormat map = {{PASTE_USER_FIELD, SignValue("=", id)}};
     std::shared_ptr<queryResultFormat> paste = getMany(map, PASTE_TABLE_NAME, PASTE_HASH_FIELD);
     std::vector<std::string> result;
@@ -68,21 +74,25 @@ std::vector<std::string> PasteDBManager::getHashList(const std::string &nickname
     return result;
 }
 
+#define MAX_TITLE_SIZE 60
 bool PasteDBManager::addPaste(const std::string &text, const std::string &hash,
         const int id, const std::string& title) {
-    //TODO: expand for all fields
-    //TODO: validation
     dataFormat paste;
     paste[PASTE_TEXT_FIELD] = text;
     paste[PASTE_HASH_FIELD] = hash;
+    paste[PASTE_CREATETIME_FIELD] = "now";
+
     if (id != NO_ID)
         paste[PASTE_USER_FIELD] = std::to_string(id);
-    paste[PASTE_CREATETIME_FIELD] = "now";
+
+    if (title.size() > MAX_TITLE_SIZE)
+        return false;
     paste[PASTE_TITLE_FIELD] = title;
 
     return storeToDB(paste, PASTE_TABLE_NAME);
 }
 
+//TODO: rename to getPasteAuthorID
 int PasteDBManager::getPasteAuthor(const std::string &hash) {
     std::shared_ptr<dataFormat> paste = getPaste(hash);
     if (paste == nullptr)
