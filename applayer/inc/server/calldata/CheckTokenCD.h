@@ -8,6 +8,7 @@ private:
     ::grpc::ServerAsyncResponseWriter<AccessToken> responder;
     AccessToken aToken;
     Token gToken;
+    Error* err;
 
     void finish(const ::grpc::Status& s) {
         status = FINISH;

@@ -16,7 +16,7 @@ void CheckTokenCD::proceed(bool) {
             finish(::grpc::Status(::grpc::NOT_FOUND, "token not found or expired"));
             return;
         }
-        //ищем юзер айди
+
         aToken.set_token(token);
         aToken.set_user_id(user_id);
         finish(::grpc::Status::OK);
