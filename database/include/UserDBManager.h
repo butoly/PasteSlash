@@ -5,7 +5,7 @@
 
 class UserDBManager: public DatabaseObject {
 public:
-    static void addUser(const dataFormat& user);
+    static bool addUser(const dataFormat& user);
     static bool addUser(const std::string& nickname, const std::string& email,
             const std::string& password, const std::string& token);
     static void deleteUser(const std::string& nickname);
@@ -22,4 +22,3 @@ public:
 };
 
 #endif //TEST_USERDBMANAGER_H
-.

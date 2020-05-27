@@ -10,8 +10,8 @@
 #define USER_TOKEN_FIELD "token"
 #define USER_TOKEN_EXP_TIME_FIELD "token_exp_time"
 
-void UserDBManager::addUser(const dataFormat &user) {
-    storeToDB(user, USER_TABLE_NAME);
+bool UserDBManager::addUser(const dataFormat &user) {
+    return storeToDB(user, USER_TABLE_NAME);
 }
 
 #define DEBUG 1
