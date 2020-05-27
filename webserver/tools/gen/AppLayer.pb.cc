@@ -183,6 +183,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_AppLayer_2eproto::offsets[] PR
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::Hash, value_),
+  PROTOBUF_FIELD_OFFSET(::Hash, user_id_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Hashes, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -204,8 +205,8 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 14, -1, sizeof(::AccessToken)},
   { 22, -1, sizeof(::Token)},
   { 28, -1, sizeof(::Hash)},
-  { 34, -1, sizeof(::Hashes)},
-  { 40, -1, sizeof(::Code)},
+  { 35, -1, sizeof(::Hashes)},
+  { 41, -1, sizeof(::Code)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -223,16 +224,16 @@ const char descriptor_table_protodef_AppLayer_2eproto[] PROTOBUF_SECTION_VARIABL
   "(\t\022\r\n\005email\030\002 \001(\t\022\020\n\010password\030\003 \001(\t\"\030\n\005E"
   "rror\022\017\n\007message\030\001 \001(\t\"D\n\013AccessToken\022\r\n\005"
   "token\030\001 \001(\t\022\017\n\007user_id\030\002 \001(\005\022\025\n\005error\030\003 "
-  "\001(\0132\006.Error\"\026\n\005Token\022\r\n\005token\030\001 \001(\t\"\025\n\004H"
-  "ash\022\r\n\005value\030\001 \001(\t\"\037\n\006Hashes\022\025\n\006hashes\030\001"
-  " \003(\0132\005.Hash\"3\n\004Code\022\014\n\004name\030\001 \001(\t\022\014\n\004tex"
-  "t\030\002 \001(\t\022\017\n\007user_id\030\003 \001(\0052\342\001\n\010AppLayer\022\033\n"
-  "\010AuthUser\022\005.User\032\006.Token\"\000\022\032\n\007RegUser\022\005."
-  "User\032\006.Token\"\000\022\033\n\tStoreCode\022\005.Code\032\005.Has"
-  "h\"\000\022\031\n\007GetCode\022\005.Hash\032\005.Code\"\000\022\035\n\nDelete"
-  "Code\022\005.Hash\032\006.Error\"\000\022 \n\014GetAllHashes\022\005."
-  "User\032\007.Hashes\"\000\022$\n\nCheckToken\022\006.Token\032\014."
-  "AccessToken\"\000b\006proto3"
+  "\001(\0132\006.Error\"\026\n\005Token\022\r\n\005token\030\001 \001(\t\"&\n\004H"
+  "ash\022\r\n\005value\030\001 \001(\t\022\017\n\007user_id\030\002 \001(\005\"\037\n\006H"
+  "ashes\022\025\n\006hashes\030\001 \003(\0132\005.Hash\"3\n\004Code\022\014\n\004"
+  "name\030\001 \001(\t\022\014\n\004text\030\002 \001(\t\022\017\n\007user_id\030\003 \001("
+  "\0052\342\001\n\010AppLayer\022\033\n\010AuthUser\022\005.User\032\006.Toke"
+  "n\"\000\022\032\n\007RegUser\022\005.User\032\006.Token\"\000\022\033\n\tStore"
+  "Code\022\005.Code\032\005.Hash\"\000\022\031\n\007GetCode\022\005.Hash\032\005"
+  ".Code\"\000\022\035\n\nDeleteCode\022\005.Hash\032\006.Error\"\000\022 "
+  "\n\014GetAllHashes\022\005.User\032\007.Hashes\"\000\022$\n\nChec"
+  "kToken\022\006.Token\032\014.AccessToken\"\000b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_AppLayer_2eproto_deps[1] = {
 };
@@ -248,7 +249,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_App
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_AppLayer_2eproto_once;
 static bool descriptor_table_AppLayer_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_AppLayer_2eproto = {
-  &descriptor_table_AppLayer_2eproto_initialized, descriptor_table_protodef_AppLayer_2eproto, "AppLayer.proto", 541,
+  &descriptor_table_AppLayer_2eproto_initialized, descriptor_table_protodef_AppLayer_2eproto, "AppLayer.proto", 558,
   &descriptor_table_AppLayer_2eproto_once, descriptor_table_AppLayer_2eproto_sccs, descriptor_table_AppLayer_2eproto_deps, 7, 0,
   schemas, file_default_instances, TableStruct_AppLayer_2eproto::offsets,
   file_level_metadata_AppLayer_2eproto, 7, file_level_enum_descriptors_AppLayer_2eproto, file_level_service_descriptors_AppLayer_2eproto,
@@ -1224,12 +1225,14 @@ Hash::Hash(const Hash& from)
   if (!from._internal_value().empty()) {
     value_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.value_);
   }
+  user_id_ = from.user_id_;
   // @@protoc_insertion_point(copy_constructor:Hash)
 }
 
 void Hash::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_Hash_AppLayer_2eproto.base);
   value_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  user_id_ = 0;
 }
 
 Hash::~Hash() {
@@ -1257,6 +1260,7 @@ void Hash::Clear() {
   (void) cached_has_bits;
 
   value_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  user_id_ = 0;
   _internal_metadata_.Clear();
 }
 
@@ -1273,6 +1277,13 @@ const char* Hash::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::inter
           auto str = _internal_mutable_value();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "Hash.value"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int32 user_id = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          user_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -1312,6 +1323,12 @@ failure:
         1, this->_internal_value(), target);
   }
 
+  // int32 user_id = 2;
+  if (this->user_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_user_id(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields(), target, stream);
@@ -1333,6 +1350,13 @@ size_t Hash::ByteSizeLong() const {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_value());
+  }
+
+  // int32 user_id = 2;
+  if (this->user_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_user_id());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1370,6 +1394,9 @@ void Hash::MergeFrom(const Hash& from) {
 
     value_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.value_);
   }
+  if (from.user_id() != 0) {
+    _internal_set_user_id(from._internal_user_id());
+  }
 }
 
 void Hash::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -1395,6 +1422,7 @@ void Hash::InternalSwap(Hash* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
   value_.Swap(&other->value_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
+  swap(user_id_, other->user_id_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata Hash::GetMetadata() const {

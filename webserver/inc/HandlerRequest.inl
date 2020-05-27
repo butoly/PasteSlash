@@ -225,16 +225,30 @@ void HandlerRequest<Send>::handle(http::request<Body,
         return send_(get_bad_request("Illegal request-target"));
     }
 
-    // Split target
+    static AppLayerClient al_client(grpc::CreateChannel(
+        "localhost:3001", grpc::InsecureChannelCredentials()));
+
+    // Get target and params
     std::string target = req.target().to_string();
+    std::string body = req.body();
+
+    // Get params from path
+    int delim = target.find("?");
+    int first = target.find("&");
+    if (delim != -1 && (first == -1 ||
+        (first != -1 && delim < first))) {
+        std::vector<std::string> spl;
+        boost::split(spl, target, boost::is_any_of("?"));
+        target = spl[0];
+        body = spl[1];
+    }
+
+    // Get splitted path
     std::vector<std::string> splitted;
     boost::split(splitted, target, boost::is_any_of("/"));
 
-    std::string body = req.body();
     std::string reply;
     std::string status;
-    static AppLayerClient al_client(grpc::CreateChannel(
-        "localhost:3001", grpc::InsecureChannelCredentials()));
 
     // Respond to GET request
     if(req.method() == http::verb::get) {
