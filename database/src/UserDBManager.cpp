@@ -55,29 +55,31 @@ bool UserDBManager::addUser(const std::string &nickname,
     return storeToDB(user, USER_TABLE_NAME);
 }
 
-conditionMapFormat createPKValueMap(const std::string &nickname) {
+conditionMapFormat createConditionMap(const std::string &nickname) {
     return {{USER_NICKNAME_FIELD, SignValue("=", nickname)}};
 }
 
-void UserDBManager::deleteUser(const std::string &nickname) {
-    conditionMapFormat pkValueMap = createPKValueMap(nickname);
-    deleteByPK(pkValueMap, USER_TABLE_NAME);
+bool UserDBManager::deleteUser(const std::string &nickname) {
+    conditionMapFormat pkValueMap = createConditionMap(nickname);
+    return updateUser(nickname, {{"is_active", "false"}});
 }
 
-void UserDBManager::updateUser(const std::string &nickname,
+
+
+bool UserDBManager::updateUser(const std::string &nickname,
                                const dataFormat &newParamsMap) {
-    conditionMapFormat pkValueMap = createPKValueMap(nickname);
-    updateByPK(pkValueMap, newParamsMap, USER_TABLE_NAME);
+    conditionMapFormat pkValueMap = createConditionMap(nickname);
+    return updateByPK(pkValueMap, newParamsMap, USER_TABLE_NAME);
 }
 
 std::shared_ptr<dataFormat> UserDBManager::getUser(
         const std::string &username) {
-    conditionMapFormat pkValueMap = createPKValueMap(username);
+    conditionMapFormat pkValueMap = createConditionMap(username);
     return getByPK(pkValueMap, USER_TABLE_NAME);
 }
 
 bool UserDBManager::isNicknameExist(const std::string &nickname) {
-    conditionMapFormat map = createPKValueMap(nickname);
+    conditionMapFormat map = createConditionMap(nickname);
     std::shared_ptr<dataFormat> result = getByPK(map, USER_TABLE_NAME);
     if (result) return true;
     return false;
@@ -91,7 +93,7 @@ bool UserDBManager::isEmailExist(const std::string &email) {
 }
 
 std::string UserDBManager::getPassword(const std::string &nickname) {
-    conditionMapFormat map = createPKValueMap(nickname);
+    conditionMapFormat map = createConditionMap(nickname);
     std::shared_ptr<dataFormat> result = getByPK(map, USER_TABLE_NAME);
     if (result)
         return (*result)[USER_PASSWORD_FIELD];
@@ -100,7 +102,7 @@ std::string UserDBManager::getPassword(const std::string &nickname) {
 }
 
 int UserDBManager::getID(const std::string &nickname) {
-    conditionMapFormat map = createPKValueMap(nickname);
+    conditionMapFormat map = createConditionMap(nickname);
     std::shared_ptr<dataFormat> result =
             getByPK(map, USER_TABLE_NAME, USER_ID_FIELD);
     if (result)
@@ -118,7 +120,7 @@ int UserDBManager::isTokenExist(const std::string &token) {
 
 void UserDBManager::updateToken(const std::string &nickname,
                                 const std::string &newToken, int daysOfLiving) {
-    conditionMapFormat pkValueMap = createPKValueMap(nickname);
+    conditionMapFormat pkValueMap = createConditionMap(nickname);
     dataFormat newParamsMap = {
             {USER_TOKEN_FIELD, newToken},
             {USER_TOKEN_EXP_TIME_FIELD, createTokenDatePostgresStyle(daysOfLiving)}};

@@ -27,6 +27,8 @@ public:
     static int getPasteAuthor(const std::string& hash);
     static std::vector<std::string> getHashList(const std::string& nickname);
     static bool deleteOverduePastes(const std::string& time = "now()");
+
+    static bool updateText(const std::string &hash, const std::string &newText);
 };
 
 #endif  // TEST_PASTEDBMANAGER_H
