@@ -99,8 +99,6 @@ string AppLayerClient::RegUser(const string& nickname, const string& email,
     GPR_ASSERT(ok);
 
     token = tk.token();
-    std::cout << token << std::endl;
-
     if (status.ok()) {
         return positive_reply;
     } else {
