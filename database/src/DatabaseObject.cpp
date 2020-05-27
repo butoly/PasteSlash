@@ -5,15 +5,18 @@ bool DatabaseObject::storeToDB(const dataFormat &fieldValueMap, const std::strin
     return Database::getInstance().execPostQuery(sqlQuery);
 }
 
-void DatabaseObject::deleteByPK(const conditionMapFormat& pkValueMap,
+bool DatabaseObject::deleteByPK(const conditionMapFormat& pkValueMap,
         const std::string& table) {
+    bool result = false;
     try {
         std::string sqlQuery = SqlGenerator::generateDeleteQuery(table, pkValueMap);
-        Database::getInstance().execPostQuery(sqlQuery);
+        result = Database::getInstance().execPostQuery(sqlQuery);
     }
     catch (const std::exception& exception) {
         std::cout << exception.what() << std::endl;
     }
+
+    return result;
 }
 
 void DatabaseObject::updateByPK(const conditionMapFormat &pkValueMap,
