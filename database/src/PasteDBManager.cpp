@@ -34,14 +34,16 @@ std::shared_ptr<dataFormat> PasteDBManager::getPaste(const std::string& hash) {
 }
 
 bool PasteDBManager::deletePaste(const std::string& hash) {
-    conditionMapFormat conditionMap = createHashConditionMap(hash);
-    if (getPaste(hash) == nullptr)
+    if (!checkHash(hash))
         return false;
+    conditionMapFormat conditionMap = createHashConditionMap(hash);
     return deleteByPK(conditionMap, PASTE_TABLE_NAME);
 }
 
 bool PasteDBManager::updatePaste(const std::string& hash,
                                  const dataFormat& newParamsMap) {
+    if (!checkHash(hash))
+        return false;
     conditionMapFormat conditionMap = createHashConditionMap(hash);
     return updateByPK(conditionMap, newParamsMap, PASTE_TABLE_NAME);
 }
