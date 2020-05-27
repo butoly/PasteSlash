@@ -34,6 +34,8 @@ void printParsedResult(const queryResultFormat& parsedResult){
 
 queryResultFormat parsePGResult(const pqxx::result& result) {
     queryResultFormat parsedResult;
+    if (result.empty())
+        return parsedResult;
 
     for (pqxx::result::const_iterator row = result.begin(); row != result.end();
          row++) {

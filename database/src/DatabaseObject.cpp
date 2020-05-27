@@ -1,44 +1,48 @@
 #include "../include/DatabaseObject.h"
 
-bool DatabaseObject::storeToDB(const dataFormat &fieldValueMap, const std::string& table) {
+bool DatabaseObject::storeToDB(const dataFormat& fieldValueMap,
+                               const std::string& table) {
     std::string sqlQuery = SqlGenerator::generateAddQuery(table, fieldValueMap);
     return Database::getInstance().execPostQuery(sqlQuery);
 }
 
 bool DatabaseObject::deleteByPK(const conditionMapFormat& pkValueMap,
-        const std::string& table) {
+                                const std::string& table) {
     bool result = false;
     try {
         std::string sqlQuery = SqlGenerator::generateDeleteQuery(table, pkValueMap);
         result = Database::getInstance().execPostQuery(sqlQuery);
-    }
-    catch (const std::exception& exception) {
+    } catch (const std::exception& exception) {
         std::cout << exception.what() << std::endl;
     }
 
     return result;
 }
 
-void DatabaseObject::updateByPK(const conditionMapFormat &pkValueMap,
-        const dataFormat &newParamsMap, const std::string& table) {
+bool DatabaseObject::updateByPK(const conditionMapFormat& conditionMap,
+                                const dataFormat& newParamsMap,
+                                const std::string& table) {
+    bool result;
     try {
-        std::string sqlQuery = SqlGenerator::generateUpdateQuery(table,
-                pkValueMap, newParamsMap);
-        Database::getInstance().execPostQuery(sqlQuery);
-    }
-    catch (const std::exception& exception) {
+        std::string sqlQuery =
+                SqlGenerator::generateUpdateQuery(table, conditionMap, newParamsMap);
+        result = Database::getInstance().execPostQuery(sqlQuery);
+    } catch (const std::exception& exception) {
         std::cout << exception.what() << std::endl;
     }
+
+    return result;
 }
 
-std::shared_ptr<queryResultFormat> DatabaseObject::getMany(const conditionMapFormat& map,
-        const std::string& table, const std::string& fields) {
+std::shared_ptr<queryResultFormat> DatabaseObject::getMany(
+        const conditionMapFormat& conditionMap, const std::string& table,
+        const std::string& fields) {
     queryResultFormat result;
     try {
-        std::string sqlQuery = SqlGenerator::generateGetQuery(table, map, fields);
+        std::string sqlQuery =
+                SqlGenerator::generateGetQuery(table, conditionMap, fields);
         result = Database::getInstance().execGetQuery(sqlQuery);
-    }
-    catch (const std::exception& exception) {
+    } catch (const std::exception& exception) {
         std::cout << exception.what() << std::endl;
     }
 
@@ -47,14 +51,16 @@ std::shared_ptr<queryResultFormat> DatabaseObject::getMany(const conditionMapFor
     else
         return std::make_shared<queryResultFormat>(result);
 }
-std::shared_ptr<dataFormat> DatabaseObject::getByPK(const conditionMapFormat& pkValueMap,
-        const std::string& table, const std::string& fields) {
+
+std::shared_ptr<dataFormat> DatabaseObject::getByPK(
+        const conditionMapFormat& conditionMap, const std::string& table,
+        const std::string& fields) {
     queryResultFormat result;
     try {
-        std::string sqlQuery = SqlGenerator::generateGetQuery(table, pkValueMap, fields);
+        std::string sqlQuery =
+                SqlGenerator::generateGetQuery(table, conditionMap, fields);
         result = Database::getInstance().execGetQuery(sqlQuery);
-    }
-    catch (const std::exception& exception) {
+    } catch (const std::exception& exception) {
         std::cout << exception.what() << std::endl;
     }
 
