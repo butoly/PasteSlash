@@ -25,4 +25,4 @@ public:
     static int isTokenExist(const std::string& token);
 };
 
-#endif  // TEST_USERDBMANAGER_H
+#endif  //TEST_USERDBMANAGER_H

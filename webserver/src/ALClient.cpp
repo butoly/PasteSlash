@@ -138,7 +138,7 @@ string AppLayerClient::StoreCode(const string& name, const string& text,
     string error;
     Status st = CheckToken(token, user_id, error);
     if (!st.ok()) {
-        return error;
+        return st.error_message();
     }
 
     Code code = MakeCode(name, text, user_id);
@@ -201,7 +201,7 @@ string AppLayerClient::DeleteCode(const string& hash, string& token, string& err
     long user_id;
     Status st = CheckToken(token, user_id, error);
     if (!st.ok()) {
-        return error;
+        return st.error_message();
     }
 
     Hash hs = MakeHash(hash, user_id);
@@ -237,7 +237,7 @@ string AppLayerClient::GetAllHashes(const string& nickname,
     string error;
     Status st = CheckToken(token, user_id, error);
     if (!st.ok()) {
-        return error;
+        return st.error_message();
     }
 
     string email = "";

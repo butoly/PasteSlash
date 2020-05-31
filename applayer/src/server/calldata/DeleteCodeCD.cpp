@@ -19,12 +19,15 @@ void DeleteCodeCD::proceed(bool) {
                 msg.set_message("code deleted");
                 break;
             case -1:
+                msg.set_message("code not found");
                 finish(::grpc::Status(::grpc::NOT_FOUND, "code not found"));
                 return;
             case -2:
+                msg.set_message("unknown error");
                 finish(::grpc::Status(::grpc::UNKNOWN, "unknown error"));
                 return;
             case -3:
+                msg.set_message("no access");
                 finish(::grpc::Status(::grpc::UNAVAILABLE, "no access"));
                 return;
             default:
