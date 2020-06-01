@@ -14,17 +14,21 @@
 
 class PasteDBManager : public DatabaseObject {
 public:
-    static void addPaste(const dataFormat& paste);
-    static bool addPaste(const std::string& text, const std::string& hash, const int id=NO_ID,
-            const std::string& title="Untitled");
+    static bool addPaste(const dataFormat& paste);
+    static bool addPaste(const std::string& text, const std::string& hash,
+                         const int id = NO_ID,
+                         const std::string& title = "Untitled");
     static std::shared_ptr<dataFormat> getPaste(const std::string& hash);
-    static void deletePaste(const std::string& hash);
-    static void updatePaste(const std::string& hash, const dataFormat& newParamsMap);
+    static bool deletePaste(const std::string& hash);
+    static bool updatePaste(const std::string& hash,
+                            const dataFormat& newParamsMap);
 
     static bool checkHash(const std::string& hash);
     static int getPasteAuthor(const std::string& hash);
     static std::vector<std::string> getHashList(const std::string& nickname);
-    static void deleteOverduePastes(const std::string& time="now()");
+    static bool deleteOverduePastes(const std::string& time = "now()");
+
+    static bool updateText(const std::string &hash, const std::string &newText);
 };
 
-#endif //TEST_PASTEDBMANAGER_H
+#endif  // TEST_PASTEDBMANAGER_H

@@ -12,15 +12,18 @@
 class DatabaseObject {
 protected:
     static bool storeToDB(const dataFormat& fieldValueMap,
-            const std::string &table);
-    static void updateByPK(const conditionMapFormat& pkValueMap,
-            const dataFormat& newParamsMap, const std::string &table);
-    static void deleteByPK(const conditionMapFormat& pkValueMap,
-            const std::string &table);
-    static std::shared_ptr<dataFormat> getByPK(const conditionMapFormat& pkValueMap,
-            const std::string& table, const std::string &fields="*");
-    static std::shared_ptr<queryResultFormat> getMany(const conditionMapFormat &map,
-            const std::string &table, const std::string &fields = "*");
+                          const std::string& table);
+    static bool updateByPK(const conditionMapFormat& conditionMap,
+                           const dataFormat& newParamsMap,
+                           const std::string& table);
+    static bool deleteByPK(const conditionMapFormat& conditionMap,
+                           const std::string& table);
+    static std::shared_ptr<dataFormat> getByPK(
+            const conditionMapFormat& conditionMap, const std::string& table,
+            const std::string& fields = "*");
+    static std::shared_ptr<queryResultFormat> getMany(
+            const conditionMapFormat& conditionMap, const std::string& table,
+            const std::string& fields = "*");
 };
 
-#endif //TEST_DATABASEOBJECT_H
+#endif  // TEST_DATABASEOBJECT_H

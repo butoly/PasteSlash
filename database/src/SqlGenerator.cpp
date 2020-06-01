@@ -14,8 +14,13 @@ std::string SqlGenerator::generateAddQuery(const std::string& into,
     sqlQuery = sqlQuery.substr(0, sqlQuery.size() - 2);
     sqlQuery += ") VALUES (";
 
-    for (auto &value : fieldValueMap)
+    for (auto &value : fieldValueMap) {
+        if (value.second.find("now()") == 0) {
+            sqlQuery += value.second + ", ";
+            continue;
+        }
         sqlQuery += stringWithQuotes(value.second) + ", ";
+    }
 
     sqlQuery = sqlQuery.substr(0, sqlQuery.size() - 2);
     sqlQuery += ");";
@@ -55,8 +60,14 @@ std::string SqlGenerator::generateUpdateQuery(const std::string& tableName,
         const conditionMapFormat& conditionMap, const dataFormat& newValuesMap) {
     std::string sqlQuery = "UPDATE " + tableName + " SET ";
 
-    for (const auto& i: newValuesMap)
-        sqlQuery += i.first + "=" + stringWithQuotes(i.second) + ", ";
+    for (const auto& i: newValuesMap) {
+        sqlQuery += i.first + "=";
+        if (i.second.find("now()") == 0) {
+            sqlQuery += i.second + ", ";
+            continue;
+        }
+        sqlQuery += stringWithQuotes(i.second) + ", ";
+    }
     sqlQuery = sqlQuery.substr(0, sqlQuery.size() - 2);
 
     sqlQuery += " WHERE ";
