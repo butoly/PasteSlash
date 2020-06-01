@@ -44,4 +44,3 @@ message Code {
     string text = 2;
     int32 user_id = 3;
 }
-

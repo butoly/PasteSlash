@@ -25,8 +25,8 @@ void GetAllHashesCD::proceed(bool) {
                 break;
         }
 
-        for (std::string h: hashes) {
-            gHashes.add_hashes()->set_value(h);
+        for (std::string &h: hashes) {
+            gHashes.add_hashes()->set_value(std::move(h));
         }
 
         finish(::grpc::Status::OK);

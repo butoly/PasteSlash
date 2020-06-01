@@ -8,8 +8,6 @@ void RegUserCD::proceed(bool) {
     } else if (status == PROCESS) {
         new RegUserCD(service, cq);
 
-        std::cout << "REGISTER" << std::endl;
-
         Models::User mUser = converter.UserFromGRPC(gUser);
 
         Models::Token mToken;

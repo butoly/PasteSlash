@@ -13,7 +13,7 @@ private:
     std::vector<std::string>* hashes;
 
 public:
-    GetAllHashesUsecase(Models::User u, std::vector<std::string>* h) : user(u), hashes(h) {};
+    GetAllHashesUsecase(Models::User& u, std::vector<std::string>* h) : user(u), hashes(h) {};
     ~GetAllHashesUsecase() = default;
 
     int execute() override;
