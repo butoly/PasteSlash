@@ -66,6 +66,7 @@ std::shared_ptr<dataFormat> DatabaseObject::getByPK(
     try {
         std::string sqlQuery =
                 SqlGenerator::generateGetQuery(table, conditionMap, fields);
+        std::cout << sqlQuery;
         result = Database::getInstance().execGetQuery(sqlQuery);
     } catch (const std::exception& exception) {
         std::cout << exception.what() << std::endl;

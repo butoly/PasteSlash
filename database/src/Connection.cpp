@@ -1,6 +1,6 @@
 #include "../include/Connection.h"
 #include <fstream>
-//#define DEBUG 1
+#define DEBUG 1
 #define DEF_PGCONF_FILE "pgConfig.txt"
 
 std::string readFileInString(const std::string& fileName) {
@@ -37,8 +37,7 @@ queryResultFormat parsePGResult(const pqxx::result& result) {
     if (result.empty())
         return parsedResult;
 
-    for (pqxx::result::const_iterator row = result.begin(); row != result.end();
-         row++) {
+    for (const auto& row : result) {
          dataFormat map;
 
         for (auto&& field : row)

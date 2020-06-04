@@ -20,16 +20,69 @@ bool PasteDBManager::addPaste(const dataFormat& paste) {
     return storeToDB(paste, PASTE_TABLE_NAME);
 }
 
-conditionMapFormat createGetConditionMap(const std::string& hash) {
+std::tm parsePostgresTime(const std::string& postgresTime) {
+    std::tm tm{0};
+    tm.tm_year = std::stoi(postgresTime.substr(0, 4));
+    tm.tm_mon = std::stoi(postgresTime.substr(6, 7));
+    tm.tm_mday = std::stoi(postgresTime.substr(9, 10));
+    tm.tm_hour = std::stoi(postgresTime.substr(11, 13));
+    tm.tm_min = std::stoi(postgresTime.substr(14, 16));
+    return tm;
+}
+
+std::tm getNow() {
+    std::time_t tt =
+            std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+    std::tm tm{0};
+    gmtime_r(&tt, &tm);
+    tm.tm_year += 1900;
+    tm.tm_mon += 1;
+    return tm;
+}
+
+bool checkTime(const std::string& postgresTime) {
+    std::tm postTm = parsePostgresTime(postgresTime);
+    std::tm nowTm = getNow();
+    if (postTm.tm_year > nowTm.tm_year)
+        return false;
+    else if (postTm.tm_year < nowTm.tm_year)
+        return true;
+    if (postTm.tm_mon > nowTm.tm_mon)
+        return false;
+    else if (postTm.tm_mon < nowTm.tm_mon)
+        return true;
+    if (postTm.tm_mday > nowTm.tm_mday)
+        return false;
+    else if (postTm.tm_mday < nowTm.tm_mday)
+        return true;
+    if (postTm.tm_hour > nowTm.tm_hour)
+        return false;
+    else if (postTm.tm_hour < nowTm.tm_hour)
+        return true;
+
+    return postTm.tm_min >= nowTm.tm_min;
+}
+
+void deleteIfOverdue(const std::string& hash) {
     conditionMapFormat map = {{PASTE_HASH_FIELD, SignValue("=", hash)},
-                              {PASTE_EXPTIME_FIELD, SignValue("IS NOT NULL", "")},
-                              {PASTE_EXPTIME_FIELD, SignValue(">", "now()")}};
-    return map;
+                              {PASTE_EXPTIME_FIELD, SignValue("<", "now()")}};
+    PasteDBManager::deletePaste(hash);
 }
 
 std::shared_ptr<dataFormat> PasteDBManager::getPaste(const std::string& hash) {
     conditionMapFormat pkValueMap = createHashConditionMap(hash);
     std::shared_ptr<dataFormat> paste = getByPK(pkValueMap, PASTE_TABLE_NAME);
+    if (!paste)
+        return paste;
+    if ((*paste).at(PASTE_EXPTIME_FIELD).empty())
+        return paste;
+
+    /*
+    if (checkTime((*paste).at(PASTE_EXPTIME_FIELD))) {
+        deletePaste(hash);
+        return nullptr;
+    }
+*/
     return paste;
 }
 

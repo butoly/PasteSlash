@@ -14,7 +14,11 @@ bool UserDBManager::addUser(const dataFormat &user) {
     return storeToDB(user, USER_TABLE_NAME);
 }
 
-const std::string DEFAULT_DAYS_OF_LIVING = "2";
+std::string createTokenExpTime(int daysOfLiving) {
+    return "now() + interval '" + std::to_string(daysOfLiving) + "days'";
+}
+
+#define DEFAULT_DAYS_OF_LIVING 2
 bool UserDBManager::addUser(const std::string &nickname,
                             const std::string &email,
                             const std::string &password,
@@ -24,7 +28,7 @@ bool UserDBManager::addUser(const std::string &nickname,
     user[USER_EMAIL_FIELD] = email;
     user[USER_PASSWORD_FIELD] = password;
     user[USER_TOKEN_FIELD] = token;
-    user[USER_TOKEN_EXP_TIME_FIELD] = "now() + interval '" + DEFAULT_DAYS_OF_LIVING + "days'";
+    user[USER_TOKEN_EXP_TIME_FIELD] = createTokenExpTime(DEFAULT_DAYS_OF_LIVING);
     return storeToDB(user, USER_TABLE_NAME);
 }
 
@@ -93,7 +97,7 @@ void UserDBManager::updateToken(const std::string &nickname,
                                 const std::string &newToken, int daysOfLiving) {
     conditionMapFormat conditionMap = createConditionMap(nickname);
     dataFormat newParamsMap = {
-            {USER_TOKEN_FIELD, newToken},
-            {USER_TOKEN_EXP_TIME_FIELD, "now() + interval '" + std::to_string(daysOfLiving) + " days'"}};
+            {USER_TOKEN_FIELD,          newToken},
+            {USER_TOKEN_EXP_TIME_FIELD, createTokenExpTime(daysOfLiving)}};
     updateByPK(conditionMap, newParamsMap, USER_TABLE_NAME);
 }
