@@ -32,6 +32,7 @@ message Token {
 
 message Hash {
     string value = 1;
+    int32 user_id = 2;
 }
 
 message Hashes {
@@ -43,3 +44,4 @@ message Code {
     string text = 2;
     int32 user_id = 3;
 }
+

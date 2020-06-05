@@ -16,8 +16,8 @@ conditionMapFormat createHashConditionMap(const std::string& hash) {
     return map;
 }
 
-void PasteDBManager::addPaste(const dataFormat &paste) {
-    storeToDB(paste, PASTE_TABLE_NAME);
+bool PasteDBManager::addPaste(const dataFormat& paste) {
+    return storeToDB(paste, PASTE_TABLE_NAME);
 }
 
 conditionMapFormat createGetConditionMap(const std::string& hash) {
@@ -33,14 +33,27 @@ std::shared_ptr<dataFormat> PasteDBManager::getPaste(const std::string& hash) {
     return paste;
 }
 
-void PasteDBManager::deletePaste(const std::string& hash) {
-    conditionMapFormat pkValueMap = createHashConditionMap(hash);
-    deleteByPK(pkValueMap, PASTE_TABLE_NAME);
+bool PasteDBManager::deletePaste(const std::string& hash) {
+    if (!checkHash(hash))
+        return false;
+    conditionMapFormat conditionMap = createHashConditionMap(hash);
+    return deleteByPK(conditionMap, PASTE_TABLE_NAME);
 }
 
-void PasteDBManager::updatePaste(const std::string &hash, const dataFormat& newParamsMap) {
-    conditionMapFormat pkValueMap = createHashConditionMap(hash);
-    updateByPK(pkValueMap, newParamsMap, PASTE_TABLE_NAME);
+bool PasteDBManager::updatePaste(const std::string& hash,
+                                 const dataFormat& newParamsMap) {
+    if (!checkHash(hash))
+        return false;
+    conditionMapFormat conditionMap = createHashConditionMap(hash);
+    return updateByPK(conditionMap, newParamsMap, PASTE_TABLE_NAME);
+}
+
+bool PasteDBManager::updateText(const std::string& hash,
+                                const std::string& newText) {
+    if (!checkHash(hash))
+        return false;
+    conditionMapFormat conditionMap = createHashConditionMap(hash);
+    return updateByPK(conditionMap, {{"text", newText}}, PASTE_TABLE_NAME);
 }
 
 bool PasteDBManager::checkHash(const std::string& hash) {
@@ -49,36 +62,50 @@ bool PasteDBManager::checkHash(const std::string& hash) {
     return !(result == nullptr);
 }
 
-void PasteDBManager::deleteOverduePastes(const std::string &time) {
+bool PasteDBManager::deleteOverduePastes(const std::string& time) {
     conditionMapFormat map = {{PASTE_EXPTIME_FIELD, SignValue("<", time)}};
-    deleteByPK(map, PASTE_TABLE_NAME);
+    return deleteByPK(map, PASTE_TABLE_NAME);
 }
 
-std::vector<std::string> PasteDBManager::getHashList(const std::string &nickname) {
-    std::string id = std::to_string(UserDBManager::getID(nickname));
-    conditionMapFormat map = {{PASTE_USER_FIELD, SignValue("=", id)}};
-    std::shared_ptr<queryResultFormat> paste = getMany(map, PASTE_TABLE_NAME, PASTE_HASH_FIELD);
-    std::vector<std::string> result;
-    if (paste == nullptr)
-        return result;
+std::vector<std::string> PasteDBManager::getHashList(
+        const std::string& nickname) {
+    if (nickname.empty()) return std::vector<std::string>();
 
-    for (auto element: *paste) {
+    std::string id = std::to_string(UserDBManager::getID(nickname));
+    if (std::stoi(id) == NO_ID) return std::vector<std::string>();
+
+    conditionMapFormat map = {{PASTE_USER_FIELD, SignValue("=", id)}};
+    std::shared_ptr<queryResultFormat> paste =
+            getMany(map, PASTE_TABLE_NAME, PASTE_HASH_FIELD);
+    std::vector<std::string> result;
+    if (paste == nullptr) return result;
+
+    for (auto element : *paste) {
         result.push_back(element.at(PASTE_HASH_FIELD));
     }
     return result;
 }
 
-#define DEFAULT_EXPTIME_FOR_NEVER "2100:"
-bool PasteDBManager::addPaste(const std::string &text, const std::string &hash,
-        const std::string &nickname, const std::string& title) {
-    //TODO: expand for all fields
+#define MAX_TITLE_SIZE 60
+bool PasteDBManager::addPaste(const std::string& text, const std::string& hash,
+                              const int id, const std::string& title) {
     dataFormat paste;
     paste[PASTE_TEXT_FIELD] = text;
     paste[PASTE_HASH_FIELD] = hash;
-    if (!nickname.empty())
-        paste[PASTE_USER_FIELD] = std::to_string(UserDBManager::getID(nickname));
     paste[PASTE_CREATETIME_FIELD] = "now";
+
+    if (id != NO_ID) paste[PASTE_USER_FIELD] = std::to_string(id);
+
+    if (title.size() > MAX_TITLE_SIZE) return false;
     paste[PASTE_TITLE_FIELD] = title;
 
     return storeToDB(paste, PASTE_TABLE_NAME);
+}
+
+// TODO: rename to getPasteAuthorID
+int PasteDBManager::getPasteAuthor(const std::string& hash) {
+    std::shared_ptr<dataFormat> paste = getPaste(hash);
+    if (paste == nullptr) return 0;
+    if ((*paste).at(PASTE_USER_FIELD).empty()) return 0;
+    return std::stoi((*paste).at(PASTE_USER_FIELD));
 }

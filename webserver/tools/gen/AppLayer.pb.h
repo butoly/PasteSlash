@@ -798,6 +798,7 @@ class Hash :
 
   enum : int {
     kValueFieldNumber = 1,
+    kUserIdFieldNumber = 2,
   };
   // string value = 1;
   void clear_value();
@@ -815,12 +816,22 @@ class Hash :
   std::string* _internal_mutable_value();
   public:
 
+  // int32 user_id = 2;
+  void clear_user_id();
+  ::PROTOBUF_NAMESPACE_ID::int32 user_id() const;
+  void set_user_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_user_id() const;
+  void _internal_set_user_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Hash)
  private:
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr value_;
+  ::PROTOBUF_NAMESPACE_ID::int32 user_id_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_AppLayer_2eproto;
 };
@@ -1650,6 +1661,26 @@ inline void Hash::set_allocated_value(std::string* value) {
   }
   value_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
   // @@protoc_insertion_point(field_set_allocated:Hash.value)
+}
+
+// int32 user_id = 2;
+inline void Hash::clear_user_id() {
+  user_id_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 Hash::_internal_user_id() const {
+  return user_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 Hash::user_id() const {
+  // @@protoc_insertion_point(field_get:Hash.user_id)
+  return _internal_user_id();
+}
+inline void Hash::_internal_set_user_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  user_id_ = value;
+}
+inline void Hash::set_user_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_user_id(value);
+  // @@protoc_insertion_point(field_set:Hash.user_id)
 }
 
 // -------------------------------------------------------------------

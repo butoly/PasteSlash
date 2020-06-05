@@ -28,9 +28,10 @@ Token MakeToken(const string& token) {
     return t;
 }
 
-Hash MakeHash(const string& value) {
+Hash MakeHash(const string& value, long user_id) {
     Hash h;
     h.set_value(value);
+    h.set_user_id(user_id);
     return h;
 }
 
@@ -72,7 +73,7 @@ string AppLayerClient::AuthUser(const string& nickname, const string& email,
     if (status.ok()) {
         return positive_reply;
     } else {
-        return "RPC failed";
+        return status.error_message();
     }
 }
 
@@ -98,41 +99,46 @@ string AppLayerClient::RegUser(const string& nickname, const string& email,
     GPR_ASSERT(ok);
 
     token = tk.token();
-    std::cout << token << std::endl;
-
     if (status.ok()) {
         return positive_reply;
     } else {
-        return "RPC failed";
+        return status.error_message();
     }
 }
 
-string AppLayerClient::StoreCode(const string& name, const string& text,
-    string& token, string& hash) {
+Status AppLayerClient::CheckToken(string& token, long& user_id, string& error) {
     Token tk = MakeToken(token);
     AccessToken acs_token;
 
-    ClientContext context_add;
-    CompletionQueue cq_add;
-    Status status_add;
+    ClientContext context;
+    CompletionQueue cq;
+    Status status;
 
     std::unique_ptr<ClientAsyncResponseReader<AccessToken>> rpc_add(
-        stub_->PrepareAsyncCheckToken(&context_add, tk, &cq_add));
+        stub_->PrepareAsyncCheckToken(&context, tk, &cq));
     rpc_add->StartCall();
     
-    rpc_add->Finish(&acs_token, &status_add, (void*)1);
+    rpc_add->Finish(&acs_token, &status, (void*)1);
     void* got_tag_add;
     bool ok_add = false;
 
-    GPR_ASSERT(cq_add.Next(&got_tag_add, &ok_add));
+    GPR_ASSERT(cq.Next(&got_tag_add, &ok_add));
     GPR_ASSERT(got_tag_add == (void*)1);
     GPR_ASSERT(ok_add);
 
     token = acs_token.token();
-    long user_id = acs_token.user_id();
-    string error = acs_token.error().message();
-    if (!status_add.ok()) {
-        return error;
+    user_id = acs_token.user_id();
+    error = acs_token.error().message();
+    return status;
+}
+
+string AppLayerClient::StoreCode(const string& name, const string& text,
+    string& token, string& hash) {
+    long user_id;
+    string error;
+    Status st = CheckToken(token, user_id, error);
+    if (!st.ok()) {
+        return st.error_message();
     }
 
     Code code = MakeCode(name, text, user_id);
@@ -158,12 +164,12 @@ string AppLayerClient::StoreCode(const string& name, const string& text,
     if (status.ok()) {
         return positive_reply;
     } else {
-        return "RPC failed";
+        return status.error_message();
     }
 }
 
 string AppLayerClient::GetCode(const string& hash, string& name, string& text) {
-    Hash hs = MakeHash(hash);
+    Hash hs = MakeHash(hash, 0);
     Code code;
 
     ClientContext context;
@@ -187,12 +193,18 @@ string AppLayerClient::GetCode(const string& hash, string& name, string& text) {
     if (status.ok()) {
         return positive_reply;
     } else {
-        return "RPC failed";
+        return status.error_message();
     }
 }
 
-string AppLayerClient::DeleteCode(const string& hash, string& error) {
-    Hash hs = MakeHash(hash);
+string AppLayerClient::DeleteCode(const string& hash, string& token, string& error) {
+    long user_id;
+    Status st = CheckToken(token, user_id, error);
+    if (!st.ok()) {
+        return st.error_message();
+    }
+
+    Hash hs = MakeHash(hash, user_id);
     Error err;
 
     ClientContext context;
@@ -215,12 +227,21 @@ string AppLayerClient::DeleteCode(const string& hash, string& error) {
     if (status.ok()) {
         return positive_reply;
     } else {
-        return "RPC failed";
+        return status.error_message();
     }
 }
 
-string AppLayerClient::GetAllHashes(string nickname, string email, string password,
-    vector<string>& hashes) {
+string AppLayerClient::GetAllHashes(const string& nickname,
+    string& token, vector<string>& hashes) {
+    long user_id;
+    string error;
+    Status st = CheckToken(token, user_id, error);
+    if (!st.ok()) {
+        return st.error_message();
+    }
+
+    string email = "";
+    string password = "";
     User user = MakeUser(nickname, email, password);
     Hashes hs;
 
@@ -246,6 +267,6 @@ string AppLayerClient::GetAllHashes(string nickname, string email, string passwo
     if (status.ok()) {
         return positive_reply;
     } else {
-        return "RPC failed";
+        return status.error_message();
     }
 }

@@ -1,7 +1,6 @@
 #ifndef WEBSERVER_ALCLIENT_HPP
 #define WEBSERVER_ALCLIENT_HPP
 
-#include <iostream>
 #include <memory>
 #include <string>
 #include <vector>
@@ -44,16 +43,20 @@ explicit AppLayerClient(std::shared_ptr<Channel> channel) :
 
     string RegUser(const string& nickname, const string& email,
         const string& password, string& token);
+    
+    Status CheckToken(string& token,
+        long& user_id, string& error);
 
     string StoreCode(const string& name, const string& text,
         string& token, string& hash);
 
     string GetCode(const string& hash, string& name, string& text);
 
-    string DeleteCode(const string& hash, string& error);
+    string DeleteCode(const string& hash, string& token,
+        string& error);
 
-    string GetAllHashes(string nickname, string email, string password,
-        vector<string>& hashes);
+    string GetAllHashes(const string& nickname,
+        string& token, vector<string>& hashes);
 
     const string positive_reply = "OK";
 

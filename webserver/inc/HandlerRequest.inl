@@ -8,8 +8,7 @@
 #include <string>
 #include <vector>
 #include <map>
-
-#include <iostream>
+#include <fstream>
 
 #include "HandlerRequest.h"
 
@@ -57,204 +56,248 @@ bool parse_args(std::map<string, string>& res_args, string body) {
 }
 
 template<class Send>
+http::response<http::string_body> HandlerRequest<Send>::get_bad_request(
+    beast::string_view why) {
+    http::response<http::string_body> res{
+        http::status::bad_request, 11};
+    res.set(http::field::content_type, "text/html");
+    res.body() = std::string(why);
+    res.prepare_payload();
+    return res;
+}
+
+template<class Send>
+http::response<http::string_body> HandlerRequest<Send>::get_not_found(
+    beast::string_view target) {
+    http::response<http::string_body> res{
+        http::status::not_found, 11};
+    res.set(http::field::content_type, "text/html");
+    res.body() = "The resource '" + std::string(target) + "' was not found.";
+    res.prepare_payload();
+    return res;
+}
+
+template<class Send>
+http::response<http::string_body> HandlerRequest<Send>::get_server_error(
+    beast::string_view what) {
+    http::response<http::string_body> res{
+        http::status::internal_server_error, 11};
+    res.set(http::field::content_type, "text/html");
+    res.body() = "An error occurred: '" + std::string(what) + "'";
+    res.prepare_payload();
+    return res;
+}
+
+template<class Send>
+http::response<http::string_body> HandlerRequest<Send>::get_ok(
+    std::string body) {
+    http::response<http::string_body> res{http::status::ok, 11};
+    res.set(http::field::content_type, "text/html");
+    res.body() = body;
+    res.prepare_payload();
+    return res;
+}
+
+template<class Send>
+string HandlerRequest<Send>::handle_get_login(AppLayerClient& al_client,
+    const string& body, string& token) {
+    std::map<string, string> args;
+    args.insert(std::make_pair("nickname", ""));
+    args.insert(std::make_pair("email", ""));
+    args.insert(std::make_pair("password", ""));
+
+    if (!parse_args(args, body)) {
+        return parse_error;
+    }
+    string nickname = args.find("nickname")->second;
+    string email = args.find("email")->second;
+    string password = args.find("password")->second;
+    
+    return al_client.AuthUser(nickname, email, password, token);
+}
+
+template<class Send>
+string HandlerRequest<Send>::handle_get_hashes(AppLayerClient& al_client,
+    const string& body, const string& nickname, string& reply) {
+    std::map<string, string> args;
+    args.insert(std::make_pair("token", ""));
+    if (!parse_args(args, body)) {
+        return parse_error;
+    }
+    string token = args.find("token")->second;
+
+    vector<string> hashes;
+    string status = al_client.GetAllHashes(nickname, token, hashes);
+    for (int i = 0; i < hashes.size(); ++i) {
+        reply += hashes[i] + "\n";
+    }
+    return status;
+}
+
+template<class Send>
+string HandlerRequest<Send>::handle_get_paste(AppLayerClient& al_client,
+    const string& body, const string& hash, string& paste) {
+    std::map<string, string> args;
+    if (!parse_args(args, body)) {
+        return parse_error;
+    }
+    string name;
+    string text;
+    string status = al_client.GetCode(hash, name, text);
+    paste = name + "\n\n" + text;
+    return status;
+}
+
+template<class Send>
+string HandlerRequest<Send>::handle_post_paste(AppLayerClient& al_client,
+    const string& body, string& hash) {
+    std::map<string, string> args;
+    args.insert(std::make_pair("name", ""));
+    args.insert(std::make_pair("text", ""));
+    args.insert(std::make_pair("token", ""));
+
+    if (!parse_args(args, body)) {
+        return parse_error;
+    }
+    string name = args.find("name")->second;
+    string text = args.find("text")->second;
+    string token = args.find("token")->second;
+    
+    // Check given parametr for file
+    std::ifstream pos_file(text);
+    if (pos_file.is_open()) {
+        string str;
+        text = "";
+        while (std::getline(pos_file, str)) {
+            text += str + "\n";
+        }
+    }
+
+    return al_client.StoreCode(name, text, token, hash);
+}
+
+template<class Send>
+string HandlerRequest<Send>::handle_post_register(AppLayerClient& al_client,
+    const string& body, string& token) {
+    std::map<string, string> args;
+    args.insert(std::make_pair("nickname", ""));
+    args.insert(std::make_pair("email", ""));
+    args.insert(std::make_pair("password", ""));
+
+    if (!parse_args(args, body)) {
+        return parse_error;
+    }
+    string nickname = args.find("nickname")->second;
+    string email = args.find("email")->second;
+    string password = args.find("password")->second;
+    
+    return al_client.RegUser(nickname, email, password, token);
+}
+
+template<class Send>
+string HandlerRequest<Send>::handle_delete_code(AppLayerClient& al_client,
+    const string& body, const string& hash, string& error) {
+    std::map<string, string> args;
+    args.insert(std::make_pair("token", ""));
+    if (!parse_args(args, body)) {
+        return parse_error;
+    }
+    string token = args.find("token")->second;
+
+    return al_client.DeleteCode(hash, token, error);
+}
+
+template<class Send>
 template<class Body, class Allocator>
 void HandlerRequest<Send>::handle(http::request<Body,
     http::basic_fields<Allocator>>&& req) {
-    // Returns a bad request response
-    auto const bad_request = [&req](beast::string_view why) {
-        http::response<http::string_body> res{
-            http::status::bad_request, req.version()};
-        res.set(http::field::content_type, "text/html");
-        res.keep_alive(req.keep_alive());
-        res.body() = std::string(why);
-        res.prepare_payload();
-        return res;
-    };
-
-    // Returns a not found response
-    auto const not_found = [&req](beast::string_view target) {
-        http::response<http::string_body> res{
-            http::status::not_found, req.version()};
-        res.set(http::field::content_type, "text/html");
-        res.keep_alive(req.keep_alive());
-        res.body() = "The resource '" + std::string(target) + "' was not found.";
-        res.prepare_payload();
-        return res;
-    };
-
-    // Returns a server error response
-    auto const server_error = [&req](beast::string_view what) {
-        http::response<http::string_body> res{
-            http::status::internal_server_error, req.version()};
-        res.set(http::field::content_type, "text/html");
-        res.keep_alive(req.keep_alive());
-        res.body() = "An error occurred: '" + std::string(what) + "'";
-        res.prepare_payload();
-        return res;
-    };
-
-    // Returns ok response
-    auto const ok = [&req](std::string body) {
-        http::response<http::string_body> res{http::status::ok, req.version()};
-        res.set(http::field::content_type, "text/html");
-        res.keep_alive(req.keep_alive());
-        res.body() = body;
-        res.prepare_payload();
-        return res;
-    };
-
     // Make sure we can handle the method
     if(req.method() != http::verb::get &&
         req.method() != http::verb::post &&
         req.method() != http::verb::delete_) {
-        return send_(bad_request("Unknown HTTP-method\n"));
+        return send_(get_bad_request("Unknown HTTP-method\n"));
     }
 
     // Request path must be absolute and not contain "..".
     if(req.target().empty() ||
         req.target()[0] != '/' ||
         req.target().find("..") != beast::string_view::npos) {
-        return send_(bad_request("Illegal request-target"));
+        return send_(get_bad_request("Illegal request-target"));
     }
 
-    // Split target
+    static AppLayerClient al_client(grpc::CreateChannel(
+        "localhost:3001", grpc::InsecureChannelCredentials()));
+
+    // Get target and params
     std::string target = req.target().to_string();
+    std::string body = req.body();
+
+    // Get params from path
+    int delim = target.find("?");
+    int first = target.find("&");
+    if (delim != -1 && (first == -1 ||
+        (first != -1 && delim < first))) {
+        std::vector<std::string> spl;
+        boost::split(spl, target, boost::is_any_of("?"));
+        target = spl[0];
+        body = spl[1];
+    }
+
+    // Get splitted path
     std::vector<std::string> splitted;
     boost::split(splitted, target, boost::is_any_of("/"));
 
-    std::string body = req.body();
     std::string reply;
     std::string status;
-    static AppLayerClient al_client(grpc::CreateChannel(
-        "localhost:3001", grpc::InsecureChannelCredentials()));
 
     // Respond to GET request
     if(req.method() == http::verb::get) {
         if (splitted.size() < 2) {
-            return send_(not_found(req.target()));
-
+            return send_(get_not_found(req.target()));
         } else if (splitted[1] == "login") {
-
-            std::map<string, string> args;
-            args.insert(std::make_pair("nickname", ""));
-            args.insert(std::make_pair("email", ""));
-            args.insert(std::make_pair("password", ""));
-
-            if (!parse_args(args, body)) {
-                return send_(bad_request("Illegal request-arguments"));
-            }
-            string nickname = args.find("nickname")->second;
-            string email = args.find("email")->second;
-            string password = args.find("password")->second;
-            
-            string token;
-            status = al_client.AuthUser(nickname, email, password, token);
-            reply = token;
-
-        } else if (splitted[1] == "register") {
-
-            std::map<string, string> args;
-            args.insert(std::make_pair("nickname", ""));
-            args.insert(std::make_pair("email", ""));
-            args.insert(std::make_pair("password", ""));
-
-            if (!parse_args(args, body)) {
-                return send_(bad_request("Illegal request-arguments"));
-            }
-            string nickname = args.find("nickname")->second;
-            string email = args.find("email")->second;
-            string password = args.find("password")->second;
-            
-            string token;
-            status = al_client.RegUser(nickname, email, password, token);
-            reply = token;
-
+            status = handle_get_login(al_client, body, reply);
         } else if (splitted[1] == "hash" && splitted.size() == 3) {
-
-            std::map<string, string> args;
-            args.insert(std::make_pair("email", ""));
-            args.insert(std::make_pair("password", ""));
-
-            if (!parse_args(args, body)) {
-                return send_(bad_request("Illegal request-arguments"));
-            }
             string nickname = splitted[2];
-            string email = args.find("email")->second;
-            string password = args.find("password")->second;
-
-            vector<string> hashes;
-            status = al_client.GetAllHashes(nickname, email, password, hashes);
-            for (int i = 0; i < hashes.size(); ++i) {
-                reply += hashes[i] + "\n";
-            }
-
+            status = handle_get_hashes(al_client, body, nickname, reply);
         } else if (splitted[1] == "paste" && splitted.size() == 3) {
-
-            std::map<string, string> args;
-            if (!parse_args(args, body)) {
-                return send_(bad_request("Illegal request-arguments"));
-            }
             string hash = splitted[2];
-            string name;
-            string text;
-            status = al_client.GetCode(hash, name, text);
-            reply = name + "\n\n" + text;
-
+            status = handle_get_paste(al_client, body, hash, reply);
         } else {
-            return send_(not_found(req.target()));
+            return send_(get_not_found(req.target()));
         }
     }
 
     // Respond to POST request
     if(req.method() == http::verb::post) {
         if (splitted.size() < 2) {
-            return send_(not_found(req.target()));
+            return send_(get_not_found(req.target()));
         } else if (splitted[1] == "paste" && splitted.size() == 2) {
-            
-            std::map<string, string> args;
-            args.insert(std::make_pair("name", ""));
-            args.insert(std::make_pair("text", ""));
-            args.insert(std::make_pair("token", ""));
-
-            if (!parse_args(args, body)) {
-                return send_(bad_request("Illegal request-arguments"));
-            }
-            string name = args.find("name")->second;
-            string text = args.find("text")->second;
-            string token = args.find("token")->second;
-
-            string hash;
-            status = al_client.StoreCode(name, text, token, hash);
-            reply = hash;
+            status = handle_post_paste(al_client, body, reply);
+        } else if (splitted[1] == "register") {
+            status = handle_post_register(al_client, body, reply);
         } else {
-            return send_(not_found(req.target()));
+            return send_(get_not_found(req.target()));
         }
     }
 
+    // Respond to DELETE request
     if(req.method() == http::verb::delete_) {
         if (splitted.size() < 2) {
-            return send_(not_found(req.target()));
+            return send_(get_not_found(req.target()));
         } else if (splitted[1] == "delete" && splitted.size() == 3) {
-
-            std::map<string, string> args;
-            if (!parse_args(args, body)) {
-                return send_(bad_request("Illegal request-arguments"));
-            }
-
             string hash = splitted[2];
-            string error;
-            status = al_client.DeleteCode(hash, error);
-            reply = error;
-
+            status = handle_delete_code(al_client, body, hash, reply);
         } else {
-            return send_(not_found(req.target()));
+            return send_(get_not_found(req.target()));
         }
     }
 
     if (status == al_client.positive_reply) {
-        return send_(ok(reply));
+        return send_(get_ok(reply));
+    } else if (status == parse_error) {
+        return send_(get_bad_request(parse_error));
     } else {
-        return send_(server_error(status));
+        return send_(get_server_error(status));
     }
 }
 

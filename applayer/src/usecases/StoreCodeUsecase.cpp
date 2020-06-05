@@ -19,7 +19,7 @@ int StoreCodeUsecase::execute() {
 
     code->hash = receivedData;
 
-    bool isSuccess = PasteDBManager::addPaste(code->body, code->hash, "yletamitlu", code->name);
+    bool isSuccess = PasteDBManager::addPaste(code->body, code->hash, user_id, code->name);
 
     if (!isSuccess) {
         return -2;
