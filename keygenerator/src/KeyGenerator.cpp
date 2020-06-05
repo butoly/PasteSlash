@@ -5,7 +5,6 @@
 
 KeyGeneratorClass :: KeyGeneratorClass() {
     randomize = std::make_shared<RandomizeClass>();
-    KeyValidationClass& validator = KeyValidationClass::getInstance();
     active_queue_pointer = std::make_shared<std::queue<std::string>>();
     unactive_queue_pointer = std::make_shared<std::queue<std::string>>();
     generateOfQueues();
@@ -17,7 +16,7 @@ void KeyGeneratorClass::startFilling() {
     cv.notify_one();
 }
 
-void KeyGeneratorClass ::queueFilling() {
+void KeyGeneratorClass::queueFilling() {
     std::unique_lock<std::mutex> lck(mtx);
     while (!ready) {
         cv.wait(lck);
@@ -51,10 +50,10 @@ void KeyGeneratorClass ::swapQueue() {
 
 void KeyGeneratorClass ::AddKey() {
     std::string tmp_key = randomize->ReturnRandomString();
-    bool validKey = validator->isValidKey(tmp_key);
+    bool validKey = KeyValidationClass::getInstance().isValidKey(tmp_key);
     while(!validKey) {
         tmp_key = randomize->ReturnRandomString();
-        validKey = validator->isValidKey(tmp_key);
+        validKey = KeyValidationClass::getInstance().isValidKey(tmp_key);
     }
     unactive_queue_pointer->push(tmp_key);
 }

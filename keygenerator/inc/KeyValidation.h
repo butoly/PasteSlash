@@ -11,8 +11,9 @@ private:
     KeyValidationClass() = default;
     ~KeyValidationClass() = default;
 
-    KeyValidationClass(KeyValidationClass const&) = delete;
     KeyValidationClass& operator= (KeyValidationClass const&) = delete;
+    KeyValidationClass(const KeyValidationClass&) = delete;
+
 public:
     static KeyValidationClass& getInstance();
     static bool isValidKey(const std::string &key); //проверка валидности ключа в БД

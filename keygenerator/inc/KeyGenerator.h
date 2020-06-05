@@ -26,7 +26,7 @@ private:
     std::shared_ptr<std::queue<std::string>> unactive_queue_pointer; // Очередь которая будет заполняться асинхронно
 
     std::shared_ptr<RandomizeClass> randomize; // Класс для генерации строк
-    std::shared_ptr<KeyValidationClass> validator; // Класс для проверки ключей
+    KeyValidationClass& validator = KeyValidationClass::getInstance();
 
     void swapQueue(); // Смена указателей на очереди
     void generateOfQueues(); // Заполнение очередей при вызове конструктора класса
