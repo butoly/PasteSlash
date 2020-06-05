@@ -31,7 +31,7 @@ void RegUserCD::proceed(bool) {
                 break;
         }
 
-        gToken = converter.TokenFromModel(mToken);
+        gToken = converter.TokenFromModel(std::move(mToken));
 
         finish(::grpc::Status::OK);
     } else {

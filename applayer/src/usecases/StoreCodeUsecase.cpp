@@ -3,7 +3,7 @@
 
 int StoreCodeUsecase::execute() {
     std::string data;
-    TCPClient client("127.0.0.1", 3002);
+    TCPClient client("127.0.0.1", "3002");
 
     std::string s = "helloSanya";
 

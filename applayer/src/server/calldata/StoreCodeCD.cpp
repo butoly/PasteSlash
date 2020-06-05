@@ -25,7 +25,7 @@ void StoreCodeCD::proceed(bool) {
             default:
                 break;
         }
-        gHash.set_value(mCode.hash);
+        gHash.set_value(std::move(mCode.hash));
 
         finish(::grpc::Status::OK);
     } else {

@@ -23,7 +23,7 @@ void GetCodeCD::proceed(bool) {
                 break;
         }
 
-        gCode = converter.CodeFromModels(mCode);
+        gCode = converter.CodeFromModels(std::move(mCode));
 
         finish(::grpc::Status::OK);
     } else {

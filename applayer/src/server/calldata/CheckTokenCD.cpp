@@ -17,8 +17,8 @@ void CheckTokenCD::proceed(bool) {
             return;
         }
 
-        aToken.set_token(token);
-        aToken.set_user_id(user_id);
+        aToken.set_token(std::move(token));
+        aToken.set_user_id(std::move(user_id));
         finish(::grpc::Status::OK);
 
     } else {
