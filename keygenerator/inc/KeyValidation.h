@@ -3,15 +3,19 @@
 
 #include <string>
 
-#include "PasteDBManager.h"
+//#include "PasteDBManager.h"
 
+//синглтон
 class KeyValidationClass {
-public:
-    KeyValidationClass();
-    ~KeyValidationClass();
+private:
+    KeyValidationClass() = default;
+    ~KeyValidationClass() = default;
 
-    //проверка валидности ключа в БД
-    bool isValidKey(const std::string &key);
+    KeyValidationClass(KeyValidationClass const&) = delete;
+    KeyValidationClass& operator= (KeyValidationClass const&) = delete;
+public:
+    static KeyValidationClass& getInstance();
+    static bool isValidKey(const std::string &key); //проверка валидности ключа в БД
 };
 
 #endif //URL_GEN_KEYVALIDATION_H

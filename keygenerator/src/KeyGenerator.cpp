@@ -5,7 +5,7 @@
 
 KeyGeneratorClass :: KeyGeneratorClass() {
     randomize = std::make_shared<RandomizeClass>();
-    validator = std::make_shared<KeyValidationClass>();
+    KeyValidationClass& validator = KeyValidationClass::getInstance();
     active_queue_pointer = std::make_shared<std::queue<std::string>>();
     unactive_queue_pointer = std::make_shared<std::queue<std::string>>();
     generateOfQueues();

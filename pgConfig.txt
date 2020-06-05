@@ -1,1 +1,1 @@
-host=localhost port=5432 user=ekaterinaalekseeva dbname=pasteslash
+host=localhost port=5432 user=postgres password=postgres dbname=pasteslash
