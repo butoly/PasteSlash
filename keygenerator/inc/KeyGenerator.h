@@ -11,8 +11,8 @@
 #include "Randomize.h"
 #include "KeyValidation.h"
 
-#define LENGTH_QUEUE 10 //Количество элементов в очередях
-#define MIN_COUNT_ELEMENTS_ARRAY 3// Порог при котором необходимо поменять очереди и начать заполнять опустевшую
+#define LENGTH_QUEUE 3 //Количество элементов в очередях
+#define MIN_COUNT_ELEMENTS_ARRAY 2// Порог при котором необходимо поменять очереди и начать заполнять опустевшую
 
 class KeyGeneratorClass {
 public:
@@ -26,7 +26,7 @@ private:
     std::shared_ptr<std::queue<std::string>> unactive_queue_pointer; // Очередь которая будет заполняться асинхронно
 
     RandomizeClass& randomizer = RandomizeClass::getInstance(); // Класс для генерации строк синглтон
-    KeyValidationClass& validator = KeyValidationClass::getInstance(); // Класс проверки валидности ключа синглтон
+   // KeyValidationClass& validator = KeyValidationClass::getInstance(); // Класс проверки валидности ключа синглтон
 
     void swapQueue(); // Смена указателей на очереди
     void generateOfQueues(); // Заполнение очередей при вызове конструктора класса
@@ -37,7 +37,7 @@ private:
     std::mutex mtx;
     std::condition_variable cv;
     bool ready = false;
-    std::thread* worker;
+    std::thread worker;
 };
 
 #endif //URL_GEN_KEYGENERATOR_H

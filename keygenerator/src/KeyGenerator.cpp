@@ -1,13 +1,14 @@
 #include <thread>
 #include <chrono>
 #include <mutex>
+#include <memory>
 #include "../inc/KeyGenerator.h"
 
 KeyGeneratorClass :: KeyGeneratorClass() {
     active_queue_pointer = std::make_shared<std::queue<std::string>>();
     unactive_queue_pointer = std::make_shared<std::queue<std::string>>();
     generateOfQueues();
-    worker = new std::thread(&KeyGeneratorClass::queueFilling, this);
+    worker = std::thread(&KeyGeneratorClass::queueFilling, this);
 }
 
 void KeyGeneratorClass::startFilling() {
@@ -26,7 +27,7 @@ void KeyGeneratorClass::queueFilling() {
 }
 
 KeyGeneratorClass :: ~KeyGeneratorClass(){
-    worker->join();
+    worker.join();
 }
 
 std::string KeyGeneratorClass :: ReturnKey() {
@@ -49,10 +50,10 @@ void KeyGeneratorClass ::swapQueue() {
 
 void KeyGeneratorClass ::AddKey() {
     std::string tmp_key = randomizer.ReturnRandomString();
-    bool validKey = validator.isValidKey(tmp_key);
+    bool validKey = KeyValidationClass::isValidKey(tmp_key);
     while(!validKey) {
         tmp_key = randomizer.ReturnRandomString();
-        validKey = validator.isValidKey(tmp_key);
+        validKey = KeyValidationClass::isValidKey(tmp_key);
     }
     unactive_queue_pointer->push(tmp_key);
 }
@@ -68,3 +69,4 @@ void KeyGeneratorClass::generateOfQueues() {
         unactive_queue_pointer->push(tmp_key);
     }
 }
+

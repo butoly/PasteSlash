@@ -22,10 +22,10 @@ private:
     RandomizeClass& operator= (RandomizeClass const&) = delete;
 
     const char pool[62] = {'a','b','C','d','e','f','g','h','i','j','k','l','m','n','o','p','q',
-                     'r','s','t','u','v','w','x','y','z',
-                     'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q',
-                     'R','S','T','U','V','W','X','Y','Z',
-                     '1','2','3','4','5','6','7','8','9','0'};
+                           'r','s','t','u','v','w','x','y','z',
+                           'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q',
+                           'R','S','T','U','V','W','X','Y','Z',
+                           '1','2','3','4','5','6','7','8','9','0'};
 
     int current_length = STRING_LENGTH;
 
