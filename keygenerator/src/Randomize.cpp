@@ -4,9 +4,6 @@ RandomizeClass :: RandomizeClass() {
     InitGenerator(generator);
 }
 
-RandomizeClass :: ~RandomizeClass() {
-}
-
 std::string RandomizeClass :: ReturnRandomString() {
 
     std::string random_string;
@@ -27,4 +24,9 @@ unsigned RandomizeClass::RandomInt(RandomizeClass::PRNG &generator, unsigned min
     // Вычисляем псевдослучайное число и вызывем распределение как функцию,
     // передав генератор произвольных целых чисел как аргумент.
     return distribution(generator.engine);
+}
+
+RandomizeClass &RandomizeClass::getInstance() {
+    static RandomizeClass randomizer;
+    return randomizer;
 }

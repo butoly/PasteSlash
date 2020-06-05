@@ -4,7 +4,6 @@
 #include "../inc/KeyGenerator.h"
 
 KeyGeneratorClass :: KeyGeneratorClass() {
-    randomize = std::make_shared<RandomizeClass>();
     active_queue_pointer = std::make_shared<std::queue<std::string>>();
     unactive_queue_pointer = std::make_shared<std::queue<std::string>>();
     generateOfQueues();
@@ -49,23 +48,23 @@ void KeyGeneratorClass ::swapQueue() {
 }
 
 void KeyGeneratorClass ::AddKey() {
-    std::string tmp_key = randomize->ReturnRandomString();
-    bool validKey = KeyValidationClass::getInstance().isValidKey(tmp_key);
+    std::string tmp_key = randomizer.ReturnRandomString();
+    bool validKey = validator.isValidKey(tmp_key);
     while(!validKey) {
-        tmp_key = randomize->ReturnRandomString();
-        validKey = KeyValidationClass::getInstance().isValidKey(tmp_key);
+        tmp_key = randomizer.ReturnRandomString();
+        validKey = validator.isValidKey(tmp_key);
     }
     unactive_queue_pointer->push(tmp_key);
 }
 
 void KeyGeneratorClass::generateOfQueues() {
     for(size_t i = 0; i < LENGTH_QUEUE; i++) {
-        std::string tmp_key = randomize->ReturnRandomString();
+        std::string tmp_key = randomizer.ReturnRandomString();
         active_queue_pointer->push(tmp_key);
     }
 
     for(size_t i = 0; i < LENGTH_QUEUE; i++) {
-        std::string tmp_key = randomize->ReturnRandomString();
+        std::string tmp_key = randomizer.ReturnRandomString();
         unactive_queue_pointer->push(tmp_key);
     }
 }

@@ -12,7 +12,7 @@ private:
     ~KeyValidationClass() = default;
 
     KeyValidationClass& operator= (KeyValidationClass const&) = delete;
-    KeyValidationClass(const KeyValidationClass&) = delete;
+    KeyValidationClass(KeyValidationClass const&) = delete;
 
 public:
     static KeyValidationClass& getInstance();
