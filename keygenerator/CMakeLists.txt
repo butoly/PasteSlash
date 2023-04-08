@@ -17,7 +17,6 @@ add_executable(url_gen main.cpp ${sources})
 target_link_libraries(url_gen PUBLIC Boost::filesystem ${CMAKE_THREAD_LIBS_INIT})
 #target_link_libraries(url_gen PUBLIC dbAPI)
 
-
 if (APPLE)
     target_link_libraries(url_gen PUBLIC ${Boost_LIBRARIES})
 endif ()
